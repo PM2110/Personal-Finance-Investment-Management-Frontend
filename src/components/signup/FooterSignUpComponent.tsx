@@ -1,5 +1,4 @@
 import { RiCopyrightLine } from "react-icons/ri";
-import { IN, US } from 'country-flag-icons/react/3x2'
 
 const FooterSignUpComponent = () => {
     return (
@@ -15,8 +14,8 @@ const FooterSignUpComponent = () => {
             </div>
             <div>
                 <select className="p-1 text-[12px] bg-white border-[#DFE1E7] border-[2px] rounded-lg">
-                    <option value="Eng"><US className="h-2 w-full"/>ENG</option>
-                    <option value="Hin"><IN className="h-2 w-full"/>HIN</option>
+                    <option value="Eng">ENG</option>
+                    <option value="Hin">HIN</option>
                 </select>
             </div>
         </div>

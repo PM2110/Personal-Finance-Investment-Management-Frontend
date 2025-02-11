@@ -1,8 +1,15 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import SignUpPage from "./pages/SignUpPage";
+import SignInPage from "./pages/SignInPage";
+
 const App = () => {
     return (
-        <div className="flex">
-            
-        </div>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<SignUpPage />} />
+            <Route path="/login" element={<SignInPage />} />
+          </Routes>
+      </BrowserRouter>
     );
 }
 

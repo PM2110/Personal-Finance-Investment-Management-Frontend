@@ -3,6 +3,10 @@ import SideBarSendMoneyComponent from "../components/moneytransfer/SideBarSendMo
 import HeaderSendMoneyComponent from "../components/moneytransfer/HeaderSendMoneyComponent";
 import SendMoneyAmountForm from "../components/moneytransfer/SendMoneyAmountForm";
 import SendMoneyPersonalDetailsTypeForm from "../components/moneytransfer/SendMoneyPersonalDetailsTypeForm";
+import SendMoneyPersonalDetailsForm from "../components/moneytransfer/SendMoneyPersonalDetailsForm";
+import SendMoneyRecipientTypeForm from "../components/moneytransfer/SendMoneyRecipientTypeForm";
+import SendMoneyRecipientSomeoneForm from "../components/moneytransfer/SendMoneyRecipientSomeoneForm";
+import SendMoneyReviewForm from "../components/moneytransfer/SendMoneyReviewForm";
 
 const SendMoneyPage = () => {
 
@@ -14,10 +18,12 @@ const SendMoneyPage = () => {
                 return <SendMoneyAmountForm />
             case 2:
                 return <SendMoneyPersonalDetailsTypeForm />
+                return <SendMoneyPersonalDetailsForm />
             case 3:
-                return "Recipient Form"
+                return <SendMoneyRecipientTypeForm />
+                return <SendMoneyRecipientSomeoneForm />
             case 4:
-                return "Review and Pay Form"
+                return <SendMoneyReviewForm />
             case 5:
                 return "Success Form"
             default:

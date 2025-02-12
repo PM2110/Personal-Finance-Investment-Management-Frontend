@@ -33,21 +33,21 @@ const SignInForm = () => {
     const isFormValid = watch("email") && watch("password");
 
     return (
-        <div className="flex flex-col gap-5 justify-center items-center h-auto bg-white w-full max-w-[425px] border-[#DFE1E7] rounded-2xl px-8 py-6 border-2">
+        <div className="flex flex-col gap-5 justify-center items-center h-auto bg-white w-full max-w-[400px] border-[#DFE1E7] rounded-2xl px-8 py-6 border-2">
             <div className="bg-gradient-to-b from-gray-300 via-gray-200 to-white p-[10px] rounded-full">
                 <div className="bg-white p-[10px] rounded-full">
                     <RiUserAddFill className="text-[16px]" />
                 </div>
             </div>
             <div className="flex flex-col items-center gap-[1px]">
-                <div className="font-bold text-[24px]">Login to your account</div>
-                <div className="text-[#666D80] text-[16px]">Enter your details to login.</div>
+                <div className="font-bold text-[20px]">Login to your account</div>
+                <div className="text-[#666D80] text-[14px]">Enter your details to login.</div>
             </div>
-            <form className="w-full flex flex-col gap-4 text-[16px]" onSubmit={handleSubmit(onSubmit)}>
+            <form className="w-full flex flex-col gap-4 text-[14px]" onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-1">
                     <label>Email</label>
                     <div className="flex items-center gap-2 border-[#DFE1E7] border-2 rounded-lg">
-                        <MdOutlineEmail className="text-gray-400 text-[20px] ml-2" />
+                        <MdOutlineEmail className="text-gray-400 text-[16px] ml-2" />
                         <input
                             {...register("email", {
                                 required: "Email is required",
@@ -66,7 +66,7 @@ const SignInForm = () => {
                 <div className="flex flex-col gap-1">
                     <label>Password</label>
                     <div className="flex items-center gap-1 border-[#DFE1E7] border-2 rounded-lg px-2">
-                        <RiLockPasswordLine className="text-gray-400 text-[20px]" />
+                        <RiLockPasswordLine className="text-gray-400 text-[16px]" />
                         <input
                             {...register("password", { required: "Password is required" })}
                             type={visible ? "text" : "password"}
@@ -74,19 +74,19 @@ const SignInForm = () => {
                             placeholder="Enter your password"
                         />
                         {visible ? (
-                            <IoEyeOutline onClick={handleVisible} className="text-gray-400 text-[20px]" />
+                            <IoEyeOutline onClick={handleVisible} className="text-gray-400 text-[16px]" />
                         ) : (
-                            <IoEyeOffOutline onClick={handleVisible} className="text-gray-400 text-[20px]" />
+                            <IoEyeOffOutline onClick={handleVisible} className="text-gray-400 text-[16px]" />
                         )}
                     </div>
                     {errors.password && <div className="text-red-500 text-sm">{errors.password.message}</div>}
                 </div>
-                <div className="flex justify-between text-[14px]">
+                <div className="flex justify-between text-[12px]">
                     <div className="flex items-center gap-2 text-[#666D80]">
                         <input
                             {...register("rememberMe")}
                             type="checkbox"
-                            className="appearance-none checked:bg-[#DFE1E7] border-2 rounded-sm border-[#DFE1E7] h-[16px] w-[16px] focus:outline-none"
+                            className="appearance-none checked:bg-[#DFE1E7] border-2 rounded-sm border-[#DFE1E7] h-[12px] w-[12px] focus:outline-none"
                         />
                         <label>Remember me</label>
                     </div>

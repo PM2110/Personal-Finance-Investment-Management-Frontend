@@ -2,7 +2,7 @@ import { RiCopyrightLine } from "react-icons/ri";
 
 const FooterSignUpComponent = () => {
     return (
-        <div className="flex flex-row justify-between w-full text-[14px] text-[#666D80]">
+        <div className="flex flex-row justify-between w-full text-[12px] text-[#666D80]">
             <div className="flex items-center gap-2">
                 <div className="flex items-center gap-[2px]">
                     <RiCopyrightLine />
@@ -13,7 +13,7 @@ const FooterSignUpComponent = () => {
                 </div>
             </div>
             <div>
-                <select className="p-1 text-[12px] bg-white border-[#DFE1E7] border-[2px] rounded-lg">
+                <select className="p-1 text-[12px] bg-white border-[#DFE1E7] border-[2px] rounded-md">
                     <option value="Eng">ENG</option>
                     <option value="Hin">HIN</option>
                 </select>

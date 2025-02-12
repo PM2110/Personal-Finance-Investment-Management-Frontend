@@ -21,9 +21,10 @@ const SignUpForm = () => {
         setVisible(!visible);
     };
 
-    const onSubmit: SubmitHandler<SignUpFormData> = (data) => {
+    const onSubmit: SubmitHandler<SignUpFormData> = (data: SignUpFormData) => {
         console.log(data);
         reset();
+        setSatisfied(0);
     };
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,25 +60,25 @@ const SignUpForm = () => {
     const isFormValid = watch("fullname") && watch("email") && watch("password");
 
     return (
-        <div className="flex flex-col gap-5 justify-center items-center h-auto bg-white w-full sm:w-[425px] border-[#DFE1E7] rounded-2xl px-8 py-6 border-2">
+        <div className="flex flex-col gap-5 justify-center items-center h-auto bg-white w-full sm:w-[400px] border-[#DFE1E7] rounded-2xl px-8 py-6 border-2">
             <div className="bg-gradient-to-b from-gray-300 via-gray-200 to-white p-[10px] rounded-full">
                 <div className="bg-white p-[10px] rounded-full">
                     <RiUserAddFill className="text-[16px]" />
                 </div>
             </div>
             <div className="flex flex-col items-center gap-[1px]">
-                <div className="font-bold text-[24px] sm:text-[28px]">
+                <div className="font-bold text-[20px] sm:text-[20px]">
                     Create a new account
                 </div>
-                <div className="text-[#666D80] text-[16px] sm:text-[18px]">
+                <div className="text-[#666D80] text-[14px] sm:text-[14px]">
                     Enter your details to register.
                 </div>
             </div>
-            <form className="w-full flex flex-col gap-4 text-[16px] sm:text-[18px]" onSubmit={handleSubmit(onSubmit)}>
+            <form className="w-full flex flex-col gap-4 text-[14px] sm:text-[14px]" onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-1">
                     <label>Fullname</label>
                     <div className="flex items-center gap-2 border-[#DFE1E7] border-2 rounded-lg">
-                        <RiUser6Line className="text-gray-400 text-[20px] ml-2" />
+                        <RiUser6Line className="text-gray-400 text-[16px] ml-2" />
                         <input
                             type="text"
                             className="w-full h-8 p-2 rounded-md focus:outline-none text-[#666D80]"
@@ -91,7 +92,7 @@ const SignUpForm = () => {
                 <div className="flex flex-col gap-1">
                     <label>Email</label>
                     <div className="flex items-center gap-2 border-[#DFE1E7] border-2 rounded-lg">
-                        <MdOutlineEmail className="text-gray-400 text-[20px] ml-2" />
+                        <MdOutlineEmail className="text-gray-400 text-[16px] ml-2" />
                         <input
                             type="text"
                             className="w-full h-8 p-2 rounded-md focus:outline-none text-[#666D80]"
@@ -111,7 +112,7 @@ const SignUpForm = () => {
                 <div className="flex flex-col gap-1">
                     <label>Password</label>
                     <div className="flex items-center gap-1 border-[#DFE1E7] border-2 rounded-lg px-2">
-                        <RiLockPasswordLine className="text-gray-400 text-[20px]" />
+                        <RiLockPasswordLine className="text-gray-400 text-[16px]" />
                         <input
                             type={visible ? "text" : "password"}
                             className="w-full h-8 p-2 rounded-md focus:outline-none text-[#666D80]"
@@ -126,8 +127,8 @@ const SignUpForm = () => {
                                 onChange: handleOnChange
                             })}
                         />
-                        {visible ? <IoEyeOutline onClick={handleVisible} className="text-gray-400 text-[20px]" /> :
-                            <IoEyeOffOutline onClick={handleVisible} className="text-gray-400 text-[20px]" />}
+                        {visible ? <IoEyeOutline onClick={handleVisible} className="text-gray-400 text-[16px]" /> :
+                            <IoEyeOffOutline onClick={handleVisible} className="text-gray-400 text-[16px]" />}
                     </div>
                     {errors.password && <span className="text-red-500 text-[12px]">{errors.password.message}</span>}
                     <div className="text-[12px] text-[#666D80]">Must contain 1 uppercase letter, 1 number, min. 8 characters.</div>

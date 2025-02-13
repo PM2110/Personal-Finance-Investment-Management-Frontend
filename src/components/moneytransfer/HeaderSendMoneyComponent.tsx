@@ -1,4 +1,5 @@
 import { RiCheckboxCircleFill, RiCloseLine, RiFileSearchFill, RiMoneyRupeeCircleFill, RiTeamFill, RiUserSharedFill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
 interface HeaderSendMoneyComponentProps {
     selected: number,
@@ -6,14 +7,20 @@ interface HeaderSendMoneyComponentProps {
 }
 
 const HeaderSendMoneyComponent: React.FC<HeaderSendMoneyComponentProps> = ({ selected }) => {
-    
+
+    const navigate: (path :string) => void = useNavigate();
+
     const getHeaderLogo = () => {
         switch (selected){
             case 1:
                 return <RiMoneyRupeeCircleFill className="text-[16px] md:text-[17px] lg:text-[18px]" />
             case 2:
                 return <RiTeamFill className="text-[16px] md:text-[17px] lg:text-[18px]" />
+            case 2.1:
+                return <RiTeamFill className="text-[16px] md:text-[17px] lg:text-[18px]" />
             case 3:
+                return <RiUserSharedFill className="text-[16px] md:text-[17px] lg:text-[18px]" />
+            case 3.1:
                 return <RiUserSharedFill className="text-[16px] md:text-[17px] lg:text-[18px]" />
             case 4:
                 return <RiFileSearchFill className="text-[16px] md:text-[17px] lg:text-[18px]" />
@@ -30,7 +37,11 @@ const HeaderSendMoneyComponent: React.FC<HeaderSendMoneyComponentProps> = ({ sel
                 return "Amount"
             case 2:
                 return "Personal Details"
+            case 2.1:
+                return "Personal Details"
             case 3:
+                return "Recipient"
+            case 3.1:
                 return "Recipient"
             case 4:
                 return "Review and Pay"
@@ -47,12 +58,16 @@ const HeaderSendMoneyComponent: React.FC<HeaderSendMoneyComponentProps> = ({ sel
                 return "Enter the desired amount to proceed with your transaction"
             case 2:
                 return "Please select the type (personal or buisness) and fill in your details"
+            case 2.1:
+                return "Kindly fill out the following fields with your personal details"
             case 3:
                 return "Choose your recipient you want for"
+            case 3.1:
+                return "Provide recipient details to finalize the money transfer process"
             case 4:
                 return "Please review before you pay"
             case 5:
-                return "Your transaction is done"
+                return "Hooray, Your transaction is complete"
             default:
                 return ;
         }
@@ -76,7 +91,7 @@ const HeaderSendMoneyComponent: React.FC<HeaderSendMoneyComponentProps> = ({ sel
                 </div>
             </div>
             <div className="border-[#DFE1E7] border-2 rounded-full p-1">
-                <RiCloseLine className="sm:text-[16px] md:text-[17px] lg:text-[18px]" />
+                <RiCloseLine onClick={() => navigate("/")} className="sm:text-[16px] md:text-[17px] lg:text-[18px] hover:cursor-pointer" />
             </div>
         </div>
     );

@@ -1,20 +1,16 @@
-import { useState } from "react";
-import { RiTeamFill } from "react-icons/ri";
+// import { useState } from "react";
+import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const SendMoneyReviewForm = () => {
 
-    const [selected, setSelected] = useState(1);
+    // const [selected, setSelected] = useState(1);
 
     return (
         <div className="flex flex-col gap-3 justify-center items-center h-auto bg-white w-[400px] border-[#DFE1E7] rounded-2xl p-4 border-2">
-            <div className="w-full flex gap-3 justify-start text-[14px]">
-                <div className="bg-gradient-to-b from-gray-300 via-gray-200 to-white p-[10px] rounded-full">
-                    <div className="bg-white p-[10px] rounded-full">
-                        <RiTeamFill className="text-[16px] md:text-[17px] lg:text-[18px]" />
-                    </div>
-                </div>
-                <div className="flex gap-2 p-2 items-center justify-between min-w-full text-[16px]">
+            <div className="w-full flex gap-3 items-center justify-start text-[14px]">
+                <FaUserCircle className="text-[30px] md:text-[28px] lg:text-[32px]" />
+                <div className="flex gap-2 p-2 items-center justify-between w-full text-[16px]">
                     Send to Manan Patel
                 </div>
             </div>

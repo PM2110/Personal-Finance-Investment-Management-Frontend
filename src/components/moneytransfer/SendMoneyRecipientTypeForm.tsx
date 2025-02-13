@@ -1,7 +1,12 @@
 import { FaUserCircle } from "react-icons/fa";
 import { RiBriefcaseFill, RiTeamFill } from "react-icons/ri";
 
-const SendMoneyRecipientTypeForm = () => {
+interface SideBarSendMoneyComponentProps {
+    selected: number;
+    setSelected: (value: number) => void;
+}
+
+const SendMoneyRecipientTypeForm: React.FC<SideBarSendMoneyComponentProps> = ({ setSelected }) => {
     return (
         <div className="flex flex-col gap-5 justify-center items-center h-auto bg-white w-[400px] border-[#DFE1E7] rounded-2xl p-4 border-2">
             <div className="flex flex-col gap-3 w-full text-[14px]">
@@ -48,7 +53,7 @@ const SendMoneyRecipientTypeForm = () => {
                     </div>
                 </div>
                 <div className="mt-1 h-[1px] bg-[#DFE1E7]"></div>
-                <button className="mt-1 bg-black text-white text-[15px] w-full py-[6px] font-bold border-black border-2 hover:bg-white hover:cursor-pointer hover:text-black rounded-lg">
+                <button onClick={() => setSelected(3.1)} className="mt-1 bg-black text-white text-[15px] w-full py-[6px] font-bold border-black border-2 hover:bg-white hover:cursor-pointer hover:text-black rounded-lg">
                     Continue
                 </button>
             </div>

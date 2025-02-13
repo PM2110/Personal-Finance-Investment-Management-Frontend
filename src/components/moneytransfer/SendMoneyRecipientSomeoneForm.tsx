@@ -3,7 +3,7 @@ import { RiTeamFill } from "react-icons/ri";
 
 const SendMoneyRecipientSomeoneForm = () => {
 
-    const [selected, setSelected] = useState(1);
+    const [transferMethod, setTransferMethod] = useState(1);
 
     return (
         <div className="flex flex-col gap-3 justify-center items-center h-auto bg-white w-[400px] border-[#DFE1E7] rounded-2xl p-4 border-2">
@@ -35,10 +35,10 @@ const SendMoneyRecipientSomeoneForm = () => {
             </div>
             <div className="w-full">
                 <div className="flex bg-[#DFE1E7] text-[12px] w-full p-[3px] rounded-xl">
-                    <button onClick={() => { setSelected(1); }} className={`w-1/2 rounded-lg p-1 ${selected === 1 ? "bg-white" : "text-[#666D80]"}`}>Local Bank Account</button>
-                    <button onClick={() => { setSelected(2); }} className={`w-1/2 rounded-lg p-1 ${selected === 2 ? "bg-white" : "text-[#666D80]"}`}>Pay Now</button>
+                    <button onClick={() => { setTransferMethod(1); }} className={`w-1/2 rounded-lg p-1 ${transferMethod === 1 ? "bg-white" : "text-[#666D80]"}`}>Local Bank Account</button>
+                    <button onClick={() => { setTransferMethod(2); }} className={`w-1/2 rounded-lg p-1 ${transferMethod === 2 ? "bg-white" : "text-[#666D80]"}`}>Pay Now</button>
                 </div>
-                {selected === 1 &&
+                {transferMethod === 1 &&
                     <div className="mt-4 flex flex-col gap-2">
                         <div className="flex flex-col gap-1 text-[12px]">
                             <label className="">
@@ -78,10 +78,10 @@ const SendMoneyRecipientSomeoneForm = () => {
                         </div>
                     </div>
                 }
-                {selected === 2 &&
+                {transferMethod === 2 &&
                     <div className="mt-4 flex flex-col gap-4">
                         <div className="flex flex-col gap-1 text-[12px]">
-                            <label className="font-bold">
+                            <label className="">
                                 You send exactly
                             </label>
                             <div className="flex gap-2 text-[#666D80]">
@@ -123,7 +123,7 @@ const SendMoneyRecipientSomeoneForm = () => {
                         </div>
                         <div className="w-full px-2 h-[1px] bg-[#DFE1E7]"></div>
                         <div className="flex flex-col gap-1 text-[12px]">
-                            <label className="font-bold">
+                            <label className="">
                                 Recipient gets
                             </label>
                             <div className="flex gap-2 text-[#666D80]">

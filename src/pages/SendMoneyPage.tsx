@@ -7,6 +7,7 @@ import SendMoneyPersonalDetailsForm from "../components/moneytransfer/SendMoneyP
 import SendMoneyRecipientTypeForm from "../components/moneytransfer/SendMoneyRecipientTypeForm";
 import SendMoneyRecipientSomeoneForm from "../components/moneytransfer/SendMoneyRecipientSomeoneForm";
 import SendMoneyReviewForm from "../components/moneytransfer/SendMoneyReviewForm";
+import SendMoneySuccessForm from "../components/moneytransfer/SendMoneySuccessForm";
 
 const SendMoneyPage = () => {
 
@@ -17,15 +18,17 @@ const SendMoneyPage = () => {
             case 1:
                 return <SendMoneyAmountForm />
             case 2:
-                return <SendMoneyPersonalDetailsTypeForm />
+                return <SendMoneyPersonalDetailsTypeForm selected={selected} setSelected={setSelected}/>
+            case 2.1:
                 return <SendMoneyPersonalDetailsForm />
             case 3:
-                return <SendMoneyRecipientTypeForm />
+                return <SendMoneyRecipientTypeForm selected={selected} setSelected={setSelected}/>
+            case 3.1:
                 return <SendMoneyRecipientSomeoneForm />
             case 4:
                 return <SendMoneyReviewForm />
             case 5:
-                return "Success Form"
+                return <SendMoneySuccessForm />
             default:
                 return ;
         }

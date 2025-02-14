@@ -11,6 +11,11 @@ interface BalanceDataType {
     currency: string
 }
 
+interface MainBalanceComponent {
+    isVisible: string,
+    onClose: () => void
+}
+
 const MainBalanceComponent = () => {
 
     const [selected, setSelected] = useState(1);

@@ -20,7 +20,7 @@ const OtherIntegrationsComponent = () => {
         { name: "Mailchimp", logo: <FaUser />, connected: true, about: "For Targeted Email Marketing" },
         { name: "Zendesk", logo: <FaUser />, connected: false, about: "For customer support and ticket management." },
         { name: "Zoom", logo: <FaUser />, connected: false, about: "For conducting virtual meetings and interviews."},
-    ]
+    ];
     
     return (
         <div className="w-full flex flex-col gap-4 overflow-y-hidden">
@@ -42,7 +42,7 @@ const OtherIntegrationsComponent = () => {
                 </div>
             </div>
             <div className="max-h-full w-full overflow-y-auto p-2">
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {selected === 1 ? integrationData.map((item, index) => (
                             <OtherIntegrationCardComponent key={index} logo={item.logo} name={item.name} connected={item.connected} about={item.about} />
                     )) : null}

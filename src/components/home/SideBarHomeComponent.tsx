@@ -18,7 +18,7 @@ const SideBarHomeComponent: React.FC<SideBarSendMoneyComponentProps> = ({ select
     // const [open, isOpen] = useState(true);
     
     return (
-        <div className="flex flex-col gap-8 bg-[#F6F8FA] font-bold h-screen w-[300px] text-[12px] px-4 py-8 md:w-[350px] md:[text-13px] lg:text-[14px] text-[#818898]">
+        <div className="flex flex-col gap-8 bg-[#F6F8FA] font-bold h-screen w-[300px] sm:min-w-[230px] text-[12px] px-4 py-8 md:w-[350px] md:[text-13px] md:minw-w-[350px] lg:text-[14px] text-[#818898]">
             <div className="flex items-center justify-between">
                 <div className="flex gap-2 items-center">
                     <img src="/Logo.png" alt="Logo" className="w-[40px] h-auto" />

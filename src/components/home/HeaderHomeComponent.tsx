@@ -1,14 +1,26 @@
+import { useState } from "react";
 import { RiArrowGoForwardLine, RiNotification2Line, RiSearchLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import MainBalanceAddForm from "../main/MainBalanceAddForm";
+import MainDashboardExchangeForm from "../main/MainDashboardExchangeForm";
 
 interface HeaderHomeComponentProps {
     selected: number,
-    // setSelected: (value: number) => void,
 }
 
 const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) => {
 
     const navigate: (path :string) => void = useNavigate();
+    const [visibleBalanceAddForm, setVisibleBalanceAddForm] = useState(false);
+    const [visibleDashboardExchangeForm, setVisibleDashboardExchangeForm] = useState(false);
+
+    const handleBalanceAddForm: () => void = () => {
+        setVisibleBalanceAddForm(!visibleBalanceAddForm);
+    }
+
+    const handleDashboardExchangeForm: () => void = () => {
+        setVisibleDashboardExchangeForm(!visibleDashboardExchangeForm);
+    }
 
     const getHeaderTitle = () => {
         switch (selected){
@@ -55,9 +67,9 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
     const getButton = () => {
         switch (selected){
             case 1:
-                return <button className="text-[13px] font-bold border-[#DFE1E7] border-2 px-3 py-2 rounded-lg hover:bg-black hover:border-black hover:text-white hover:cursor-pointer">Exchange Rate</button>
+                return <button onClick={handleDashboardExchangeForm} className="text-[13px] font-bold border-[#DFE1E7] border-2 px-3 py-2 rounded-lg hover:bg-black hover:border-black hover:text-white hover:cursor-pointer">Exchange Rate</button>
             case 2:
-                return <button className="text-[13px] font-bold bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Balance</button>
+                return <button onClick={handleBalanceAddForm} className="text-[13px] font-bold bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Balance</button>
             case 3:
                 return <button className="text-[13px] font-bold bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Card</button>
             case 5:
@@ -68,7 +80,7 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
     }
     
     return (
-        <div className="flex flex-row w-full justify-between sm:items-start items-center">
+        <div className="relative flex flex-row w-full justify-between sm:items-start items-center">
             <div className="flex gap-3">
                 <div className="flex flex-col justify-center">
                     <div className="font-bold sm:text-[16px] md:text-[15px] lg:text-[16px]">
@@ -84,6 +96,11 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
                 <RiNotification2Line onClick={() => navigate("/")} className="sm:text-[16px] md:text-[17px] lg:text-[18px] hover:cursor-pointer" />
                 {getButton()}
             </div>
+            {(visibleBalanceAddForm || visibleDashboardExchangeForm) && (
+                <div className="fixed inset-0 bg-opacity-30 backdrop-blur-xs z-10"></div>
+            )}
+            <MainBalanceAddForm isVisible={visibleBalanceAddForm} onClose={handleBalanceAddForm}/>
+            <MainDashboardExchangeForm isVisible={visibleDashboardExchangeForm} onClose={handleDashboardExchangeForm}/>
         </div>
     );
 }

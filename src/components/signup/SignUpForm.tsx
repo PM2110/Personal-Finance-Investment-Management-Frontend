@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 interface SignUpFormData {
-    fullname: string;
+    userName: string;
     email: string;
     password: string;
 }
@@ -53,11 +53,11 @@ const SignUpForm = () => {
             case 3:
                 return "bg-yellow-500"
             case 4:
-                return "bg-green-500"
+                return "bg-[#40C4AA]"
         }
     }
 
-    const isFormValid = watch("fullname") && watch("email") && watch("password");
+    const isFormValid = watch("userName") && watch("email") && watch("password");
 
     return (
         <div className="flex flex-col gap-5 justify-center items-center h-auto bg-white w-full sm:w-[400px] border-[#DFE1E7] rounded-2xl px-8 py-6 border-2">
@@ -83,10 +83,10 @@ const SignUpForm = () => {
                             type="text"
                             className="w-full h-8 p-2 rounded-md focus:outline-none text-[#666D80]"
                             placeholder="Enter your name"
-                            {...register("fullname", { required: "Full name is required" })}
+                            {...register("userName", { required: "Full name is required" })}
                         />
                     </div>
-                    {errors.fullname && <span className="text-red-500 text-[12px]">{errors.fullname.message}</span>}
+                    {errors.userName && <span className="text-red-500 text-[12px]">{errors.userName.message}</span>}
                 </div>
 
                 <div className="flex flex-col gap-1">

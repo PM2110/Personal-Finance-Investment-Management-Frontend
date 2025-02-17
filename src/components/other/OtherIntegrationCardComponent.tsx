@@ -22,7 +22,7 @@ const OtherIntegrationCardComponent: React.FC<OtherIntegrationCardComponentProps
         <div className="flex flex-col gap-2 border-[#DFE1E7] border-2 rounded-lg text-[14px] p-3">
             <div className="flex justify-between items-start">
                 <div className="bg-gradient-to-b from-gray-300 via-gray-200 to-white p-[8px] rounded-full">
-                    <div className="bg-white p-[8px] rounded-full">
+                    <div className="bg-white p-[8px] rounded-full w-[40px]">
                         {logo}
                     </div>
                 </div>

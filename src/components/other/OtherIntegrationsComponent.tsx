@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { RiFilter3Line, RiSearchLine } from "react-icons/ri";
 import OtherIntegrationCardComponent from "./OtherIntegrationCardComponent";
-import { FaUser } from "react-icons/fa";
 
 interface IntegrationDataType {
     name: string,
@@ -15,11 +14,11 @@ const OtherIntegrationsComponent = () => {
     const [selected, setSelected] = useState(1);
 
     const integrationData: IntegrationDataType[] = [
-        { name: "Dropbox", logo: <FaUser />, connected: true, about: "Platform for storing, sharing, and synchronizing files."},
-        { name: "Google Drive", logo: <FaUser />, connected: true, about: "Platform for storing, sharing, and synchronizing files."},
-        { name: "Mailchimp", logo: <FaUser />, connected: true, about: "For Targeted Email Marketing" },
-        { name: "Zendesk", logo: <FaUser />, connected: false, about: "For customer support and ticket management." },
-        { name: "Zoom", logo: <FaUser />, connected: false, about: "For conducting virtual meetings and interviews."},
+        { name: "Dropbox", logo: <img src="./Dropbox.png" />, connected: true, about: "Platform for storing, sharing, and synchronizing files."},
+        { name: "Google Drive", logo: <img src="./GoogleDrive.png" />, connected: true, about: "Platform for storing, sharing, and synchronizing files."},
+        { name: "Mailchimp", logo: <img src="./MailChimp.png" />, connected: true, about: "For Targeted Email Marketing" },
+        { name: "Zendesk", logo: <img src="./Zendesk.png" />, connected: false, about: "For customer support and ticket management." },
+        { name: "Zoom", logo: <img src="./Zoom.png" />, connected: false, about: "For conducting virtual meetings and interviews."},
     ];
     
     return (

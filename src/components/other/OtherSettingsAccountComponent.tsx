@@ -84,7 +84,7 @@ const OtherSettingsAccountComponent = () => {
             </div>
             <div className="h-[1px] bg-[#DFE1E7]"></div>
             <div className="w-full flex gap-8">
-                <div className="w-[50%] sm:max-lg:min-w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col justify-between">
+                <div className="w-[80%] sm:max-lg:min-w-[50%] md:w-[50%] lg:min-[30.8%] lg:w-[30.8%] xl:min-w-[30.8%] flex flex-col justify-between">
                     <div className="text-[13px] font-semibold">
                         Address
                     </div>

@@ -10,8 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@canvasjs/react-charts": "^1.0.2",
     "@tailwindcss/vite": "^4.0.5",
+    "axios": "^1.7.9",
     "country-flag-icons": "^1.5.16",
+    "mailtrap": "^3.4.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-flags-select": "^2.2.3",
@@ -23,6 +26,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
+    "@types/axios": "^0.9.36",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react-swc": "^3.5.0",

@@ -91,13 +91,13 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
                     </div>
                 </div>
             </div>
-            <div className="min-w-1/2 lg:min-w-auto justify-end flex items-center sm:gap-6 md:gap-7 lg:gap-8">
+            <div className="min-w-1/2 lg:min-w-auto justify-end flex items-center gap-5 sm:gap-6 md:gap-7 lg:gap-8 xl:gap-10">
                 <RiSearchLine onClick={() => navigate("/")} className="sm:text-[16px] md:text-[17px] lg:text-[18px] hover:cursor-pointer" />
                 <RiNotification2Line onClick={() => navigate("/")} className="sm:text-[16px] md:text-[17px] lg:text-[18px] hover:cursor-pointer" />
                 {getButton()}
             </div>
             {(visibleBalanceAddForm || visibleDashboardExchangeForm) && (
-                <div className="fixed inset-0 bg-opacity-30 backdrop-blur-xs z-10"></div>
+                <div className="fixed inset-0 bg-black/70 z-10"></div>
             )}
             <MainBalanceAddForm isVisible={visibleBalanceAddForm} onClose={handleBalanceAddForm}/>
             <MainDashboardExchangeForm isVisible={visibleDashboardExchangeForm} onClose={handleDashboardExchangeForm}/>

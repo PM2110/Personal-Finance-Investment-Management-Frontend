@@ -6,6 +6,8 @@ import MainRecipientsComponent from "../components/main/MainRecipientsComponent"
 import MainBalanceComponent from "../components/main/MainBalanceComponent";
 import OtherSettingsComponent from "../components/other/OtherSettingsComponent";
 import MainDashboardComponent from "../components/main/MainDashboardComponent";
+import MainFamilyComponent from "../components/main/MainFamilyComponent";
+import MainTransactionsComponent from "../components/main/MainTransactionsComponent";
 
 const HomePage = () => {
     const [selected, setSelected] = useState(1);
@@ -17,9 +19,9 @@ const HomePage = () => {
             case 2:
                 return <MainBalanceComponent />
             case 3:
-                return ""
+                return <MainFamilyComponent />
             case 4:
-                return ""
+                return <MainTransactionsComponent />
             case 5:
                 return <MainRecipientsComponent />
             case 6:

@@ -17,16 +17,16 @@ const MainRecipientsComponent = () => {
             </div>
             <div className="w-full flex flex-col gap-4 border-[#DFE1E7] border-2 text-[13px] md:text-[14px] lg:text-[15px] rounded-lg p-3">
                 <div className="flex justify-between items-center">
-                    <div className="font-bold">
+                    <div className="">
                         Your Accounts
                     </div>
-                    <button className="flex items-center gap-2 text-[12px] font-bold border-[#DFE1E7] border-2 px-3 py-1 rounded-lg hover:cursor-pointer">
+                    <button className="flex items-center gap-2 text-[12px]  border-[#DFE1E7] border-2 px-3 py-1 rounded-lg hover:cursor-pointer">
                         <IoAddOutline className="text-[14px]"/>
                         Add
                     </button>
                 </div>
                 <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-2 text-[13px] lg:text-[14px] font-bold">
+                    <div className="flex items-center gap-2 text-[13px] lg:text-[14px] ">
                         <div className="bg-gradient-to-b from-gray-300 via-gray-200 to-white p-[10px] rounded-full">
                             <div className="bg-white p-[10px] rounded-full">
                                 <RiBankFill className="text-[16px]" />
@@ -36,24 +36,24 @@ const MainRecipientsComponent = () => {
                             Add one of your bank account
                         </div>
                     </div>
-                    <button className="text-[12px] font-bold hover:cursor-pointer">
+                    <button className="text-[12px]  hover:cursor-pointer">
                         <RiArrowRightSLine className="text-[22px] text-black"/>
                     </button>
                 </div>
             </div>
             <div className="w-full flex flex-col gap-4 border-[#DFE1E7] border-2 text-[13px] md:text-[14px] lg:text-[15px] rounded-lg p-3">
                 <div className="flex justify-between items-center">
-                    <div className="font-bold">
+                    <div className="">
                         Your Recipients
                     </div>
-                    <button className="flex items-center gap-2 text-[12px] font-bold border-[#DFE1E7] border-2 px-3 py-1 rounded-lg hover:cursor-pointer">
+                    <button className="flex items-center gap-2 text-[12px]  border-[#DFE1E7] border-2 px-3 py-1 rounded-lg hover:cursor-pointer">
                         <IoAddOutline className="text-[14px]"/>
                         Add
                     </button>
                 </div>
                 <div className="flex w-full flex-col gap-3 justify-between items-center">
                     <div className="flex w-full justify-between">
-                        <div className="flex items-center gap-2 text-[13px] lg:text-[14px] font-bold">
+                        <div className="flex items-center gap-2 text-[13px] lg:text-[14px] ">
                             <div className="bg-gradient-to-b from-gray-300 via-gray-200 to-white p-[5px] rounded-full">
                                 <FaUserCircle className="text-[20px]"/>
                             </div>
@@ -66,14 +66,14 @@ const MainRecipientsComponent = () => {
                                 </div>
                             </div>
                         </div>
-                        <button className="text-[12px] font-bold hover:cursor-pointer">
+                        <button className="text-[12px]  hover:cursor-pointer">
                             <RiArrowRightSLine className="text-[22px] text-black"/>
                         </button>
                     </div>
                 </div>
                 <div className="flex w-full flex-col gap-3 justify-between items-center">
                     <div className="flex w-full justify-between">
-                        <div className="flex items-center gap-2 text-[13px] lg:text-[14px] font-bold">
+                        <div className="flex items-center gap-2 text-[13px] lg:text-[14px] ">
                             <div className="bg-gradient-to-b from-gray-300 via-gray-200 to-white p-[5px] rounded-full">
                                 <FaUserCircle className="text-[20px]"/>
                             </div>
@@ -86,14 +86,14 @@ const MainRecipientsComponent = () => {
                                 </div>
                             </div>
                         </div>
-                        <button className="text-[12px] font-bold hover:cursor-pointer">
+                        <button className="text-[12px]  hover:cursor-pointer">
                             <RiArrowRightSLine className="text-[22px] text-black"/>
                         </button>
                     </div>
                 </div>
                 <div className="flex w-full flex-col gap-3 justify-between items-center">
                     <div className="flex w-full justify-between">
-                        <div className="flex items-center gap-2 text-[13px] lg:text-[14px] font-bold">
+                        <div className="flex items-center gap-2 text-[13px] lg:text-[14px] ">
                             <div className="bg-gradient-to-b from-gray-300 via-gray-200 to-white p-[5px] rounded-full">
                                 <FaUserCircle className="text-[20px]"/>
                             </div>
@@ -106,7 +106,7 @@ const MainRecipientsComponent = () => {
                                 </div>
                             </div>
                         </div>
-                        <button className="text-[12px] font-bold hover:cursor-pointer">
+                        <button className="text-[12px]  hover:cursor-pointer">
                             <RiArrowRightSLine className="text-[22px] text-black"/>
                         </button>
                     </div>

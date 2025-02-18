@@ -10,7 +10,7 @@ const MainBalanceAddForm: React.FC<MainBalanceAddFormProps> = ({ isVisible, onCl
         <div className={`flex flex-col justify-between fixed top-0 right-0 h-full min-w-[300px] bg-white shadow-lg transform ${isVisible ? "translate-x-0" : "translate-x-full"} transition-transform duration-300 ease-in-out z-20`}>
             <div className="flex flex-col gap-4">
                 <div className="flex flex-row items-center justify-between px-4 pt-4">
-                    <h2 className="text-[16px] font-bold">Add New Balance</h2>
+                    <h2 className="text-[16px] ">Add New Balance</h2>
                     <button onClick={onClose} className="border-[#DFE1E7] border-2 px-1 py-1 rounded-full">
                         <RiCloseLine />
                     </button>
@@ -25,7 +25,7 @@ const MainBalanceAddForm: React.FC<MainBalanceAddFormProps> = ({ isVisible, onCl
                                 <RiMoneyDollarCircleFill className="text-[16px]" />
                             </div>
                             <div className="w-full">
-                                <div className="font-bold flex justify-between">
+                                <div className=" flex justify-between">
                                     Balance
                                     <input type="checkbox"/>
                                 </div>
@@ -39,7 +39,7 @@ const MainBalanceAddForm: React.FC<MainBalanceAddFormProps> = ({ isVisible, onCl
                                 <RiWallet3Fill className="text-[16px]" />
                             </div>
                             <div className="w-full">
-                                <div className="font-bold flex justify-between">
+                                <div className=" flex justify-between">
                                     Pocket
                                     <input type="checkbox"/>
                                 </div>
@@ -61,7 +61,7 @@ const MainBalanceAddForm: React.FC<MainBalanceAddFormProps> = ({ isVisible, onCl
                 </div>
             </div>
             <div className="p-4 mt-auto">
-                <button className="mt-1 bg-black text-white text-[15px] w-full py-[6px] font-bold border-black border-2 hover:cursor-pointer rounded-lg">
+                <button className="mt-1 bg-black text-white text-[15px] w-full py-[6px]  border-black border-2 hover:cursor-pointer rounded-lg">
                     Continue
                 </button>
             </div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AiOutlineExport } from "react-icons/ai";
 import { VscDebugDisconnect } from "react-icons/vsc";
-import SwitchButton from "../SwitchButton";
+import SwitchButton from "../main/mainComponents/SwitchButton";
 
 interface OtherIntegrationCardComponentProps {
     logo: React.ReactNode,

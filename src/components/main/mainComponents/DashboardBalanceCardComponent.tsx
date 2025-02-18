@@ -16,7 +16,7 @@ const DashboardBalanceCardComponent: React.FC<DashboardBalanceCardComponentProps
     return (
         <div className="flex flex-col gap-4 border-[#DFE1E7] border-2 rounded-xl text-[14px] p-3">
             <div className="flex justify-between items-center">
-                <div className="flex gap-2 items-center font-bold">
+                <div className="flex gap-2 items-center ">
                         <PiMoneyFill className="text-[16px]"/>
                         {balanceNumber}
                 </div>
@@ -28,13 +28,13 @@ const DashboardBalanceCardComponent: React.FC<DashboardBalanceCardComponentProps
                 </button>
             </div>
             <div className="flex flex-col gap-3 border-[#DFE1E7] border-2 rounded-xl">
-                <div className="flex gap-2 items-center font-bold bg-[#F6F8FA] p-4 rounded-t-xl">
+                <div className="flex gap-2 items-center  bg-[#F6F8FA] p-4 rounded-t-xl">
                     <div className="h-8 w-8">
                         {flag}
                     </div>
                     {currency}
                 </div>
-                <div className="flex items-center justify-center gap-1 font-bold text-[32px]">
+                <div className="flex items-center justify-center gap-1  text-[32px]">
                     <BiDollar />
                     {balance}
                 </div>
@@ -44,12 +44,12 @@ const DashboardBalanceCardComponent: React.FC<DashboardBalanceCardComponentProps
                 </div>
             </div>
             <div className="flex gap-4">
-                <button className="flex gap-2 justify-center items-center bg-black text-white w-full border-[#DFE1E7] border-2 rounded-lg py-2 font-bold hover:cursor-pointer">
-                    <RiArrowRightUpLine className="font-bold text-[17px]"/>
+                <button className="flex gap-2 justify-center items-center bg-black text-white w-full border-[#DFE1E7] border-2 rounded-lg py-2  hover:cursor-pointer">
+                    <RiArrowRightUpLine className=" text-[17px]"/>
                     Send 
                 </button>
-                <button className="flex gap-2 justify-center items-center w-full border-[#DFE1E7] border-2 rounded-lg py-2 font-bold hover:cursor-pointer">
-                    <RiArrowLeftDownLine className="font-bold text-[17px]"/>
+                <button className="flex gap-2 justify-center items-center w-full border-[#DFE1E7] border-2 rounded-lg py-2  hover:cursor-pointer">
+                    <RiArrowLeftDownLine className=" text-[17px]"/>
                     Request
                 </button>
             </div>

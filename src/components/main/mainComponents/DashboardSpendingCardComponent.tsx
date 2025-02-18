@@ -9,7 +9,7 @@ const DashboardSpendingCardComponent = () => {
     return (
         <div className="flex flex-col gap-4 border-[#DFE1E7] border-2 rounded-xl h-auto p-3">
             <div className="flex justify-between">
-                <div className="flex items-center gap-2 text-[14px] font-bold">
+                <div className="flex items-center gap-2 text-[14px] ">
                     <RiPieChart2Line />
                     Spending Summary
                 </div>
@@ -29,7 +29,7 @@ const DashboardSpendingCardComponent = () => {
                 <div>
                     Your weekly spending limit is <b> $2000 </b>
                 </div>
-                <GoInfo className="font-bold text-[13px]"/>
+                <GoInfo className=" text-[13px]"/>
             </div>
         </div>
     );

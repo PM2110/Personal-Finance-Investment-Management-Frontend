@@ -3,7 +3,7 @@ interface SwitchButtonProps {
     handleToggle: () => void;
 }
 
-const SwitchButton: React.FC<SwitchButtonProps> = ({ isOn, handleToggle }) => {
+const SwitchButtonComponent: React.FC<SwitchButtonProps> = ({ isOn, handleToggle }) => {
     return (
         <button
             onClick={handleToggle}
@@ -16,4 +16,4 @@ const SwitchButton: React.FC<SwitchButtonProps> = ({ isOn, handleToggle }) => {
     );
 };
 
-export default SwitchButton;
+export default SwitchButtonComponent;

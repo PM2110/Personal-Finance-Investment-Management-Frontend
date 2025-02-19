@@ -10,16 +10,16 @@ import EmailVerifiedComponent from "./components/signup/EmailVerifiedComponent";
 const App = () => {
     return (
         <BrowserRouter>
-          <Routes>
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/verifyEmail" element={<EmailVerificationComponent />} />
-            <Route path="/emailVerified" element={<EmailVerifiedComponent />} />
-            <Route path="/login" element={<SignInPage />} />
-            <Route path="/" element={<HomePage />} />
-            <Route path="/addAccount" element={<AddAccountPage />} />
-            <Route path="/sendMoney" element={<SendMoneyPage />} />
-          </Routes>
-      </BrowserRouter>
+            <Routes>
+                <Route path="/signup" element={<SignUpPage />} />
+                <Route path="/verifyEmail" element={<EmailVerificationComponent />} />
+                <Route path="/emailVerified" element={<EmailVerifiedComponent />} />
+                <Route path="/login" element={<SignInPage />} />
+                <Route path="/" element={<HomePage />} />
+                <Route path="/addAccount" element={<AddAccountPage />} />
+                <Route path="/sendMoney" element={<SendMoneyPage />} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 

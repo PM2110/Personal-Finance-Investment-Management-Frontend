@@ -2,8 +2,10 @@ import { useState } from "react";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine, RiUserAddFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
+import UserAPIManager from "../../api/apiManager/UserAPIManager";
+import toast from "react-hot-toast";
 
 interface SignInFormData {
     email: string;
@@ -12,6 +14,7 @@ interface SignInFormData {
 }
 
 const SignInForm = () => {
+    const navigate = useNavigate();
     const [visible, setVisible] = useState(false);
     const { register, handleSubmit, reset, formState: { errors }, watch } = useForm<SignInFormData>({
         defaultValues: {
@@ -25,8 +28,21 @@ const SignInForm = () => {
         setVisible(!visible);
     };
 
-    const onSubmit: SubmitHandler<SignInFormData> = (data) => {
-        console.log(data);
+    const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
+        try {
+            // const response = await dispatch(signIn(data));
+            const response = await UserAPIManager.signIn(data);
+            console.log(response);
+            if(response.data.user){
+                toast.success("SignIn Successfull");
+                navigate("/");
+            }
+            else if(response.data.msg){
+                toast.error(response.data.msg);
+            }
+        } catch (error) {
+            console.log("Error while signing in ", error);
+        }
         reset();
     };
 

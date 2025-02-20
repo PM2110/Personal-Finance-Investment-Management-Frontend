@@ -2,7 +2,6 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import userReducer from './userSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { thunk } from 'redux-thunk';
 
 const reducers = combineReducers({
     user: userReducer,
@@ -19,10 +18,12 @@ export const store = configureStore({
     devTools: process.env.NODE_ENV !== "production",
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
-        },
-      }).concat(thunk),
+          serializableCheck: {
+              ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+          },
+      }),  
 });
 
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 export const persistor = persistStore(store);

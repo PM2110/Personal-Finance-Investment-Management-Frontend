@@ -1,4 +1,3 @@
-import { dispatch } from './../../node_modules/react-hot-toast/src/core/store';
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import UserAPIManager from '../api/apiManager/UserAPIManager';
 

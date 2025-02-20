@@ -4,10 +4,11 @@ import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine, RiUser6Line, RiUserAddFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-// import { useDispatch } from "react-redux";
-// import { setUser, signUp, UserData } from "../../redux/userSlice";
+import { useDispatch } from "react-redux";
+import { signUp } from "../../redux/userSlice";
 import UserAPIManager from "../../api/apiManager/UserAPIManager";
 import toast from "react-hot-toast";
+import { AppDispatch } from "../../redux/store";
 
 interface SignUpFormData {
     userName: string;
@@ -16,7 +17,7 @@ interface SignUpFormData {
 }
 
 const SignUpForm = () => {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [visible, setVisible] = useState(false);
     const [satisfied, setSatisfied] = useState(0);
 
@@ -27,7 +28,7 @@ const SignUpForm = () => {
     };
 
     const onSubmit: SubmitHandler<SignUpFormData> = async (data: SignUpFormData) => {
-        // await dispatch(signUp(data));
+        await dispatch(signUp(data));
         try {
             const response = await UserAPIManager.signUp(data);
             if (response.data){

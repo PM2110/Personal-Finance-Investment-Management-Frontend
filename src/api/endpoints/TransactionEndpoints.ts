@@ -1,8 +1,8 @@
 const TransactionEndpoints = {
     addTransaction: () => `/transaction`,
     getAllTransactions: (userName: string) => `/transaction/${userName}`,
-    updateTransaction: (transactionID: number) => `/transaction/${transactionID}`,
-    deleteTransaction: (transactionID: number) => `/transaction/${transactionID}`,
+    updateTransaction: (transactionID: string) => `/transaction/${transactionID}`,
+    deleteTransaction: (transactionID: string) => `/transaction/${transactionID}`,
 }
 
 export default TransactionEndpoints;

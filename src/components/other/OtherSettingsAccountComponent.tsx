@@ -1,7 +1,43 @@
 import { BiUser } from "react-icons/bi";
 import { RiArrowRightSLine } from "react-icons/ri";
+import { updateUser, UserData } from "../../redux/userSlice";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
 
-const OtherSettingsAccountComponent = () => {
+interface OtherSettingsAccountComponentProps {
+    user: UserData;
+}
+
+const OtherSettingsAccountComponent: React.FC<OtherSettingsAccountComponentProps> = ({ user }) => {
+
+    const dispatch = useDispatch<AppDispatch>();
+    const [edit, setEdit] = useState(0);
+    const [value, setValue] = useState('');
+
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value);
+    };
+
+    const handleSubmit = async () => {
+        switch (edit) {
+            case 1:
+                await dispatch(updateUser(user.userID, { userName: value } as UserData));
+                break;
+            case 2:
+                await dispatch(updateUser(user.userID, { email: value } as UserData));
+                break;
+            case 3:
+                await dispatch(updateUser(user.userID, { phoneNumber: value } as UserData));
+                break;
+            case 4:
+                await dispatch(updateUser(user.userID, { address: value } as UserData));
+                break;
+        }
+        setEdit(0);
+        setValue('');
+    }
+
     return (
         <div className="w-full flex flex-col gap-6 overflow-y-auto p-2">
             <div className="w-full flex gap-8">
@@ -33,13 +69,20 @@ const OtherSettingsAccountComponent = () => {
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 justify-between">
-                    <div className="text-[13px] font-semibold">
-                        Manan Patel
+                    {edit === 1
+                     ? <input onChange={handleOnChange} className="text-[13px] w-full font-semibold focus:outline-none border-[#DFE1E7] border-2 rounded-lg p-1" defaultValue={user.userName} />
+                     : <div className="text-[13px] font-semibold">
+                        {user.userName}
+                    </div>}
+                    {edit === 1
+                     ? <div className="flex flex-row gap-3">
+                        <button onClick={() => { setEdit(0); setValue(''); }} className="flex items-center gap-3 text-[12px] font-medium bg-red-500 w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">Cancel</button>
+                        <button onClick={handleSubmit} className="flex items-center gap-3 text-[12px] font-medium bg-[#40C4AA] w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">Save</button>
                     </div>
-                    <button className="flex items-center gap-3 text-[12px] font-medium">
+                     : <button onClick={() => { setEdit(1); setValue(user.userName); }} className="flex items-center gap-3 text-[12px] font-medium hover:cursor-pointer">
                         Edit
                         <RiArrowRightSLine className="text-[13px] text-black"/>
-                    </button>
+                    </button>}
                 </div>
             </div>
             <div className="h-[1px] bg-[#DFE1E7]"></div>
@@ -53,13 +96,20 @@ const OtherSettingsAccountComponent = () => {
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 justify-between">
-                    <div className="text-[13px] font-semibold">
-                        pmpatelmanan21@gmail.com
+                    {edit === 2
+                     ? <input onChange={handleOnChange} className="text-[13px] w-full font-semibold focus:outline-none border-[#DFE1E7] border-2 rounded-lg p-1" defaultValue={user.email} />
+                     : <div className="text-[13px] font-semibold">
+                        {user.email}
+                    </div>}
+                    {edit === 2
+                     ? <div className="flex flex-row gap-3">
+                        <button onClick={() => { setEdit(0); setValue(''); }} className="flex items-center gap-3 text-[12px] font-medium bg-red-500 w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">Cancel</button>
+                        <button onClick={handleSubmit} className="flex items-center gap-3 text-[12px] font-medium bg-[#40C4AA] w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">Save</button>
                     </div>
-                    <button className="flex items-center gap-3 text-[12px] font-medium">
+                     : <button onClick={() => { setEdit(2); setValue(user.email); }} className="flex items-center gap-3 text-[12px] font-medium hover:cursor-pointer">
                         Edit
                         <RiArrowRightSLine className="text-[13px] text-black"/>
-                    </button>
+                    </button>}
                 </div>
             </div>
             <div className="h-[1px] bg-[#DFE1E7]"></div>
@@ -73,13 +123,20 @@ const OtherSettingsAccountComponent = () => {
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 justify-between">
-                    <div className="text-[13px] font-semibold">
-                        +91-98981234
+                    {edit === 3
+                     ? <input onChange={handleOnChange} className="text-[13px] w-full font-semibold focus:outline-none border-[#DFE1E7] border-2 rounded-lg p-1" defaultValue={user.phoneNumber} />
+                     : <div className="text-[13px] font-semibold">
+                        {user.phoneNumber}
+                    </div>}
+                    {edit === 3
+                     ? <div className="flex flex-row gap-3">
+                        <button onClick={() => { setEdit(0); setValue(''); }} className="flex items-center gap-3 text-[12px] font-medium bg-red-500 w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">Cancel</button>
+                        <button onClick={handleSubmit} className="flex items-center gap-3 text-[12px] font-medium bg-[#40C4AA] w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">Save</button>
                     </div>
-                    <button className="flex items-center gap-3 text-[12px] font-medium">
-                        Edit
+                     : <button onClick={() => { setEdit(3); setValue(user.phoneNumber); }} className="flex items-center gap-3 text-[12px] font-medium hover:cursor-pointer">
+                        {user.phoneNumber ? "Edit" : "Add"}
                         <RiArrowRightSLine className="text-[13px] text-black"/>
-                    </button>
+                    </button>}
                 </div>
             </div>
             <div className="h-[1px] bg-[#DFE1E7]"></div>
@@ -93,13 +150,20 @@ const OtherSettingsAccountComponent = () => {
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 justify-between">
-                    <div className="text-[13px] font-semibold">
-                        2-102, Swagat Blossom-2BHK, Sarghasan, Gandhinagar
+                    {edit === 4
+                     ? <input onChange={handleOnChange} className="text-[13px] w-full font-semibold focus:outline-none border-[#DFE1E7] border-2 rounded-lg p-1" defaultValue={user.address} />
+                     : <div className="text-[13px] font-semibold">
+                        {user.address}
+                    </div>}
+                    {edit === 4
+                     ? <div className="flex flex-row gap-3">
+                        <button onClick={() => { setEdit(0); setValue(''); }} className="flex items-center gap-3 text-[12px] font-medium bg-red-500 w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">Cancel</button>
+                        <button onClick={handleSubmit} className="flex items-center gap-3 text-[12px] font-medium bg-[#40C4AA] w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">Save</button>
                     </div>
-                    <button className="flex items-center gap-3 text-[12px] font-medium">
-                        Edit
+                     : <button onClick={() => { setEdit(4); setValue(user.address); }} className="flex items-center gap-3 text-[12px] font-medium hover:cursor-pointer">
+                        {user.address ? "Edit" : "Add"}
                         <RiArrowRightSLine className="text-[13px] text-black"/>
-                    </button>
+                    </button>}
                 </div>
             </div>
         </div>

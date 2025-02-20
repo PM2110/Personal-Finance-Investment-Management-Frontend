@@ -7,6 +7,12 @@ interface UserData {
     userName: string,
 }
 
+interface EmailData {
+    to: string,
+    subject: string,
+    text: string,
+}
+
 const UserAPIManager = {
     signUp: (data: UserData) => {
         const url = UserEndpoints.signUp();
@@ -14,6 +20,10 @@ const UserAPIManager = {
     },
     signIn: (data: UserData) => {
         const url = UserEndpoints.signIn();
+        return APIMethods.post(url, data);
+    },
+    sendEmail: (data: EmailData) => {
+        const url = UserEndpoints.sendEmail();
         return APIMethods.post(url, data);
     },
     updateUser: (userID: number, data: UserData) => {

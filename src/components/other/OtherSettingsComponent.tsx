@@ -4,15 +4,17 @@ import OtherSettingsSettingComponent from "./OtherSettingsSettingComponent";
 import OtherSettingsNotificationsComponenet from "./OtherSettingsNotificationsComponent";
 import OtherSettingsPrivacySecurityComponent from "./OtherSettingsPrivacySecurityComponent";
 import OtherSettingsLocalizationComponent from "./OtherSettingsLocalizationComponent";
+import { useSelector } from "react-redux";
 
 const OtherSettingsComponent = () => {
     
     const [selected, setSelected] = useState(1);
+    const user = useSelector((state) => state.user.data);
 
     const getForm = () => {
         switch (selected) {
             case 1:
-                return <OtherSettingsAccountComponent />
+                return <OtherSettingsAccountComponent user={user}/>
             case 2:
                 return <OtherSettingsSettingComponent />
             case 3:

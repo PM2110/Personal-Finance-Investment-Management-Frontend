@@ -1,8 +1,8 @@
-import HeaderSignUpComponent from "../components/signup/HeaderSignUpComponent";
-import SignUpForm from "../components/signup/SignUpForm";
+import HeaderSignUpComponent from "../../components/signup/HeaderSignUpComponent";
+import SignUpForm from "../../components/signup/SignUpForm";
 // import EmailVerificationComponent from "../components/signup/EmailVerificationComponent";
 // import EmailVerifiedComponent from "../components/signup/EmailVerifiedComponent";
-import FooterSignUpComponent from "../components/signup/FooterSignUpComponent";
+import FooterSignUpComponent from "../../components/signup/FooterSignUpComponent";
 
 const SignUpPage = () => {
     return (

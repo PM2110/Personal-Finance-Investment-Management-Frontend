@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import MainBalanceAddForm from "../main/MainBalanceAddForm";
 import MainDashboardExchangeForm from "../main/MainDashboardExchangeForm";
 import MainFamilyAddForm from "../main/MainFamilyAddForm";
+import MainTransactionAddForm from "../main/MainTransactionAddForm";
 
 interface HeaderHomeComponentProps {
     selected: number,
@@ -15,6 +16,7 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
     const [visibleBalanceAddForm, setVisibleBalanceAddForm] = useState(false);
     const [visibleDashboardExchangeForm, setVisibleDashboardExchangeForm] = useState(false);
     const [visibleFamilyAddForm, setVisibleFamilyAddForm] = useState(false);
+    const [visibleTransactionAddForm, setVisibleTransactionAddForm] = useState(false);
 
     const handleBalanceAddForm: () => void = () => {
         setVisibleBalanceAddForm(!visibleBalanceAddForm);
@@ -26,6 +28,10 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
 
     const handleFamilyAddForm: () => void = () => {
         setVisibleFamilyAddForm(!visibleFamilyAddForm);
+    }
+
+    const handleTransactionAddForm: () => void = () => {
+        setVisibleTransactionAddForm(!visibleTransactionAddForm);
     }
 
     const getHeaderTitle = () => {
@@ -78,6 +84,8 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
                 return <button onClick={handleBalanceAddForm} className="text-[13px]  bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Balance</button>
             case 3:
                 return <button onClick={handleFamilyAddForm} className="text-[13px]  bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Family</button>
+            case 4:
+                return <button onClick={handleTransactionAddForm} className="text-[13px]  bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Transaction</button>
             case 5:
                 return <button className="text-[13px]  bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Your Bank Account</button>
             case 7:
@@ -102,12 +110,13 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
                 <RiNotification2Line onClick={() => navigate("/")} className="sm:text-[16px] md:text-[17px] lg:text-[18px] hover:cursor-pointer" />
                 {getButton()}
             </div>
-            {(visibleBalanceAddForm || visibleDashboardExchangeForm || visibleFamilyAddForm) && (
+            {(visibleBalanceAddForm || visibleDashboardExchangeForm || visibleFamilyAddForm || visibleTransactionAddForm) && (
                 <div className="fixed inset-0 bg-black/70 z-10"></div>
             )}
             <MainBalanceAddForm isVisible={visibleBalanceAddForm} onClose={handleBalanceAddForm}/>
             <MainDashboardExchangeForm isVisible={visibleDashboardExchangeForm} onClose={handleDashboardExchangeForm}/>
             <MainFamilyAddForm isVisible={visibleFamilyAddForm} onClose={handleFamilyAddForm}/>
+            <MainTransactionAddForm isVisible={visibleTransactionAddForm} onClose={handleTransactionAddForm}/>
         </div>
     );
 }

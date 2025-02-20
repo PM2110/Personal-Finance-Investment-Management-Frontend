@@ -4,8 +4,10 @@ import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine, RiUserAddFill } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import UserAPIManager from "../../api/apiManager/UserAPIManager";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { signIn } from "../../redux/userSlice";
 
 interface SignInFormData {
     email: string;
@@ -14,6 +16,7 @@ interface SignInFormData {
 }
 
 const SignInForm = () => {
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const [visible, setVisible] = useState(false);
     const { register, handleSubmit, reset, formState: { errors }, watch } = useForm<SignInFormData>({
@@ -30,11 +33,11 @@ const SignInForm = () => {
 
     const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
         try {
-            // const response = await dispatch(signIn(data));
-            const response = await UserAPIManager.signIn(data);
+            const response = await dispatch(signIn(data));
+            // const response = await UserAPIManager.signIn(data);
             console.log(response);
             if(response.data.user){
-                toast.success("SignIn Successfull");
+                toast.success("Successfull signin");
                 navigate("/");
             }
             else if(response.data.msg){

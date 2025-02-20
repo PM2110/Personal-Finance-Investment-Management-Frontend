@@ -2,11 +2,10 @@ import { useState } from "react";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine, RiUser6Line, RiUserAddFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { signUp } from "../../redux/userSlice";
-import UserAPIManager from "../../api/apiManager/UserAPIManager";
+import { sendEmail, signUp } from "../../redux/userSlice";
 import toast from "react-hot-toast";
 import { AppDispatch } from "../../redux/store";
 
@@ -18,6 +17,7 @@ interface SignUpFormData {
 
 const SignUpForm = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const navigate: (path: string) => void = useNavigate();
     const [visible, setVisible] = useState(false);
     const [satisfied, setSatisfied] = useState(0);
 
@@ -28,17 +28,26 @@ const SignUpForm = () => {
     };
 
     const onSubmit: SubmitHandler<SignUpFormData> = async (data: SignUpFormData) => {
-        await dispatch(signUp(data));
         try {
-            const response = await UserAPIManager.signUp(data);
-            if (response.data){
+            const response = await dispatch(signUp(data));
+            if (response?.status === 200) {
+                toast.error(response.data.msg);
+            }
+            else if (response?.data) {
+                const email = {
+                    to: response.data.user.email,
+                    subject: "Email Verification",
+                    text: `${<button>Click to verify</button>}`
+                }
+                dispatch(sendEmail(email));
+                reset();
+                setSatisfied(0);
                 toast.success("Successfull signup");
+                navigate("/verifyEmail");
             }
         } catch {
             toast.error("Error while signing up");
         }
-        reset();
-        setSatisfied(0);
     };
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {

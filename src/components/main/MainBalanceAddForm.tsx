@@ -62,7 +62,7 @@ const MainBalanceAddForm: React.FC<MainBalanceAddFormProps> = ({ isVisible, onCl
             </div>
             <div className="p-4 mt-auto">
                 <button className="mt-1 bg-black text-white text-[15px] w-full py-[6px]  border-black border-2 hover:cursor-pointer rounded-lg">
-                    Continue
+                    Add Balance
                 </button>
             </div>
         </div>

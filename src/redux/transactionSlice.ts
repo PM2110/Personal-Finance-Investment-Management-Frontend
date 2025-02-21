@@ -48,7 +48,13 @@ const transactionSlice = createSlice({
             });
         },
         deleteTransactionState: (state, action: PayloadAction<string>) => {
-            state.data = state.data?.filter((transaction) => transaction.transactionID === action.payload);
+            if(state.data.length === 1){
+                state.data = [];
+                console.log("hello");
+            }
+            else {
+                state.data = state.data?.filter((transaction) => transaction.transactionID === action.payload);
+            }
         }
     },
     extraReducers: (builder) => {
@@ -58,6 +64,7 @@ const transactionSlice = createSlice({
                 state.isError = false;
             })
             .addCase(setTransactions.fulfilled, (state, action: PayloadAction<TransactionData[]>) => {
+                console.log("Fulfilled ", action.payload);
                 state.isLoading = false;
                 state.data = action.payload;
             })
@@ -95,9 +102,8 @@ export const updateTransaction = (transactionID: string, data: TransactionData) 
 
 export const deleteTransaction = (transactionID: string) => async (dispatch) => {
     try {
-        const response = await TransactionAPIManager.deleteTransaction(transactionID);
+        await TransactionAPIManager.deleteTransaction(transactionID);
         dispatch(deleteTransactionState(transactionID));
-        return response;
     } catch (error) {
         console.log("Error while deleting transaction ", error)
     }

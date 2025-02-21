@@ -30,7 +30,7 @@ const initialState: UserState = {
     data: null,
 };
 
-export const setUser = createAsyncThunk('setUser', async (userData : UserData) => {
+export const setUser = createAsyncThunk('setUser', async (userData : UserData | null) => {
         return userData as UserData;
     }
 );
@@ -70,7 +70,7 @@ export const signUp = (data: UserData) => async (dispatch) => {
     try {
         const response = await UserAPIManager.signUp(data);
         if (response.status === 201) {
-            dispatch(setUser({ ...data, phoneNumber: '',  address: '', profilePic: ''}));
+            dispatch(setUser({ ...response.data.user, phoneNumber: '',  address: '', profilePic: ''}));
         }
         return response;
     } catch (error) {
@@ -96,5 +96,14 @@ export const updateUser = (userID: number, data: UserData) => async (dispatch) =
         dispatch(setUser(response.data.user));
     } catch (error) {
         console.log("Error while updating user ", error);
+    }
+}
+
+export const deleteUser = (userID: number) => async (dispatch) => {
+    try {
+        await UserAPIManager.deleteUser(userID);
+        dispatch(setUser(null));
+    } catch (error) {
+        console.log("Error while deleting user ", error);
     }
 }

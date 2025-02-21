@@ -7,7 +7,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import { signIn } from "../../redux/userSlice";
+import { signIn, UserData } from "../../redux/userSlice";
+import { fetchUserPreference } from "../../redux/userPreferenceSlice";
 
 interface SignInFormData {
     email: string;
@@ -33,9 +34,8 @@ const SignInForm = () => {
 
     const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
         try {
-            const response = await dispatch(signIn(data));
-            // const response = await UserAPIManager.signIn(data);
-            console.log(response);
+            const response = await dispatch(signIn(data as unknown as UserData));
+            dispatch(fetchUserPreference(response?.data.user.userID));
             if(response.data.user){
                 toast.success("Successfull signin");
                 navigate("/");

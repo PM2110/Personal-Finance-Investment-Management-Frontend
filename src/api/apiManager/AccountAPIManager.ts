@@ -1,14 +1,6 @@
+import { AccountData } from "../../redux/accountSlice";
 import APIMethods from "../APIMethods";
 import AccountEndpoints from "../endpoints/AccountEndpoints";
-
-interface AccountData {
-    userID: number,
-    accountID: number,
-    accountHolder: string,
-    accountType: string,
-    balance: number,
-    currency: string,
-}
 
 const AccountAPIManager = {
     addAccount: (data: AccountData) => {

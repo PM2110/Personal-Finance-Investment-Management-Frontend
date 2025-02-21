@@ -1,6 +1,6 @@
 import { FaUserCircle } from "react-icons/fa";
 import { RiCloseLine } from "react-icons/ri";
-import { TransactionData } from "../../redux/transactionSlice";
+import { TransactionData } from "../../../redux/transactionSlice";
 
 interface MainTransactionDetailsComponentProps {
     isVisible: boolean,
@@ -91,7 +91,7 @@ const MainTransactionDetailsComponent: React.FC<MainTransactionDetailsComponentP
                 </div>
             </div>
             <div className="flex gap-2 p-4 mt-auto">
-                <button onClick={handleDelete} className="mt-1 text-[15px] w-full py-[6px]  border-[#DFE1E7] border-2 hover:cursor-pointer rounded-lg">
+                <button onClick={handleDelete} className="mt-1 text-white text-[15px] w-full py-[6px] border-red-500 border-2 bg-red-500 hover:cursor-pointer hover:bg-white hover:text-red-500 rounded-lg">
                     Delete
                 </button>
                 <button className="mt-1 bg-black text-white text-[15px] w-full py-[6px]  border-black border-2 hover:cursor-pointer rounded-lg">

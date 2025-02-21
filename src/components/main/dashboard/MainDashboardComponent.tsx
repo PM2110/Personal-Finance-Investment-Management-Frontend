@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { RiArrowLeftDownLine, RiArrowRightUpLine, RiFilter3Line } from "react-icons/ri";
-import BarChatComponent from "./mainComponents/BarChatComponent";
-import DashboardBalanceCardComponent from "./mainComponents/DashboardBalanceCardComponent";
+import BarChatComponent from "../mainComponents/BarChatComponent";
+import DashboardBalanceCardComponent from "../mainComponents/DashboardBalanceCardComponent";
 import { US } from "country-flag-icons/react/1x1";
-import DashboardSpendingCardComponent from "./mainComponents/DashboardSpendingCardComponent";
-import DashboardTransactionCardComponent from "./mainComponents/DashboardTransactionCardComponent";
+import DashboardSpendingCardComponent from "../mainComponents/DashboardSpendingCardComponent";
+import DashboardTransactionCardComponent from "../mainComponents/DashboardTransactionCardComponent";
 import { GoCreditCard } from "react-icons/go";
 import { LuSettings } from "react-icons/lu";
 

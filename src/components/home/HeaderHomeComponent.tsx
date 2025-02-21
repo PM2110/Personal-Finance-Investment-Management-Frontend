@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { RiArrowGoForwardLine, RiNotification2Line, RiSearchLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import MainBalanceAddForm from "../main/MainBalanceAddForm";
-import MainDashboardExchangeForm from "../main/MainDashboardExchangeForm";
-import MainFamilyAddForm from "../main/MainFamilyAddForm";
-import MainTransactionAddForm from "../main/MainTransactionAddForm";
+import MainBalanceAddForm from "../main/balance/MainBalanceAddForm";
+import MainDashboardExchangeForm from "../main/dashboard/MainDashboardExchangeForm";
+import MainFamilyAddForm from "../main/family/MainFamilyAddForm";
+import MainTransactionAddForm from "../main/transaction/MainTransactionAddForm";
+import MainRecipientsAddAccountForm from "../main/recipient/MainRecipientsAddAccountForm";
 
 interface HeaderHomeComponentProps {
     selected: number,
@@ -17,6 +18,7 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
     const [visibleDashboardExchangeForm, setVisibleDashboardExchangeForm] = useState(false);
     const [visibleFamilyAddForm, setVisibleFamilyAddForm] = useState(false);
     const [visibleTransactionAddForm, setVisibleTransactionAddForm] = useState(false);
+    const [visibleAccountAddForm, setVisibleAccountAddForm] = useState(false);
 
     const handleBalanceAddForm: () => void = () => {
         setVisibleBalanceAddForm(!visibleBalanceAddForm);
@@ -32,6 +34,10 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
 
     const handleTransactionAddForm: () => void = () => {
         setVisibleTransactionAddForm(!visibleTransactionAddForm);
+    }
+
+    const handleAccountAddForm: () => void = () => {
+        setVisibleAccountAddForm(!visibleAccountAddForm);
     }
 
     const getHeaderTitle = () => {
@@ -87,7 +93,7 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
             case 4:
                 return <button onClick={handleTransactionAddForm} className="text-[13px]  bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Transaction</button>
             case 5:
-                return <button className="text-[13px]  bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Your Bank Account</button>
+                return <button onClick={handleAccountAddForm} className="text-[13px]  bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Your Bank Account</button>
             case 7:
                 return <button className="flex items-center gap-2 text-[13px]  border-[#DFE1E7] border-2 px-3 py-2 rounded-lg hover:bg-black hover:border-black hover:text-white hover:cursor-pointer"><RiArrowGoForwardLine className="text-[14px]"/> Export</button>
         }
@@ -110,13 +116,14 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
                 <RiNotification2Line onClick={() => navigate("/")} className="sm:text-[16px] md:text-[17px] lg:text-[18px] hover:cursor-pointer" />
                 {getButton()}
             </div>
-            {(visibleBalanceAddForm || visibleDashboardExchangeForm || visibleFamilyAddForm || visibleTransactionAddForm) && (
+            {(visibleBalanceAddForm || visibleDashboardExchangeForm || visibleFamilyAddForm || visibleTransactionAddForm || visibleAccountAddForm) && (
                 <div className="fixed inset-0 bg-black/70 z-10"></div>
             )}
             <MainBalanceAddForm isVisible={visibleBalanceAddForm} onClose={handleBalanceAddForm}/>
             <MainDashboardExchangeForm isVisible={visibleDashboardExchangeForm} onClose={handleDashboardExchangeForm}/>
             <MainFamilyAddForm isVisible={visibleFamilyAddForm} onClose={handleFamilyAddForm}/>
             <MainTransactionAddForm isVisible={visibleTransactionAddForm} onClose={handleTransactionAddForm}/>
+            <MainRecipientsAddAccountForm isVisible={visibleAccountAddForm} onClose={handleAccountAddForm} />
         </div>
     );
 }

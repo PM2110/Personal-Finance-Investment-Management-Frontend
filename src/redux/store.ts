@@ -1,11 +1,15 @@
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import userReducer from './userSlice';
+import userPreferenceReducer from './userPreferenceSlice';
 import transactionReducer from './transactionSlice';
+import familyReducer from './familySlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 const reducers = combineReducers({
     user: userReducer,
+    userPreference: userPreferenceReducer,
+    family: familyReducer,
     transaction: transactionReducer,
 })
 

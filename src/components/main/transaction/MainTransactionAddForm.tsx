@@ -2,9 +2,9 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RiCloseLine } from "react-icons/ri";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch } from "../../../redux/store";
 import toast from "react-hot-toast";
-import { addTransaction, TransactionData } from "../../redux/transactionSlice";
+import { addTransaction, TransactionData } from "../../../redux/transactionSlice";
 import { useSelector } from "react-redux";
 
 interface MainTransactionAddFormProps {
@@ -52,7 +52,7 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
                     <div className="text-[#818898] text-[14px] bg-[#F6F8FA] py-1 px-4 w-full">
                         ENTER DETAILS
                     </div>
-                    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full gap-3 px-4 text-[14px]">
+                    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full gap-3 px-4 pb-4 text-[14px]">
                         <div className="flex flex-col gap-1">
                             <label>Transaction Type</label>
                             <select onChange={(e) => setTransactionType(e.target.value)} className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none">
@@ -64,7 +64,7 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
                             <label>Amount</label>
                             <input 
                                 className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none"
-                                placeholder="Enter new family name..."
+                                placeholder="Enter amount..."
                                 {...register("amount")}
                             />
                         </div>
@@ -73,7 +73,7 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
                             <label>From</label>
                             <input 
                                 className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none" 
-                                placeholder="Enter new family name..."
+                                placeholder="Enter sender name..."
                                 {...register("from")}
                             />
                         </div>
@@ -81,7 +81,7 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
                             <label>To</label>
                             <input 
                                 className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none"
-                                placeholder="Enter new family name..."
+                                placeholder="Enter receiver name..."
                                 {...register("to")}
                             />
                         </div>}
@@ -105,7 +105,7 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
                             <label>Currency</label>
                             <input 
                                 className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none"
-                                placeholder="Enter new family name..."
+                                placeholder="Enter currency..."
                                 {...register("currency")}
                             />
                         </div>

@@ -1,9 +1,9 @@
 import { BiUser } from "react-icons/bi";
 import { RiArrowRightSLine } from "react-icons/ri";
-import { updateUser, UserData } from "../../redux/userSlice";
+import { updateUser, UserData } from "../../../redux/userSlice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch } from "../../../redux/store";
 
 interface OtherSettingsAccountComponentProps {
     user: UserData;

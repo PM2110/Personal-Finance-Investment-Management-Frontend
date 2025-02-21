@@ -10,19 +10,21 @@ const OtherSettingsComponent = () => {
     
     const [selected, setSelected] = useState(1);
     const user = useSelector((state) => state.user.data);
+    const userPreference = useSelector((state) => state.userPreference.data);
+    console.log(userPreference, user);
 
     const getForm = () => {
         switch (selected) {
             case 1:
                 return <OtherSettingsAccountComponent user={user}/>
             case 2:
-                return <OtherSettingsSettingComponent />
+                return <OtherSettingsSettingComponent userPreference={userPreference}/>
             case 3:
-                return <OtherSettingsNotificationsComponenet />
+                return <OtherSettingsNotificationsComponenet userPreference={userPreference}/>
             case 4:
                 return <OtherSettingsPrivacySecurityComponent />
             case 5:
-                return <OtherSettingsLocalizationComponent />
+                return <OtherSettingsLocalizationComponent userPreference={userPreference} />
         }
     }
     

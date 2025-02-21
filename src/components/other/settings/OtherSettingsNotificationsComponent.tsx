@@ -1,21 +1,46 @@
 import { useState } from "react";
+import { updateUserPreference, UserPreferenceData } from "../../../redux/userPreferenceSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../redux/store";
 
-const OtherSettingsNotificationsComponenet = () => {
+interface OtherSettingsNotificationsComponenetProps {
+    userPreference: UserPreferenceData,
+}
+
+const OtherSettingsNotificationsComponenet: React.FC<OtherSettingsNotificationsComponenetProps> = ({ userPreference }) => {
     
-    const [transactionAlerts, setTransactionAlerts] = useState(false);
-    const [lowBalanceAlerts, setLowBalanceAlerts] = useState(false);
-    const [exclusiveOffersAlerts, setExclusiveOffersAlerts] = useState(false);
+    const dispatch = useDispatch<AppDispatch>();
+
+    const [transactionAlerts, setTransactionAlerts] = useState(userPreference.generalNotifications[0] === '1');
+    const [lowBalanceAlerts, setLowBalanceAlerts] = useState(userPreference.generalNotifications[1] === '1');
+    const [exclusiveOffersAlerts, setExclusiveOffersAlerts] = useState(userPreference.generalNotifications[2] === '1');
 
     const handleTransactionAlerts: () => void = () => {
+        const newNotifications = (transactionAlerts ? '0' : '1').concat(userPreference.generalNotifications.slice(1));
         setTransactionAlerts(!transactionAlerts);
+        dispatch(updateUserPreference(userPreference.userID, { generalNotifications: newNotifications } as UserPreferenceData));
     }
 
     const handleLowBalanceAlerts: () => void = () => {
+        const newNotifications = userPreference.generalNotifications.slice(0, 1).concat(lowBalanceAlerts ? '0' : '1') + userPreference.generalNotifications.slice(2, 3);
         setLowBalanceAlerts(!lowBalanceAlerts);
+        dispatch(updateUserPreference(userPreference.userID, { generalNotifications: newNotifications } as UserPreferenceData));
     }
 
     const handleExclusiveOffersAlerts: () => void = () => {
+        const newNotifications = userPreference.generalNotifications.slice(0, 2).concat(exclusiveOffersAlerts ? '0' : '1');
         setExclusiveOffersAlerts(!exclusiveOffersAlerts);
+        dispatch(updateUserPreference(userPreference.userID, { generalNotifications: newNotifications } as UserPreferenceData));
+    }
+
+    const handleOnChange: (name: string, e: React.ChangeEvent<HTMLInputElement>) => void = (name, e) => {
+        let newNotificationMethod = "";
+        if(name === "email"){
+            newNotificationMethod = (e.target.checked ? '1' : '0').concat(userPreference.notificationMethods.slice(1));
+        } else {
+            newNotificationMethod = userPreference.notificationMethods.slice(0, 1).concat(e.target.checked ? '1' : '0');
+        }
+        dispatch(updateUserPreference(userPreference.userID, { notificationMethods: newNotificationMethod } as UserPreferenceData));
     }
 
     return (
@@ -98,7 +123,7 @@ const OtherSettingsNotificationsComponenet = () => {
                 </div>
                 <div className="flex flex-col gap-4 items-start">
                     <div className="flex flex-row gap-4 items-start justify-between">
-                        <input type="checkbox" className="mt-1" />
+                        <input onChange={(e) => handleOnChange("email", e)} defaultChecked={userPreference.notificationMethods[0] === '1'} type="checkbox" className="mt-1" />
                         <div className=" flex flex-col">
                             <div className="text-[13px] font-semibold">
                                 Email Notifications
@@ -109,7 +134,7 @@ const OtherSettingsNotificationsComponenet = () => {
                         </div>
                     </div>
                     <div className="flex flex-row gap-4 items-start justify-between">
-                        <input type="checkbox" className="mt-1" />
+                        <input onChange={(e) => handleOnChange("sms", e)} defaultChecked={userPreference.notificationMethods[1] === '1'} type="checkbox" className="mt-1" />
                         <div className=" flex flex-col">
                             <div className="text-[13px] font-semibold">
                                 SMS Notifications

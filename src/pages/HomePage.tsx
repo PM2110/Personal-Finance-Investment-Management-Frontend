@@ -1,16 +1,16 @@
 import { useState } from "react";
 import SideBarHomeComponent from "../components/home/SideBarHomeComponent";
 import HeaderHomeComponent from "../components/home/HeaderHomeComponent";
-import OtherIntegrationsComponent from "../components/other/OtherIntegrationsComponent";
-import MainRecipientsComponent from "../components/main/MainRecipientsComponent";
-import MainBalanceComponent from "../components/main/MainBalanceComponent";
-import OtherSettingsComponent from "../components/other/OtherSettingsComponent";
-import MainDashboardComponent from "../components/main/MainDashboardComponent";
-import MainFamilyComponent from "../components/main/MainFamilyComponent";
-import MainTransactionsComponent from "../components/main/MainTransactionsComponent";
+import OtherIntegrationsComponent from "../components/other/integration/OtherIntegrationsComponent";
+import MainRecipientsComponent from "../components/main/recipient/MainRecipientsComponent";
+import MainBalanceComponent from "../components/main/balance/MainBalanceComponent";
+import OtherSettingsComponent from "../components/other/settings/OtherSettingsComponent";
+import MainDashboardComponent from "../components/main/dashboard/MainDashboardComponent";
+import MainFamilyComponent from "../components/main/family/MainFamilyComponent";
+import MainTransactionsComponent from "../components/main/transaction/MainTransactionsComponent";
 
 const HomePage = () => {
-    const [selected, setSelected] = useState(1);
+    const [selected, setSelected] = useState(5);
 
     const getForm = () => {
         switch (selected){

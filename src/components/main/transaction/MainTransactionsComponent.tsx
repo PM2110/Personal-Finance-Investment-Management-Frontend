@@ -3,9 +3,10 @@ import { RiArrowGoForwardLine, RiArrowRightSLine, RiFilter3Line, RiSearchLine } 
 import MainTransactionDetailsComponent from "./MainTransactionDetailsComponent";
 import MainTransactionFilterForm from "./MainTransactionFilterForm";
 import { useSelector } from "react-redux";
-import { deleteTransaction, setTransactions, TransactionData } from "../../redux/transactionSlice";
+import { deleteTransaction, setTransactions, TransactionData } from "../../../redux/transactionSlice";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch } from "../../../redux/store";
+import toast from "react-hot-toast";
 
 const MainTransactionsComponent = () => {
 
@@ -58,7 +59,14 @@ const MainTransactionsComponent = () => {
     }
 
     const handleDelete = () => {
-        dispatch(deleteTransaction(selectedTransaction.transactionID));
+        try {
+            dispatch(deleteTransaction(selectedTransaction.transactionID));
+            toast.success("Transaction deleted successfully.")
+            handleTransactionDetails();
+        } catch (error) {
+            toast.error("Error while deleting transaction.");
+            console.log("Error occured while deleting transaction ", error);
+        }
     }
 
     return (

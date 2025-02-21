@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AiOutlineExport } from "react-icons/ai";
 import { VscDebugDisconnect } from "react-icons/vsc";
-import SwitchButton from "../main/mainComponents/SwitchButton";
+import SwitchButton from "../../main/mainComponents/SwitchButton";
 
 interface OtherIntegrationCardComponentProps {
     logo: React.ReactNode,
@@ -30,14 +30,14 @@ const OtherIntegrationCardComponent: React.FC<OtherIntegrationCardComponentProps
                     <AiOutlineExport />
                 </div>
             </div>
-            <div className="font-bold">
+            <div className="">
                 {name}
             </div>
             <div className=" mb-2 text-[#666D80] text-[12px]">
                 {about}
             </div>
             <div className="flex justify-between mt-auto">
-                <button className="flex gap-2 items-center text-[12px] font-bold border-[#DFE1E7] border-2 px-3 py-1 rounded-lg"><VscDebugDisconnect /> Connect</button>
+                <button className="flex gap-2 items-center text-[12px] border-[#DFE1E7] border-2 px-3 py-1 rounded-lg"><VscDebugDisconnect /> Connect</button>
                 <SwitchButton isOn={checked} handleToggle={handleChange} />
             </div>
         </div>

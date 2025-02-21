@@ -5,9 +5,10 @@ import { RiLockPasswordLine, RiUser6Line, RiUserAddFill } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { sendEmail, signUp } from "../../redux/userSlice";
+import { sendEmail, signUp, UserData } from "../../redux/userSlice";
 import toast from "react-hot-toast";
 import { AppDispatch } from "../../redux/store";
+import { addUserPreference, UserPreferenceData } from "../../redux/userPreferenceSlice";
 
 interface SignUpFormData {
     userName: string;
@@ -29,7 +30,8 @@ const SignUpForm = () => {
 
     const onSubmit: SubmitHandler<SignUpFormData> = async (data: SignUpFormData) => {
         try {
-            const response = await dispatch(signUp(data));
+            const response = await dispatch(signUp(data as UserData));
+            await dispatch(addUserPreference({ userID: response?.data.user.userID } as UserPreferenceData));
             if (response?.status === 200) {
                 toast.error(response.data.msg);
             }

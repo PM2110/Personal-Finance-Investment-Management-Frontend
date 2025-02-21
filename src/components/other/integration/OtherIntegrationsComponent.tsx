@@ -24,7 +24,7 @@ const OtherIntegrationsComponent = () => {
     return (
         <div className="w-full flex flex-col gap-4 overflow-y-hidden">
             <div className="flex flex-col lg:flex-row sm:gap-4 justify-between">
-                <div className="w-fit flex gap-2 bg-[#ECEFF3] p-1 rounded-lg text-[#666D80] text-[14px] font-bold">
+                <div className="w-fit flex gap-2 bg-[#ECEFF3] p-1 rounded-lg text-[#666D80] text-[14px]">
                     <button onClick={() => setSelected(1)} className={`${selected === 1 ? "bg-white rounded-lg px-5 py-2 text-black" : "px-5 py-2"}`}>All Apps</button>
                     <button onClick={() => setSelected(2)} className={`${selected === 2 ? "bg-white rounded-lg px-5 py-2 text-black" : "px-5 py-2"}`}>Connected</button>
                     <button onClick={() => setSelected(3)} className={`${selected === 3 ? "bg-white rounded-lg px-5 py-2 text-black" : "px-5 py-2"}`}>Disconnected</button>

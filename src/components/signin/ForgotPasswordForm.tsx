@@ -15,7 +15,7 @@ const ForgotPasswordForm = () => {
     });
 
     const onSubmit: SubmitHandler<ForgotPasswordFormData> = (data) => {
-        console.log(data);
+        // console.log(data);
         reset();
     };
 

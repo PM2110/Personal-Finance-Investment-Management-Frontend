@@ -1,3 +1,4 @@
+import { FamilyMember } from "../../redux/familySlice";
 import APIMethods from "../APIMethods";
 import FamilyEndpoints from "../endpoints/FamilyEndpoints";
 
@@ -12,6 +13,10 @@ interface FamilyData {
 const FamilyAPIManager = {
     addFamily: (data: FamilyData) => {
         const url = FamilyEndpoints.addFamily();
+        return APIMethods.post(url, data);
+    },
+    addFamilyMember: (data: { memberEmail: string, familyMember: FamilyMember }) => {
+        const url = FamilyEndpoints.addFamilyMember();
         return APIMethods.post(url, data);
     },
     getAllFamily: (userID: number) => {

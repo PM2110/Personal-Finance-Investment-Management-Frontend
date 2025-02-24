@@ -4,14 +4,15 @@ import { RiArrowRightSLine } from "react-icons/ri";
 
 interface MainFamilyCardComponentProps {
     family: FamilyData
+    setSelectedFamily: (family: FamilyData) => void,
 }
 
-const MainFamilyCardComponent: React.FC<MainFamilyCardComponentProps> = ({ family }) => {
+const MainFamilyCardComponent: React.FC<MainFamilyCardComponentProps> = ({ family, setSelectedFamily }) => {
 
     const familyMembers = family.familyMembers.trim().split(" ");
 
     return (
-        <div className="flex items-center justify-between border-[#DFE1E7] border-2 p-2 rounded-xl">
+        <div onClick={() => setSelectedFamily(family)} className="flex items-center justify-between border-[#DFE1E7] border-2 p-2 rounded-xl">
             <div className="flex items-center gap-3">
                 <BiUser className="text-[18px]"/>
                 <div className="flex flex-col justify-between">

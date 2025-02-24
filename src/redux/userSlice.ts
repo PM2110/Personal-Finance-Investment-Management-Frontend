@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import UserAPIManager from '../api/apiManager/UserAPIManager';
+import NewsAPIManager from '../api/apiManager/NewsAPIManager';
 
 interface UserState {
     isLoading: boolean;
@@ -57,6 +58,15 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
+
+export const fetchNews = (newsType: string) => async() => {
+    try {
+        const response = await NewsAPIManager.getNews(newsType);
+        return response.data.news;
+    } catch (error) {
+        console.log("Error while fetching news ", error);
+    }
+}
 
 export const sendEmail = (data: EmailData) => async() => {
     try {

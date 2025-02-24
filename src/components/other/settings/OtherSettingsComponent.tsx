@@ -11,7 +11,6 @@ const OtherSettingsComponent = () => {
     const [selected, setSelected] = useState(1);
     const user = useSelector((state) => state.user.data);
     const userPreference = useSelector((state) => state.userPreference.data);
-    console.log(userPreference, user);
 
     const getForm = () => {
         switch (selected) {

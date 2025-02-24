@@ -3,6 +3,7 @@ import { FiTrendingDown, FiTrendingUp } from "react-icons/fi";
 import { LuSettings } from "react-icons/lu";
 import { PiMoneyFill } from "react-icons/pi";
 import { RiArrowLeftDownLine, RiArrowRightUpLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
 interface DashboardBalanceCardComponentProps {
     balanceNumber: string,
@@ -13,6 +14,9 @@ interface DashboardBalanceCardComponentProps {
 }
 
 const DashboardBalanceCardComponent: React.FC<DashboardBalanceCardComponentProps> = ({ balanceNumber, balance, flag, currency, growth }) => {
+
+    const navigate = useNavigate();
+    
     return (
         <div className="flex flex-col gap-4 border-[#DFE1E7] border-2 rounded-xl text-[14px] p-3">
             <div className="flex justify-between items-center">
@@ -44,7 +48,7 @@ const DashboardBalanceCardComponent: React.FC<DashboardBalanceCardComponentProps
                 </div>
             </div>
             <div className="flex gap-4">
-                <button className="flex gap-2 justify-center items-center bg-black text-white w-full border-[#DFE1E7] border-2 rounded-lg py-2  hover:cursor-pointer">
+                <button onClick={() => navigate('/sendMoney')} className="flex gap-2 justify-center items-center bg-black text-white w-full border-[#DFE1E7] border-2 rounded-lg py-2  hover:cursor-pointer">
                     <RiArrowRightUpLine className=" text-[17px]"/>
                     Send 
                 </button>

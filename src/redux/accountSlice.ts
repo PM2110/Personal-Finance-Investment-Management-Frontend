@@ -33,7 +33,6 @@ const accountSlice = createSlice({
     initialState,
     reducers: {
         addAccountState: (state, action: PayloadAction<AccountData>) => {
-            console.log(action.payload);
             state.data?.push(action.payload);
         },
         updateAccountState: (state, action: PayloadAction<AccountData>) => {

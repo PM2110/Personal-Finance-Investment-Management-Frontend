@@ -37,6 +37,7 @@ const SignInForm = () => {
             const response = await dispatch(signIn(data as unknown as UserData));
             dispatch(fetchUserPreference(response?.data.user.userID));
             if(response.data.user){
+                localStorage.setItem('token', response?.data.token);
                 toast.success("Successfull signin");
                 navigate("/");
             }

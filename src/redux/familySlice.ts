@@ -15,6 +15,12 @@ export interface FamilyData {
     createdAt: Date,
 }
 
+export interface FamilyMember {
+    familyID: number,
+    relationType: string,
+    relationWith: string,
+}
+
 const initialState: FamilyState = {
     isLoading: false,
     isError: false,
@@ -80,6 +86,18 @@ export const addFamily = (data: FamilyData) => async (dispatch) => {
         return response;
     } catch (error) {
         console.log("Error while adding family ", error);
+    }
+}
+
+export const addMember = (data: { memberEmail: string, familyMember: FamilyMember }) => async (dispatch) => {
+    try {
+        const response = await FamilyAPIManager.addFamilyMember(data);
+        if(response.data.family){
+            dispatch(updateFamilyState(response.data.family));
+        }
+        return response;
+    } catch (error) {
+        console.log("Error while adding new member ", error);
     }
 }
 

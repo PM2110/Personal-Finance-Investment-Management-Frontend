@@ -1,13 +1,8 @@
 import { FaUserCircle } from "react-icons/fa";
 import { IoAddOutline } from "react-icons/io5";
 import { RiArrowRightSLine, RiBankFill, RiSearchLine } from "react-icons/ri";
-import { useSelector } from "react-redux";
 
 const MainRecipientsComponent = () => {
-
-    const accounts = useSelector((state) => state?.account?.data);
-    console.log(accounts);
-
     return (
         <div className="flex w-full flex-col gap-3 sm:gap-4 md:gap-5 lg:gap-6">
             <div className="flex gap-3 items-center text-[14px]">

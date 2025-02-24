@@ -27,7 +27,6 @@ const initialState: TransactionState = {
 
 export const setTransactions = createAsyncThunk('setTransactions', async (userName: string) => {
         const response = await TransactionAPIManager.getAllTransaction(userName);
-        console.log(response);
         return response.data.transactions;
     }
 );
@@ -50,7 +49,6 @@ const transactionSlice = createSlice({
         deleteTransactionState: (state, action: PayloadAction<string>) => {
             if(state.data.length === 1){
                 state.data = [];
-                console.log("hello");
             }
             else {
                 state.data = state.data?.filter((transaction) => transaction.transactionID === action.payload);
@@ -64,7 +62,6 @@ const transactionSlice = createSlice({
                 state.isError = false;
             })
             .addCase(setTransactions.fulfilled, (state, action: PayloadAction<TransactionData[]>) => {
-                console.log("Fulfilled ", action.payload);
                 state.isLoading = false;
                 state.data = action.payload;
             })
@@ -81,7 +78,6 @@ export default transactionSlice.reducer;
 export const addTransaction = (data: TransactionData) => async (dispatch) => {
     try {
         const response = await TransactionAPIManager.addTransaction(data);
-        console.log(response);
         if (response.status === 201) {
             dispatch(addTransactionState(response.data.transaction));
         }

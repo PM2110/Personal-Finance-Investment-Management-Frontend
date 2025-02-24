@@ -7,11 +7,14 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import { FamilyData, setFamily } from "../../../redux/familySlice";
 import MainFamilyCardComponent from "./MainFamilyCardComponent";
+import MainFamilyDetailsComponent from "./MainFamilyDetailsComponent";
 
 const MainFamilyComponent = () => {
 
     const dispatch = useDispatch<AppDispatch>();
     const [visibleFamilyAddMembers, setVisibleFamilyAddMembers] = useState(false);
+    const [visibleFamilyDetails, setVisibleFamilyDetails] = useState(false);
+    const [selectedFamily, setSelectedFamily] = useState<FamilyData>();
     const families = useSelector((state) => state.family.data);
     const { userID } = useSelector((state) => state.user.data);
 
@@ -22,10 +25,14 @@ const MainFamilyComponent = () => {
     const handleFamilyAddMembers: () => void = () => {
         setVisibleFamilyAddMembers(!visibleFamilyAddMembers);
     }
+
+    const handleFamilyDetails: () => void = () => {
+        setVisibleFamilyDetails(!visibleFamilyDetails);
+    }
     
     return (
-        <div className="flex w-full flex-col gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-            <div className="flex gap-3 items-center justify-between text-[14px]">
+        <div className="flex w-full h-full flex-col gap-3 sm:gap-4 md:gap-5 lg:gap-6">
+            <div className="flex flex-col w-full items-start lg:flex-row gap-3 justify-between lg:items-center text-[14px]">
                 <div className="flex gap-2 items-center text-[#666D80] border-[#DFE1E7] border-2 px-3 py-2 rounded-lg">
                     <RiSearchLine className="text-[16px]"/>
                     <input className="focus:outline-none" placeholder="Search"/>
@@ -38,14 +45,17 @@ const MainFamilyComponent = () => {
             <div className="flex flex-col gap-3">
             {families && families.length !== 0
              ? families.map((family: FamilyData, index: number) => (
-                    <MainFamilyCardComponent key={index} family={family} />
+                    <div key={index} onClick={handleFamilyDetails}>
+                        <MainFamilyCardComponent key={index} family={family} setSelectedFamily={setSelectedFamily} />
+                    </div>
              )) 
              : "No families found."}
             </div>
-            {(visibleFamilyAddMembers) && (
+            {(visibleFamilyAddMembers || visibleFamilyDetails) && (
                 <div className="fixed inset-0 bg-black/70 z-10"></div>
             )}
             <MainFamilyAddMemberForm isVisible={visibleFamilyAddMembers} onClose={handleFamilyAddMembers}/>
+            <MainFamilyDetailsComponent isVisible={visibleFamilyDetails} onClose={handleFamilyDetails} family={selectedFamily} />
         </div>
     );
 }

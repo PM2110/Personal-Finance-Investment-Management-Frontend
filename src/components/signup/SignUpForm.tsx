@@ -31,7 +31,6 @@ const SignUpForm = () => {
     const onSubmit: SubmitHandler<SignUpFormData> = async (data: SignUpFormData) => {
         try {
             const response = await dispatch(signUp(data as UserData));
-            await dispatch(addUserPreference({ userID: response?.data.user.userID } as UserPreferenceData));
             if (response?.status === 200) {
                 toast.error(response.data.msg);
             }
@@ -41,14 +40,17 @@ const SignUpForm = () => {
                     subject: "Email Verification",
                     text: `${<button>Click to verify</button>}`
                 }
+                localStorage.setItem('token', response.data.token);
+                await dispatch(addUserPreference({ userID: response?.data.user.userID } as UserPreferenceData));
                 dispatch(sendEmail(email));
                 reset();
                 setSatisfied(0);
                 toast.success("Successfull signup");
                 navigate("/verifyEmail");
             }
-        } catch {
+        } catch (error) {
             toast.error("Error while signing up");
+            console.log("Error while signing up ", error);
         }
     };
 

@@ -6,6 +6,7 @@ import MainDashboardExchangeForm from "../main/dashboard/MainDashboardExchangeFo
 import MainFamilyAddForm from "../main/family/MainFamilyAddForm";
 import MainTransactionAddForm from "../main/transaction/MainTransactionAddForm";
 import MainRecipientsAddAccountForm from "../main/recipient/MainRecipientsAddAccountForm";
+import { useSelector } from "react-redux";
 
 interface HeaderHomeComponentProps {
     selected: number,
@@ -14,6 +15,7 @@ interface HeaderHomeComponentProps {
 const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) => {
 
     const navigate: (path :string) => void = useNavigate();
+    const { userName } = useSelector((state) => state.user.data);
     const [visibleBalanceAddForm, setVisibleBalanceAddForm] = useState(false);
     const [visibleDashboardExchangeForm, setVisibleDashboardExchangeForm] = useState(false);
     const [visibleFamilyAddForm, setVisibleFamilyAddForm] = useState(false);
@@ -64,7 +66,7 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
     const getHeaderData = () => {
         switch (selected){
             case 1:
-                return "Welcome back, Manan Patel!"
+                return `Welcome back, ${userName}!`
             case 2:
                 return "Effortlessly manage and monitor your financial resources with ease"
             case 3:

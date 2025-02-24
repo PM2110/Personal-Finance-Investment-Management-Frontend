@@ -7,6 +7,7 @@ import DashboardSpendingCardComponent from "../mainComponents/DashboardSpendingC
 import DashboardTransactionCardComponent from "../mainComponents/DashboardTransactionCardComponent";
 import { GoCreditCard } from "react-icons/go";
 import { LuSettings } from "react-icons/lu";
+import DashboardNewsCardComponent from "../mainComponents/DashboardNewsCardComponent";
 
 const MainDashboardComponent = () => {
     const [selected, setSelected] = useState(1);
@@ -30,7 +31,7 @@ const MainDashboardComponent = () => {
             <div className="flex flex-col lg:grid lg:grid-cols-2 xl:grid-cols-3 gap-4 h-auto w-full">
                 <DashboardBalanceCardComponent growth={true} balance={21031011} balanceNumber="My Balance" flag={<US className="rounded-full"/>} currency="United States Dollar (USD)" />
                 <DashboardSpendingCardComponent />
-                <div className="border-[#DFE1E7] border-2 h-full rounded-xl">Grid 3</div>
+                <DashboardNewsCardComponent />
                 <DashboardTransactionCardComponent />
                 <div className="flex flex-col gap-2 border-[#DFE1E7] col-span-1 sm:col-span-2 lg:col-span-2 border-2 rounded-xl h-full p-2">
                     <div className="flex h-auto justify-between text-[14px]">

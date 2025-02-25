@@ -33,7 +33,7 @@ const MainDashboardComponent = ({ setPage }) => {
                 </div>
             </div>
             <div className="flex flex-col lg:grid lg:grid-cols-2 xl:grid-cols-3 gap-4 h-auto w-full">
-                <DashboardBalanceCardComponent growth={true} balance={21031011} balanceNumber="My Balance" flag={<US className="rounded-full"/>} currency="United States Dollar (USD)" />
+                <DashboardBalanceCardComponent />
                 <DashboardSpendingCardComponent />
                 <DashboardNewsCardComponent />
                 <DashboardTransactionCardComponent setPage={setPage} />

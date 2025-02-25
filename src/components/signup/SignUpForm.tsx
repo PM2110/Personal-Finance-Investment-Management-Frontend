@@ -42,7 +42,7 @@ const SignUpForm = () => {
                       <div style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 20px; border-radius: 8px; text-align: center;">
                           <h2 style="color: #333; font-size: 24px;">Welcome to PFIM!</h2>
                           <p style="font-size: 16px; color: #666;">Thank you for creating an account with us. Please verify your email address by clicking the button below.</p>
-                          <a href="http://localhost:5173/emailVerified" style="display: inline-block; padding: 12px 20px; font-size: 16px; color: white; background-color: #40C4AA; text-decoration: none; border-radius: 5px; font-weight: bold;">Verify Your Email</a>
+                          <a href="http://192.168.24.22:5173/emailVerified" style="display: inline-block; padding: 12px 20px; font-size: 16px; color: white; background-color: #40C4AA; text-decoration: none; border-radius: 5px; font-weight: bold;">Verify Your Email</a>
                           <p style="font-size: 14px; color: #999; margin-top: 20px;">If you didn't create an account, please ignore this email.</p>
                       </div>
                     `,
@@ -101,7 +101,7 @@ const SignUpForm = () => {
                 </div>
             </div>
             <div className="flex flex-col items-center gap-[1px]">
-                <div className="font-bold text-[20px] sm:text-[20px]">
+                <div className=" text-[20px] sm:text-[20px]">
                     Create a new account
                 </div>
                 <div className="text-[#666D80] text-[14px] sm:text-[14px]">
@@ -176,7 +176,7 @@ const SignUpForm = () => {
 
                 <button
                     type="submit"
-                    className={`w-full rounded-lg text-white py-2 font-bold border-2 text-[16px] mt-1 ${isFormValid
+                    className={`w-full rounded-lg text-white py-2  border-2 text-[16px] mt-1 ${isFormValid
                         ? "bg-black hover:bg-white hover:text-black border-black"
                         : "bg-[#666D80] border-[#666D80] cursor-not-allowed"
                         }`}

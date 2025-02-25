@@ -26,7 +26,7 @@ const DashboardNewsCardComponent = () => {
     }, [newsType]);
 
     if(!news || news.length === 0){
-        return (<div className="border-[#DFE1E7] border-2 rounded-xl flex items-center justify-center">No News Found.</div>)
+        return (<div className="flex items-center justify-center text-[#666D80] border-[#DFE1E7] border-2 rounded-xl">No News Found.</div>)
     }
 
     return (

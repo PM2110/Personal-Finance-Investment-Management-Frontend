@@ -39,6 +39,10 @@ const MainBalanceComponent = () => {
         setVisibleMainBalanceDetails(!visibleMainBalanceDetails);
     }
 
+    if(!balanceList || balanceList.length === 0){
+        return (<div className="h-full flex items-center justify-center text-[#666D80]">No Balance Found.</div>);
+    }
+
     return (
         <div className="w-full flex flex-col gap-4 overflow-y-hidden">
             <div className="flex flex-col lg:flex-row sm:gap-4 justify-between">

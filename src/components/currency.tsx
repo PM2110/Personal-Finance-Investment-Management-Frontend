@@ -28,3 +28,14 @@ export const getCurrency: (currency: string) => React.ReactNode = (currency: str
             return <BiDollar />
     }
 }
+
+export const category = [
+    {key: "houseHold", value: "House Hold"},
+    {key: "homeImprovement", value: "Home Improvement"},
+    {key: "foodDrink", value: "Food & Drink"},
+    {key: "transport", value: "Transport"},
+    {key: "shopping", value: "Shopping"},
+    {key: "leisure", value: "Leisure"},
+    {key: "healthBeauty", value: "Health & Beauty"},
+    {key: "other", value: "Other"},
+]

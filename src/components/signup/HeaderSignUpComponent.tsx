@@ -6,7 +6,7 @@ const HeaderSignUpComponent = () => {
             <img src="/Logo.png" alt="Logo" className="w-[40px] h-auto" />
             <div className="flex gap-[8px] items-center text-[12px]">
                 <div className="text-[#666D80]">Already have an account?</div>
-                <Link to={"/signIn"} className="underline font-bold">Login</Link>
+                <Link to={"/signIn"} className="underline ">Login</Link>
             </div>
         </div>
     );

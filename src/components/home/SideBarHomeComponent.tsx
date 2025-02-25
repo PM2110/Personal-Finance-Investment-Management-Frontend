@@ -4,7 +4,7 @@ import { FiHome } from "react-icons/fi";
 import { GrTransaction } from "react-icons/gr";
 import { IoMdLink } from "react-icons/io";
 import { LuSettings } from "react-icons/lu";
-import { MdOutlineFamilyRestroom, MdOutlineHelpOutline } from "react-icons/md";
+import { MdAccountBalance, MdOutlineFamilyRestroom, MdOutlineHelpOutline } from "react-icons/md";
 import { PiMoneyFill } from "react-icons/pi";
 import { RiArrowLeftSLine, RiArrowRightSLine, RiCloseLine, RiTeamLine } from "react-icons/ri";
 import { TfiHeadphoneAlt } from "react-icons/tfi";
@@ -53,7 +53,7 @@ const SideBarHomeComponent: React.FC<SideBarSendMoneyComponentProps> = ({ select
                     </button>
                     <button onClick={() => setSelected(2)} className={`flex gap-3 items-center ${selected === 2 || selected === 2.1 ? "border-[#DFE1E7] border-[2px] rounded-lg bg-white text-black" : "border-[#F6F8FA] border-[2px]"} px-2 py-[6px]`}>
                         <PiMoneyFill className="text-[16px]" />
-                        {open && "Balance"}
+                        {open && "Budget"}
                     </button>
                     <button onClick={() => setSelected(3)} className={`flex gap-3 items-center ${selected === 3 || selected === 3.1 ? "border-[#DFE1E7] border-[2px] rounded-lg bg-white text-black" : "border-[#F6F8FA] border-[2px]"} px-2 py-[6px]`}>
                         <MdOutlineFamilyRestroom className="text-[16px]" />
@@ -64,8 +64,8 @@ const SideBarHomeComponent: React.FC<SideBarSendMoneyComponentProps> = ({ select
                         {open && "Transactions"}
                     </button>
                     <button onClick={() => setSelected(5)} className={`flex gap-3 items-center ${selected === 5 ? "border-[#DFE1E7] border-[2px] rounded-lg bg-white text-black" : "border-[#F6F8FA] border-[2px]"} px-2 py-[6px]`}>
-                        <RiTeamLine className="text-[16px]" />
-                        {open && "Recipients"}
+                        <MdAccountBalance className="text-[16px]" />
+                        {open && "Accounts"}
                     </button>
                 </div>
             </div>

@@ -15,7 +15,7 @@ interface HeaderHomeComponentProps {
 const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) => {
 
     const navigate: (path :string) => void = useNavigate();
-    const { userName } = useSelector((state) => state.user.data);
+    const { userName } = useSelector((state) => state?.user?.data);
     const [visibleBalanceAddForm, setVisibleBalanceAddForm] = useState(false);
     const [visibleDashboardExchangeForm, setVisibleDashboardExchangeForm] = useState(false);
     const [visibleFamilyAddForm, setVisibleFamilyAddForm] = useState(false);
@@ -47,7 +47,7 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
             case 1:
                 return "Your Financial Dashboard"
             case 2:
-                return "My Balance"
+                return "My Budget"
             case 3:
                 return "My Family"
             case 4:
@@ -89,7 +89,7 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
             case 1:
                 return <button onClick={handleDashboardExchangeForm} className="text-[13px]  border-[#DFE1E7] border-2 px-3 py-2 rounded-lg hover:bg-black hover:border-black hover:text-white hover:cursor-pointer">Exchange Rate</button>
             case 2:
-                return <button onClick={handleBalanceAddForm} className="text-[13px]  bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Balance</button>
+                return <button onClick={handleBalanceAddForm} className="text-[13px]  bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Budget</button>
             case 3:
                 return <button onClick={handleFamilyAddForm} className="text-[13px]  bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Family</button>
             case 4:

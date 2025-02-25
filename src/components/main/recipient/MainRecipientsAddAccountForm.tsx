@@ -37,7 +37,7 @@ const MainRecipientsAddAccountForm: React.FC<MainRecipientsAddAccountFormProps> 
         <div className={`flex flex-col justify-between fixed top-0 right-0 h-full min-w-[300px] bg-white shadow-lg transform ${isVisible ? "translate-x-0" : "translate-x-full"} transition-transform duration-300 ease-in-out z-20`}>
             <div className="flex flex-col h-full gap-4">
                 <div className="flex flex-row items-center justify-between px-4 pt-4">
-                    <h2 className="text-[16px] ">Add New Transaction</h2>
+                    <h2 className="text-[16px] ">Add Account</h2>
                     <button onClick={onClose} className="border-[#DFE1E7] border-2 px-1 py-1 rounded-full">
                         <RiCloseLine />
                     </button>

@@ -77,6 +77,10 @@ const MainTransactionsComponent = () => {
         }
     }
 
+    if(!transactionsData || transactionsData.length === 0){
+        return (<div className="h-full flex items-center justify-center text-[#666D80]">No Transactions Found.</div>);
+    }
+
     return (
         <div className="flex w-full h-full flex-col gap-3 sm:gap-4 md:gap-5 lg:gap-6 mb-5">
             <div className="flex gap-3 items-center justify-between text-[14px]">

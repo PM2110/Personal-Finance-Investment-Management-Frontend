@@ -117,8 +117,8 @@ const SideBarHomeComponent: React.FC<SideBarSendMoneyComponentProps> = ({ select
                             </div>
                         )}
                     </div>
-                    <div className="bg-white border-2 border-[#DFE1E7] rounded-full p-[3px]">
-                        <RiArrowRightSLine className={`text-[18px] text-black transition-transform duration-300 ${open ? "" : "rotate-180"}`} />
+                    <div onClick={() => setSelected(7)} className="bg-white border-2 border-[#DFE1E7] rounded-full p-[3px]">
+                        <RiArrowRightSLine className={`text-[18px] text-black transition-transform duration-300 ${open ? "" : "rotate-180"} hover:cursor-pointer`} />
                     </div>
                 </div>
             </div>

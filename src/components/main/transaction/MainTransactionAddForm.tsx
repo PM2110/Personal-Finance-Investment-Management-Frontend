@@ -18,7 +18,7 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
     const dispatch = useDispatch<AppDispatch>();
     const { userName, userID } = useSelector((state) => state.user.data);
     const [transactionType, setTransactionType] = useState("Income");
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<TransactionData>();
+    const { register, handleSubmit, reset, formState: { errors }, watch } = useForm<TransactionData>();
     const balanceList = useSelector((state) => state.balance.data);
 
     const onSubmit: SubmitHandler<TransactionData> = async (data: TransactionData) => {
@@ -113,17 +113,16 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
                         </div>
                         <div className="flex flex-col gap-1">
                             <label>Currency</label>
-                            <select 
+                            {balanceList && balanceList.length !== 0 ? <select 
                                 className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none"
                                 {...register("currency")}
                             >
-                                {balanceList && balanceList.length !== 0
-                                 ? balanceList.map((balance: BalanceData, index: number) => (
+                                {balanceList.map((balance: BalanceData, index: number) => (
                                     <option key={index} value={balance.currency}>{balance.currency}</option>))
-                                 : "Add balance to add a transaction"}
-                            </select>
+                                }
+                            </select> : <div className="text-[#666D80] text-[13px]">You need to add balance first.</div> }
                         </div>
-                        <button className="mt-auto bg-black text-white text-[15px] w-full py-[6px]  border-black border-2 hover:cursor-pointer rounded-lg">
+                        <button disabled={watch("currency") ? false : true} className="mt-auto bg-black text-white text-[15px] w-full py-[6px] border-black border-2 hover:cursor-pointer disabled:hover:cursor-not-allowed disabled:bg-[#666D80] disabled:border-[#666D80] rounded-lg">
                             Add Transaction
                         </button>
                     </form>

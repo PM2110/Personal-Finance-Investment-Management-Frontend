@@ -20,8 +20,8 @@ const DashboardBalanceCardComponent = () => {
         setSelectedBalance(balance.filter((bal: BalanceData) => bal.balanceID === Number(e.target.value))[0]);
     }
 
-    if(!balance){
-        return (<div>No Balance Found.</div>)
+    if(!balance || balance.length === 0){
+        return (<div className="border-[#DFE1E7] border-2 rounded-xl items-center justify-center flex">No Balance Found.</div>)
     }
 
     return (
@@ -47,8 +47,8 @@ const DashboardBalanceCardComponent = () => {
                     {selectedBalance?.currency}
                 </div>
                 <div className="flex items-center justify-center gap-1 text-[22px]">
-                    {getCurrency(selectedBalance.currency)}
-                    {selectedBalance.income - selectedBalance.expense}
+                    {getCurrency(selectedBalance?.currency)}
+                    {selectedBalance?.income - selectedBalance?.expense}
                 </div>
                 <div className={`flex justify-between ${growth ? "bg-[#EFFEFA] text-[#28806F]" : "bg-[#feefef] text-[#802828]"} text-[13px] w-full px-4 py-2 rounded-b-xl`}>
                     15.43% Than last month

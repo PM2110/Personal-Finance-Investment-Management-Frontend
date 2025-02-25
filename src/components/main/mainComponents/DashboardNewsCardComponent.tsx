@@ -25,6 +25,10 @@ const DashboardNewsCardComponent = () => {
         dispatch(fetchNews(newsType)).then((news) => setNews(news));
     }, [newsType]);
 
+    if(!news || news.length === 0){
+        return (<div className="border-[#DFE1E7] border-2 rounded-xl flex items-center justify-center">No News Found.</div>)
+    }
+
     return (
         <div className="flex flex-col gap-2 border-[#DFE1E7] border-2 rounded-xl p-2 h-fit">
             <div className="flex flex-row justify-between text-[14px] text-[#666D80]">

@@ -1,4 +1,5 @@
 import { RiArrowUpDownFill, RiCloseLine } from "react-icons/ri";
+import { currencyList, getDiv } from "../../currency";
 
 interface MainExchangeFormProps {
     isVisible: boolean,
@@ -25,7 +26,10 @@ const MainDashboardExchangeForm: React.FC<MainExchangeFormProps> = ({ isVisible,
                         <button className="border-[#DFE1E7] border-2 rounded-full w-fit p-1 text-[#666D80]">
                             <RiArrowUpDownFill className="text-[20px]"/>
                         </button>
-                        <select className="w-full border-[#DFE1E7] border-2 rounded-lg p-2">
+                        <select className="w-full border-[#DFE1E7] text-[14px] border-2 rounded-lg p-2 focus:outline-none">
+                            {currencyList.map((currency, index) => (
+                                <option key={index} value={currency.value}>{currency.name}</option>
+                            ))}
                         </select>
                     </div>
                 </div>

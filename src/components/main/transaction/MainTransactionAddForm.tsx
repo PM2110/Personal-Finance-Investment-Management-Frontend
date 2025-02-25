@@ -6,6 +6,7 @@ import { AppDispatch } from "../../../redux/store";
 import toast from "react-hot-toast";
 import { addTransaction, TransactionData } from "../../../redux/transactionSlice";
 import { useSelector } from "react-redux";
+import { BalanceData, updateBalance } from "../../../redux/balanceSlice";
 
 interface MainTransactionAddFormProps {
     isVisible: boolean,
@@ -18,6 +19,7 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
     const { userName, userID } = useSelector((state) => state.user.data);
     const [transactionType, setTransactionType] = useState("Income");
     const { register, handleSubmit, reset, formState: { errors } } = useForm<TransactionData>();
+    const balanceList = useSelector((state) => state.balance.data);
 
     const onSubmit: SubmitHandler<TransactionData> = async (data: TransactionData) => {
         try {
@@ -27,8 +29,16 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
                 data.from = userName;
             }
             data.userID = userID;
+            const balance: BalanceData = balanceList.filter((balance: BalanceData) => balance.currency === data.currency)[0];
+            data.balanceID = balance.balanceID;
+            console.log(balance);
             const response = await dispatch(addTransaction(data));
             if (response?.data) {
+                if (transactionType === "Income"){
+                    await dispatch(updateBalance(balance.balanceID, { income: Number(balance.income) + Number(data.amount) } as BalanceData));
+                } else {
+                    await dispatch(updateBalance(balance.balanceID, { expense: Number(balance.expense) + Number(data.amount) } as BalanceData));
+                }
                 reset();
                 toast.success("Transaction added successfully.");
             }
@@ -103,11 +113,15 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
                         </div>
                         <div className="flex flex-col gap-1">
                             <label>Currency</label>
-                            <input 
+                            <select 
                                 className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none"
-                                placeholder="Enter currency..."
                                 {...register("currency")}
-                            />
+                            >
+                                {balanceList && balanceList.length !== 0
+                                 ? balanceList.map((balance: BalanceData, index: number) => (
+                                    <option key={index} value={balance.currency}>{balance.currency}</option>))
+                                 : "Add balance to add a transaction"}
+                            </select>
                         </div>
                         <button className="mt-auto bg-black text-white text-[15px] w-full py-[6px]  border-black border-2 hover:cursor-pointer rounded-lg">
                             Add Transaction

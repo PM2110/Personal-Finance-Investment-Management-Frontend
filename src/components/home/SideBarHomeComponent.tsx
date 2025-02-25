@@ -89,7 +89,7 @@ const SideBarHomeComponent: React.FC<SideBarSendMoneyComponentProps> = ({ select
                 </div>
             </div>
             <div className="mt-auto flex flex-col gap-6">
-                {visibleSupport ? <div className="flex flex-col gap-2 font-normal bg-white p-2 rounded-xl text-[11px]">
+                {visibleSupport && open ? <div className="flex flex-col gap-2 font-normal bg-white p-2 rounded-xl text-[11px]">
                     <div className="flex justify-between">
                         <div className="flex gap-2 items-center text-black">
                             <TfiHeadphoneAlt className="text-[12px]"/>

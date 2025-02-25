@@ -1,6 +1,7 @@
 import { FaUserCircle } from "react-icons/fa";
 import { RiCloseLine } from "react-icons/ri";
 import { TransactionData } from "../../../redux/transactionSlice";
+import { getCurrency } from "../../currency";
 
 interface MainTransactionDetailsComponentProps {
     isVisible: boolean,
@@ -24,8 +25,8 @@ const MainTransactionDetailsComponent: React.FC<MainTransactionDetailsComponentP
                     <div className="text-[#818898] text-[14px] bg-[#F6F8FA] py-1 px-4 w-full">
                         AMOUNT
                     </div>
-                    <div className="px-4 flex flex-col gap-4  text-[24px]">
-                        {transaction?.from === userName ? "-" : ""} {transaction?.currency} {transaction?.amount}
+                    <div className="px-4 flex flex-row items-center gap-1 text-[24px]">
+                        {transaction?.from === userName ? "-" : ""} {getCurrency(transaction?.currency)} {transaction?.amount}
                     </div>
                 </div>
                 <div className="flex flex-col gap-4">
@@ -74,7 +75,7 @@ const MainTransactionDetailsComponent: React.FC<MainTransactionDetailsComponentP
                                 Date & Time
                             </div>
                             <div className="">
-                                {transaction?.date}
+                                {new Date(transaction?.date).toLocaleString()}
                             </div>
                             <div className="bg-[#DFE1E7] h-[1px] mt-1"></div>
                         </div>
@@ -82,8 +83,8 @@ const MainTransactionDetailsComponent: React.FC<MainTransactionDetailsComponentP
                             <div className="text-[#818898]">
                                 Fees
                             </div>
-                            <div className="">
-                                {transaction?.currency} {transaction?.fees}
+                            <div className="flex flex-row items-center gap-1">
+                                {getCurrency(transaction?.currency)} {transaction?.fees}
                             </div>
                             <div className="bg-[#DFE1E7] h-[1px] mt-1"></div>
                         </div>

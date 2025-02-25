@@ -26,7 +26,7 @@ const DashboardNewsCardComponent = () => {
     }, [newsType]);
 
     return (
-        <div className="flex flex-col gap-3 border-[#DFE1E7] border-2 rounded-xl p-2">
+        <div className="flex flex-col gap-2 border-[#DFE1E7] border-2 rounded-xl p-2 h-fit">
             <div className="flex flex-row justify-between text-[14px] text-[#666D80]">
                 <label className="text-black">News</label>
                 <select className="border-[#DFE1E7] border-2 hover:cursor-pointer p-1 rounded-lg focus:outline-none" onChange={(e) => setNewsType(e.target.value)}>
@@ -37,7 +37,7 @@ const DashboardNewsCardComponent = () => {
                 </select>
             </div>
             {news && news.length != 0 ? news.slice(0, 3).map((data, index) => (
-                <div key={index} onClick={() => window.open(data.url, "_blank")} className="flex gap-1 md:gap-2 lg:gap-3 justify-between items-center text-[#666D80] text-[14px] border-[#DFE1E7] border-2 p-2 rounded-xl hover:cursor-pointer hover:bg-gray-50">
+                <div key={index} onClick={() => window.open(data.url, "_blank")} className="flex gap-1 md:gap-2 lg:gap-3 justify-between items-center text-[#666D80] text-[13px] border-[#DFE1E7] border-2 p-2 rounded-xl hover:cursor-pointer hover:bg-gray-50">
                     <div className="text-justify">
                         {data.headline}
                     </div>

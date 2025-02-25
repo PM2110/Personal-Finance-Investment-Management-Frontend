@@ -6,20 +6,27 @@ import SendMoneyPage from "./pages/SendMoneyPage";
 import HomePage from "./pages/HomePage";
 import EmailVerificationPage from "./pages/signup/EmailVerificationPage";
 import EmailVerifiedPage from "./pages/signup/EmailVerifiedPage";
+// import { useState } from "react";
+// import { AppContext } from "./AppContext";
 
 const App = () => {
+    // const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // const [isVerified, setIsVerified] = useState(false);
+    
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/signup" element={<SignUpPage />} />
-                <Route path="/verifyEmail" element={<EmailVerificationPage />} />
-                <Route path="/emailVerified" element={<EmailVerifiedPage />} />
-                <Route path="/signin" element={<SignInPage />} />
-                <Route path="/" element={<HomePage />} />
-                <Route path="/addAccount" element={<AddAccountPage />} />
-                <Route path="/sendMoney" element={<SendMoneyPage />} />
-            </Routes>
-        </BrowserRouter>
+        // <AppContext.Provider value={{ isLoggedIn, setIsLoggedIn, isVerified, setIsVerified }} >
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/signup" element={<SignUpPage />} />
+                    <Route path="/verifyEmail" element={<EmailVerificationPage />} />
+                    <Route path="/emailVerified" element={<EmailVerifiedPage />} />
+                    <Route path="/signin" element={<SignInPage />} />
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/addAccount" element={<AddAccountPage />} />
+                    <Route path="/sendMoney" element={<SendMoneyPage />} />
+                </Routes>
+            </BrowserRouter>
+        // </AppContext.Provider>
     );
 }
 

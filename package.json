@@ -18,6 +18,7 @@
     "country-flag-icons": "^1.5.16",
     "mailtrap": "^3.4.0",
     "react": "^19.0.0",
+    "react-circular-progressbar": "^2.2.0",
     "react-dom": "^19.0.0",
     "react-flags-select": "^2.2.3",
     "react-hook-form": "^7.54.2",

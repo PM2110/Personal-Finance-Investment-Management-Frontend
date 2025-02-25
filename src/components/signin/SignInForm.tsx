@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine, RiUserAddFill } from "react-icons/ri";
@@ -7,8 +7,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import { signIn, UserData } from "../../redux/userSlice";
+import { sendEmail, signIn, UserData } from "../../redux/userSlice";
 import { fetchUserPreference } from "../../redux/userPreferenceSlice";
+// import { AppContext } from "../../AppContext";
 
 interface SignInFormData {
     email: string;
@@ -19,6 +20,7 @@ interface SignInFormData {
 const SignInForm = () => {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
+    // const { setIsLoggedIn } = useContext(AppContext);
     const [visible, setVisible] = useState(false);
     const { register, handleSubmit, reset, formState: { errors }, watch } = useForm<SignInFormData>({
         defaultValues: {
@@ -35,11 +37,30 @@ const SignInForm = () => {
     const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
         try {
             const response = await dispatch(signIn(data as unknown as UserData));
-            dispatch(fetchUserPreference(response?.data.user.userID));
             if(response.data.user){
+                dispatch(fetchUserPreference(response?.data.user.userID));
                 localStorage.setItem('token', response?.data.token);
                 toast.success("Successfull signin");
-                navigate("/");
+                console.log("Hmm : ", response?.data.user.isVerified);
+                if(response?.data.user.isVerified){
+                    // setIsLoggedIn(true);
+                    navigate("/");
+                } else {
+                    const email = {
+                        to: response.data.user.email,
+                        subject: "Email Verification",
+                        html: `
+                          <div style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 20px; border-radius: 8px; text-align: center;">
+                              <h2 style="color: #333; font-size: 24px;">Welcome to PFIM!</h2>
+                              <p style="font-size: 16px; color: #666;">Thank you for creating an account with us. Please verify your email address by clicking the button below.</p>
+                              <a href="http://localhost:5173/emailVerified" style="display: inline-block; padding: 12px 20px; font-size: 16px; color: white; background-color: #40C4AA; text-decoration: none; border-radius: 5px; font-weight: bold;">Verify Your Email</a>
+                              <p style="font-size: 14px; color: #999; margin-top: 20px;">If you didn't create an account, please ignore this email.</p>
+                          </div>
+                        `,
+                    };
+                    dispatch(sendEmail(email));
+                    navigate("/verifyEmail");
+                }
             }
             else if(response.data.msg){
                 toast.error(response.data.msg);

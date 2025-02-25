@@ -1,7 +1,12 @@
 import { EU, SG, US } from "country-flag-icons/react/1x1";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RiFilter3Line } from "react-icons/ri";
 import MainBalanceCardComponent from "./MainBalanceCardComponent";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../redux/store";
+import { BalanceData, fetchBalance } from "../../../redux/balanceSlice";
+import MainBalanceDetailsComponent from "./MainBalanceDetailsComponent";
 
 interface BalanceDataType {
     balanceNumber: string,
@@ -18,13 +23,21 @@ interface MainBalanceComponent {
 
 const MainBalanceComponent = () => {
 
+    const dispatch = useDispatch<AppDispatch>();
     const [selected, setSelected] = useState(1);
+    const { userID } = useSelector((state) => state.user.data);
+    const balanceList = useSelector((state) => state.balance.data);
 
-    const balanceData: BalanceDataType[] = [
-        { balanceNumber: "First Balance", balance: 8475300, growth: true, flag: <US className="rounded-full" />, currency: "United States Dollar (USD)" },
-        { balanceNumber: "Second Balance", balance: 6732440, growth: false, flag: <SG className="rounded-full" />, currency: "Singapore Dollar (SGD)" },
-        { balanceNumber: "Third Balance", balance: 9833100, growth: true, flag: <EU className="rounded-full" />, currency: "Euro (EUR)" },
-    ]
+    const [selectedBalance, setSelectedBalance] = useState<BalanceData>();
+    const [visibleMainBalanceDetails, setVisibleMainBalanceDetails] = useState(false);
+
+    useEffect(() => {
+        dispatch(fetchBalance(userID));
+    }, [dispatch, userID])
+
+    const handleVisibleMainBalance: () => void = () => {
+        setVisibleMainBalanceDetails(!visibleMainBalanceDetails);
+    }
 
     return (
         <div className="w-full flex flex-col gap-4 overflow-y-hidden">
@@ -44,11 +57,15 @@ const MainBalanceComponent = () => {
             </div>
             <div className="max-h-full w-full overflow-y-auto p-2">
                 <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 lg:gap-6 xl:gap-7">
-                    {balanceData.map((balance, index) => (
-                        <MainBalanceCardComponent key={index} balanceNumber={balance.balanceNumber} balance={balance.balance} growth={balance.growth} flag={balance.flag} currency={balance.currency} />
+                    {balanceList.map((balance: BalanceData, index: number) => (
+                        <MainBalanceCardComponent key={index} balance={balance} setSelectedBalance={setSelectedBalance} handleVisible={handleVisibleMainBalance} />
                     ))}
                 </div>
             </div>
+            {(visibleMainBalanceDetails) && (
+                <div className="fixed inset-0 bg-black/70 z-10"></div>
+            )}
+            <MainBalanceDetailsComponent isVisible={visibleMainBalanceDetails} onClose={handleVisibleMainBalance} balance={selectedBalance}/>
         </div>
     );
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { RiArrowGoForwardLine, RiArrowRightSLine, RiFilter3Line, RiSearchLine } from "react-icons/ri";
+import { RiArrowGoForwardLine, RiArrowLeftSLine, RiArrowRightSLine, RiFilter3Line, RiSearchLine } from "react-icons/ri";
 import MainTransactionDetailsComponent from "./MainTransactionDetailsComponent";
 import MainTransactionFilterForm from "./MainTransactionFilterForm";
 import { useSelector } from "react-redux";
@@ -7,12 +7,14 @@ import { deleteTransaction, setTransactions, TransactionData } from "../../../re
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import toast from "react-hot-toast";
+import { BalanceData, updateBalance } from "../../../redux/balanceSlice";
 
 const MainTransactionsComponent = () => {
 
     const dispatch = useDispatch<AppDispatch>();
 
     const transactionsData = useSelector((state) => state.transaction.data);
+    const balanceData = useSelector((state) => state.balance.data);
     const { userName } = useSelector((state) => state.user.data);
     const [selected, setSelected] = useState(1);
     const [visibleTransactionDetails, setVisibleTransactionDetails] = useState(false);
@@ -61,6 +63,12 @@ const MainTransactionsComponent = () => {
     const handleDelete = () => {
         try {
             dispatch(deleteTransaction(selectedTransaction.transactionID));
+            const balance: BalanceData = balanceData.filter((balance: BalanceData) => balance.currency === selectedTransaction?.currency)[0];
+            if(selectedTransaction?.from === userName){
+                dispatch(updateBalance(balance.balanceID, { expense: Number(balance.expense) + Number(selectedTransaction.amount) } as BalanceData));
+            } else {
+                dispatch(updateBalance(balance.balanceID, { income: Number(balance.income) - Number(selectedTransaction.amount) } as BalanceData));
+            }
             toast.success("Transaction deleted successfully.")
             handleTransactionDetails();
         } catch (error) {
@@ -78,7 +86,7 @@ const MainTransactionsComponent = () => {
                 </div>
                 <button className="flex items-center gap-2 text-[13px]  border-[#DFE1E7] border-2 px-3 py-2 rounded-lg hover:bg-black hover:border-black hover:text-white hover:cursor-pointer"><RiArrowGoForwardLine className="text-[14px]" /> Export</button>
             </div>
-            <div className="flex flex-col border-[#DFE1E7] border-2 rounded-xl h-auto p-3">
+            <div className="flex flex-col border-[#DFE1E7] border-2 rounded-xl h-full p-3">
                 <div className="flex flex-col gap-2 lg:flex-row justify-between lg:items-center">
                     <div className="w-fit flex gap-2 bg-[#ECEFF3] p-1 rounded-lg text-[#666D80] text-[14px] ">
                         <button onClick={() => setSelected(1)} className={`${selected === 1 ? "bg-white rounded-lg px-10 py-2 text-black" : "px-10 py-2"}`}>All</button>
@@ -115,7 +123,7 @@ const MainTransactionsComponent = () => {
                                             <td className="p-3 w-[27.5%]">{transaction.to === userName ? transaction.from : transaction.to}</td>
                                             <td className="p-3 w-[20%]">{transaction.currency} {Number(transaction.amount).toFixed(2)}</td>
                                             <td className="p-3 w-[20%]">{transaction.category}</td>
-                                            <td className="p-3 w-[27.5%]">{transaction.date}</td>
+                                            <td className="p-3 w-[27.5%]">{new Date(transaction.date).toLocaleString()}</td>
                                             <td className="p-3 w-[5%]"><RiArrowRightSLine onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="text-[22px] text-black"/></td>
                                         </tr>
                                     ))}
@@ -140,36 +148,36 @@ const MainTransactionsComponent = () => {
                                 </tbody>
                             </table>
                         </div>
-                        <div className="flex h-[15%] justify-between items-center mt-5">
-                            <div className="flex items-center gap-2">
+                        <div className="flex flex-row h-[15%] justify-between items-center mt-5">
+                            <div className="flex flex-row justify-end w-[55%] items-center gap-3 text-[13px]">
+                                <button
+                                    disabled={currentPage === 1}
+                                    onClick={() => setCurrentPage(currentPage - 1)}
+                                    className="border-[#DFE1E7] border-2 p-1 rounded-full disabled:opacity-50"
+                                >
+                                    <RiArrowLeftSLine className="text-[18px] text-black"/>
+                                </button>
+                                <span>{currentPage}</span>
+                                <button
+                                    disabled={currentPage * itemsPerPage >= transaction.length}
+                                    onClick={() => setCurrentPage(currentPage + 1)}
+                                    className=" border-[#DFE1E7] border-2 p-1 rounded-full disabled:opacity-50"
+                                >
+                                    <RiArrowRightSLine className="text-[18px] text-black"/>
+                                </button>
+                            </div>
+                            <div className="flex flex-row justify-end items-center gap-2 text-[13px] w-[45%]">
                                 <span>Show</span>
                                 <select
                                     value={itemsPerPage}
                                     onChange={handleItemsPerPageChange}
-                                    className="border px-2 py-1 rounded"
+                                    className="border-[#DFE1E7] border px-2 py-1 rounded"
                                 >
                                     <option value="5">5</option>
                                     <option value="10">10</option>
                                     <option value="20">20</option>
                                 </select>
                                 <span>entries</span>
-                            </div>
-                            <div className="flex flex-row items-center gap-2">
-                                <button
-                                    disabled={currentPage === 1}
-                                    onClick={() => setCurrentPage(currentPage - 1)}
-                                    className="px-3 py-1 border rounded disabled:opacity-50"
-                                >
-                                    Prev
-                                </button>
-                                <span>Page {currentPage}</span>
-                                <button
-                                    disabled={currentPage * itemsPerPage >= transaction.length}
-                                    onClick={() => setCurrentPage(currentPage + 1)}
-                                    className="px-3 py-1 border rounded disabled:opacity-50"
-                                >
-                                    Next
-                                </button>
                             </div>
                         </div>
                     </div>

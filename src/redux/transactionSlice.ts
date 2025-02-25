@@ -10,6 +10,7 @@ interface TransactionState {
 export interface TransactionData {
     transactionID: string,
     userID: number,
+    balanceID: number,
     currency: string,
     fees: number,
     from: string,
@@ -51,7 +52,7 @@ const transactionSlice = createSlice({
                 state.data = [];
             }
             else {
-                state.data = state.data?.filter((transaction) => transaction.transactionID === action.payload);
+                state.data = state.data?.filter((transaction) => transaction.transactionID !== action.payload);
             }
         }
     },

@@ -2,8 +2,10 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import userReducer from './userSlice';
 import userPreferenceReducer from './userPreferenceSlice';
+import balanceReducer from './balanceSlice';
 import transactionReducer from './transactionSlice';
 import familyReducer from './familySlice';
+import accountReducer from './accountSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 const reducers = combineReducers({
@@ -11,6 +13,8 @@ const reducers = combineReducers({
     userPreference: userPreferenceReducer,
     family: familyReducer,
     transaction: transactionReducer,
+    balance: balanceReducer,
+    account: accountReducer,
 })
 
 const persistConfig = {

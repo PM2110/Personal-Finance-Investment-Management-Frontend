@@ -1,14 +1,7 @@
-import { FamilyMember } from "../../redux/familySlice";
+import { FamilyData, FamilyMember } from "../../redux/familySlice";
 import APIMethods from "../APIMethods";
 import FamilyEndpoints from "../endpoints/FamilyEndpoints";
 
-interface FamilyData {
-    familyID: number,
-    familyMembers: string,
-    familyName: string,
-    createdByID: number,
-    createdAt: Date,
-}
 
 const FamilyAPIManager = {
     addFamily: (data: FamilyData) => {

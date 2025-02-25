@@ -22,7 +22,7 @@ export interface UserData {
 interface EmailData {
     to: string,
     subject: string,
-    text: string,
+    html: string,
 }
 
 const initialState: UserState = {

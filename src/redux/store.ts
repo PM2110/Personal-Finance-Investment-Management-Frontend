@@ -2,7 +2,7 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import userReducer from './userSlice';
 import userPreferenceReducer from './userPreferenceSlice';
-import balanceReducer from './balanceSlice';
+import budgetReducer from './budgetSlice';
 import transactionReducer from './transactionSlice';
 import familyReducer from './familySlice';
 import accountReducer from './accountSlice';
@@ -13,7 +13,7 @@ const reducers = combineReducers({
     userPreference: userPreferenceReducer,
     family: familyReducer,
     transaction: transactionReducer,
-    balance: balanceReducer,
+    budget: budgetReducer,
     account: accountReducer,
 })
 

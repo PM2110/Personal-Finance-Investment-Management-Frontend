@@ -10,7 +10,7 @@ interface TransactionState {
 export interface TransactionData {
     transactionID: string,
     userID: number,
-    balanceID: number,
+    budgetID: number,
     currency: string,
     fees: number,
     from: string,

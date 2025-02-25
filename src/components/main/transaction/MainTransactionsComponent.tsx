@@ -7,7 +7,7 @@ import { deleteTransaction, setTransactions, TransactionData } from "../../../re
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import toast from "react-hot-toast";
-import { BalanceData, updateBalance } from "../../../redux/balanceSlice";
+import { BudgetData } from "../../../redux/budgetSlice";
 
 const MainTransactionsComponent = () => {
 
@@ -63,12 +63,6 @@ const MainTransactionsComponent = () => {
     const handleDelete = () => {
         try {
             dispatch(deleteTransaction(selectedTransaction.transactionID));
-            const balance: BalanceData = balanceData.filter((balance: BalanceData) => balance.currency === selectedTransaction?.currency)[0];
-            if(selectedTransaction?.from === userName){
-                dispatch(updateBalance(balance.balanceID, { expense: Number(balance.expense) + Number(selectedTransaction.amount) } as BalanceData));
-            } else {
-                dispatch(updateBalance(balance.balanceID, { income: Number(balance.income) - Number(selectedTransaction.amount) } as BalanceData));
-            }
             toast.success("Transaction deleted successfully.")
             handleTransactionDetails();
         } catch (error) {

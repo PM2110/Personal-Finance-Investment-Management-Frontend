@@ -3,7 +3,7 @@ import SideBarHomeComponent from "../components/home/SideBarHomeComponent";
 import HeaderHomeComponent from "../components/home/HeaderHomeComponent";
 import OtherIntegrationsComponent from "../components/other/integration/OtherIntegrationsComponent";
 import MainRecipientsComponent from "../components/main/recipient/MainRecipientsComponent";
-import MainBalanceComponent from "../components/main/balance/MainBalanceComponent";
+import MainBalanceComponent from "../components/main/budget/MainBudgetComponent";
 import OtherSettingsComponent from "../components/other/settings/OtherSettingsComponent";
 import MainDashboardComponent from "../components/main/dashboard/MainDashboardComponent";
 import MainFamilyComponent from "../components/main/family/MainFamilyComponent";

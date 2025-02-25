@@ -5,31 +5,34 @@ import toast from "react-hot-toast";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
-import { addBalance, BalanceData } from "../../../redux/balanceSlice";
+import { addBudget, BudgetData } from "../../../redux/budgetSlice";
 import { useSelector } from "react-redux";
 import { AccountData } from "../../../redux/accountSlice";
 
-interface MainBalanceAddFormProps {
+interface MainBudgetAddFormProps {
     isVisible: boolean,
     onClose: () => void
 }
 
-const MainBalanceAddForm: React.FC<MainBalanceAddFormProps> = ({ isVisible, onClose }) => {
+const MainBudgetAddForm: React.FC<MainBudgetAddFormProps> = ({ isVisible, onClose }) => {
 
     const dispatch = useDispatch<AppDispatch>();
 
     const { userID } = useSelector((state) => state.user.data);
-    const accounts = useSelector((state) => state.account.data);
-    console.log(accounts);
-    const [isChecked, setIsChecked] = useState(false);
+    const accounts: AccountData[] = useSelector((state) => state.account.data);
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<BalanceData>();
+    const [selectedAccount, setSelectedAccount] = useState(accounts.length !== 0 ? accounts[0].accountID : null);
 
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<BudgetData>();
 
-    const onSubmit: SubmitHandler<BalanceData> = async (data: BalanceData) => {
+    const onSubmit: SubmitHandler<BudgetData> = async (data: BudgetData) => {
         try {
             data.userID = userID;
-            const response = await dispatch(addBalance(data));
+            data.limit = Number(data.limit);
+            const account: AccountData = accounts.filter((account: AccountData) => account.accountID === selectedAccount)[0];
+            data.accountID = account.accountID;
+            data.currency = account.currency;
+            const response = await dispatch(addBudget(data));
             if(response?.status === 201){
                 toast.success("Budget added successfully.");
                 onClose();
@@ -56,11 +59,12 @@ const MainBalanceAddForm: React.FC<MainBalanceAddFormProps> = ({ isVisible, onCl
                         SELECT ACCOUNT
                     </div>
                     <div className="px-4 flex flex-col gap-4">
-                        <select className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 focus:outline-none text-[14px]">
-                            {accounts.map((account: AccountData, index: number) => (
-                                <option key={index} value={account.accountNumber}>{account.accountHolder} (Acc. No. : xxx{account.accountNumber.slice(account.accountNumber.length - 4, account.accountNumber.length)})</option>
-                            ))}
-                        </select>
+                        {accounts && accounts.length !== 0 ? 
+                            <select onChange={(e) => setSelectedAccount(Number(e.target.value))} className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 focus:outline-none text-[14px]">
+                                {accounts.map((account: AccountData, index: number) => (
+                                    <option key={index} value={account.accountID}>{account.accountHolder} (Acc. No. : xxx{account.accountNumber.slice(account.accountNumber.length - 4, account.accountNumber.length)})</option>
+                                ))}
+                            </select> : <div className="text-[#666D80] text-[13px]">Please add account first.</div>}
                     </div>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full gap-4">
@@ -71,7 +75,7 @@ const MainBalanceAddForm: React.FC<MainBalanceAddFormProps> = ({ isVisible, onCl
                         <label>Budget Category</label>
                         <select
                             className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 focus:outline-none"
-                            {...register("balanceName")}
+                            {...register("budgetCategory")}
                         >
                             {category.map((type, index: number) => (
                                 <option key={index} value={type.key}>{type.value}</option>
@@ -83,7 +87,7 @@ const MainBalanceAddForm: React.FC<MainBalanceAddFormProps> = ({ isVisible, onCl
                         <input
                             className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 focus:outline-none"
                             placeholder="Enter your limit..."
-                            {...register("currency")}
+                            {...register("limit")}
                         />
                     </div>
                     <div className="p-4 mt-auto">
@@ -97,4 +101,4 @@ const MainBalanceAddForm: React.FC<MainBalanceAddFormProps> = ({ isVisible, onCl
     );
 };
 
-export default MainBalanceAddForm;
+export default MainBudgetAddForm;

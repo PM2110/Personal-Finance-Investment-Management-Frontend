@@ -1,15 +1,15 @@
 import { RiCloseLine } from "react-icons/ri";
-import { BalanceData } from "../../../redux/balanceSlice";
+import { BudgetData } from "../../../redux/budgetSlice";
 import { getCurrency } from "../../currency";
 import { useSelector } from "react-redux";
 
-interface MainBalanceDetailsComponentProps {
+interface MainBudgetDetailsComponentProps {
     isVisible: boolean,
     onClose: () => void,
-    balance: BalanceData | null,
+    budget: BudgetData | null,
 }
 
-const MainBalanceDetailsComponent: React.FC<MainBalanceDetailsComponentProps> = ({ isVisible, onClose, balance }) => {
+const MainBudgetDetailsComponent: React.FC<MainBudgetDetailsComponentProps> = ({ isVisible, onClose, budget }) => {
     
     const transactions = useSelector((state) => state.transaction.data);
     
@@ -17,7 +17,7 @@ const MainBalanceDetailsComponent: React.FC<MainBalanceDetailsComponentProps> = 
         <div className={`flex flex-col justify-between fixed top-0 right-0 h-full w-[60%] bg-white shadow-lg transform ${isVisible ? "translate-x-0" : "translate-x-full"} transition-transform duration-300 ease-in-out z-20`}>
             <div className="flex flex-col gap-4 w-full">
                 <div className="flex flex-row w-full items-center justify-between px-4 pt-4">
-                    <h2 className="text-[16px] w-full">Balance: {balance?.balanceName} ({balance?.currency})</h2>
+                    <h2 className="text-[16px] w-full">Budget: {budget?.budgetName} ({budget?.currency})</h2>
                     <button onClick={onClose} className="border-[#DFE1E7] border-2 px-1 py-1 rounded-full">
                         <RiCloseLine />
                     </button>
@@ -37,4 +37,4 @@ const MainBalanceDetailsComponent: React.FC<MainBalanceDetailsComponentProps> = 
     );
 }
 
-export default MainBalanceDetailsComponent;
+export default MainBudgetDetailsComponent;

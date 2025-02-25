@@ -5,19 +5,19 @@ import { PiMoneyFill } from "react-icons/pi";
 import { RiArrowLeftDownLine, RiArrowRightUpLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { BalanceData } from "../../../redux/balanceSlice";
+import { BudgetData } from "../../../redux/budgetSlice";
 import { ChangeEvent, useState } from "react";
 import { getCurrency, getFlag } from "../../currency";
 
 const DashboardBalanceCardComponent = () => {
 
     const navigate = useNavigate();
-    const balance = useSelector((state) => state.balance.data);
-    const [selectedBalance, setSelectedBalance] = useState<BalanceData>(balance ? balance[0] : null);
+    const balance = useSelector((state) => state.budget.data);
+    const [selectedBalance, setSelectedBalance] = useState<BudgetData>(balance ? balance[0] : null);
     const growth = true;
 
     const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        setSelectedBalance(balance.filter((bal: BalanceData) => bal.balanceID === Number(e.target.value))[0]);
+        setSelectedBalance(balance.filter((bal: BudgetData) => bal.budgetID === Number(e.target.value))[0]);
     }
 
     if(!balance || balance.length === 0){
@@ -29,12 +29,12 @@ const DashboardBalanceCardComponent = () => {
             <div className="flex justify-between items-center">
                 <div className="flex gap-2 items-center text-[14px]">
                         <PiMoneyFill className="text-[16px]"/>
-                        {selectedBalance?.balanceName}
+                        {selectedBalance?.budgetCategory}
                 </div>
                 <select onChange={handleChange} className="flex items-center gap-2 border-[#DFE1E7] text-[12px] border-2 p-[6px] rounded-lg hover:cursor-pointer">
                     {balance && balance.length !== 0
-                     ? balance.map((singBalance: BalanceData, index: number) => (
-                        <option key={index} value={singBalance.balanceID}>{singBalance.balanceName}</option>
+                     ? balance.map((singBalance: BudgetData, index: number) => (
+                        <option key={index} value={singBalance.budgetID}>{singBalance.budgetCategory}</option>
                      ))
                      : "No Balance Found"}
                 </select>
@@ -48,7 +48,7 @@ const DashboardBalanceCardComponent = () => {
                 </div>
                 <div className="flex items-center justify-center gap-1 text-[22px]">
                     {getCurrency(selectedBalance?.currency)}
-                    {selectedBalance?.income - selectedBalance?.expense}
+                    {selectedBalance?.spent}
                 </div>
                 <div className={`flex justify-between ${growth ? "bg-[#EFFEFA] text-[#28806F]" : "bg-[#feefef] text-[#802828]"} text-[13px] w-full px-4 py-2 rounded-b-xl`}>
                     15.43% Than last month

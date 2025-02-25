@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { RiArrowGoForwardLine, RiNotification2Line, RiSearchLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import MainBalanceAddForm from "../main/balance/MainBalanceAddForm";
+import MainBalanceAddForm from "../main/budget/MainBudgetAddForm";
 import MainDashboardExchangeForm from "../main/dashboard/MainDashboardExchangeForm";
 import MainFamilyAddForm from "../main/family/MainFamilyAddForm";
 import MainTransactionAddForm from "../main/transaction/MainTransactionAddForm";

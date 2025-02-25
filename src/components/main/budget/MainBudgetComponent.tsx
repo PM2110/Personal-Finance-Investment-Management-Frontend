@@ -1,46 +1,47 @@
 import { EU, SG, US } from "country-flag-icons/react/1x1";
 import { useEffect, useState } from "react";
 import { RiFilter3Line } from "react-icons/ri";
-import MainBalanceCardComponent from "./MainBalanceCardComponent";
+import MainBudgetCardComponent from "./MainBudgetCardComponent";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
-import { BalanceData, fetchBalance } from "../../../redux/balanceSlice";
-import MainBalanceDetailsComponent from "./MainBalanceDetailsComponent";
+import { BudgetData, fetchBudget } from "../../../redux/budgetSlice";
+import MainBudgetDetailsComponent from "./MainBudgetDetailsComponent";
 
-interface BalanceDataType {
-    balanceNumber: string,
-    balance: number,
+interface BudgetDataType {
+    budgetNumber: string,
+    budget: number,
     growth: boolean,
     flag: React.ReactNode,
     currency: string
 }
 
-interface MainBalanceComponent {
+interface MainBudgetComponent {
     isVisible: string,
     onClose: () => void
 }
 
-const MainBalanceComponent = () => {
+const MainBudgetComponent = () => {
 
     const dispatch = useDispatch<AppDispatch>();
     const [selected, setSelected] = useState(1);
     const { userID } = useSelector((state) => state.user.data);
-    const balanceList = useSelector((state) => state.balance.data);
+    const budgetList = useSelector((state) => state.budget?.data);
+    console.log(budgetList);
 
-    const [selectedBalance, setSelectedBalance] = useState<BalanceData>();
-    const [visibleMainBalanceDetails, setVisibleMainBalanceDetails] = useState(false);
+    const [selectedBudget, setSelectedBudget] = useState<BudgetData>();
+    const [visibleMainBudgetDetails, setVisibleMainBudgetDetails] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchBalance(userID));
+        dispatch(fetchBudget(userID));
     }, [dispatch, userID])
 
-    const handleVisibleMainBalance: () => void = () => {
-        setVisibleMainBalanceDetails(!visibleMainBalanceDetails);
+    const handleVisibleMainBudget: () => void = () => {
+        setVisibleMainBudgetDetails(!visibleMainBudgetDetails);
     }
 
-    if(!balanceList || balanceList.length === 0){
-        return (<div className="h-full flex items-center justify-center text-[#666D80]">No Balance Found.</div>);
+    if(!budgetList || budgetList.length === 0){
+        return (<div className="h-full flex items-center justify-center text-[#666D80]">No Budget Found.</div>);
     }
 
     return (
@@ -61,17 +62,17 @@ const MainBalanceComponent = () => {
             </div>
             <div className="max-h-full w-full overflow-y-auto p-2">
                 <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 lg:gap-6 xl:gap-7">
-                    {balanceList.map((balance: BalanceData, index: number) => (
-                        <MainBalanceCardComponent key={index} balance={balance} setSelectedBalance={setSelectedBalance} handleVisible={handleVisibleMainBalance} />
+                    {budgetList.map((budget: BudgetData, index: number) => (
+                        <MainBudgetCardComponent key={index} budget={budget} setSelectedBudget={setSelectedBudget} handleVisible={handleVisibleMainBudget} />
                     ))}
                 </div>
             </div>
-            {(visibleMainBalanceDetails) && (
+            {(visibleMainBudgetDetails) && (
                 <div className="fixed inset-0 bg-black/70 z-10"></div>
             )}
-            <MainBalanceDetailsComponent isVisible={visibleMainBalanceDetails} onClose={handleVisibleMainBalance} balance={selectedBalance}/>
+            <MainBudgetDetailsComponent isVisible={visibleMainBudgetDetails} onClose={handleVisibleMainBudget} budget={selectedBudget}/>
         </div>
     );
 }
 
-export default MainBalanceComponent;
+export default MainBudgetComponent;

@@ -6,7 +6,7 @@ import { AppDispatch } from "../../../redux/store";
 import toast from "react-hot-toast";
 import { addTransaction, TransactionData } from "../../../redux/transactionSlice";
 import { useSelector } from "react-redux";
-import { BalanceData, updateBalance } from "../../../redux/balanceSlice";
+import { BudgetData } from "../../../redux/budgetSlice";
 
 interface MainTransactionAddFormProps {
     isVisible: boolean,
@@ -19,7 +19,7 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
     const { userName, userID } = useSelector((state) => state.user.data);
     const [transactionType, setTransactionType] = useState("Income");
     const { register, handleSubmit, reset, formState: { errors }, watch } = useForm<TransactionData>();
-    const balanceList = useSelector((state) => state.balance.data);
+    const balanceList = useSelector((state) => state.budget.data);
 
     const onSubmit: SubmitHandler<TransactionData> = async (data: TransactionData) => {
         try {
@@ -29,16 +29,10 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
                 data.from = userName;
             }
             data.userID = userID;
-            const balance: BalanceData = balanceList.filter((balance: BalanceData) => balance.currency === data.currency)[0];
-            data.balanceID = balance.balanceID;
-            console.log(balance);
+            const balance: BudgetData = balanceList.filter((balance: BudgetData) => balance.currency === data.currency)[0];
+            data.budgetID = balance.budgetID;
             const response = await dispatch(addTransaction(data));
             if (response?.data) {
-                if (transactionType === "Income"){
-                    await dispatch(updateBalance(balance.balanceID, { income: Number(balance.income) + Number(data.amount) } as BalanceData));
-                } else {
-                    await dispatch(updateBalance(balance.balanceID, { expense: Number(balance.expense) + Number(data.amount) } as BalanceData));
-                }
                 reset();
                 toast.success("Transaction added successfully.");
             }

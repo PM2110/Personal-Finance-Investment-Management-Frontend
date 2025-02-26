@@ -1,4 +1,3 @@
-import { FiTrendingDown, FiTrendingUp } from "react-icons/fi";
 import { PiMoneyFill } from "react-icons/pi";
 import { BudgetData } from "../../../redux/budgetSlice";
 import { getCurrency, getFlag } from "../../currency";
@@ -6,13 +5,13 @@ import { MdDeleteOutline, MdOutlineModeEditOutline } from "react-icons/md";
 
 interface MainBudgetCardComponentProps {
     budget: BudgetData,
-    setSelectedBudget: (budget: BudgetData) => void;
-    handleVisible: () => void;
+    setSelectedBudget: (budget: BudgetData) => void,
+    handleDelete: (budgetID: number) => void,
+    handleVisibleEdit: () => void,
+    handleVisibleDetails: () => void,
 }
 
-const MainBudgetCardComponent: React.FC<MainBudgetCardComponentProps> = ({ budget, setSelectedBudget, handleVisible }) => {
-    
-    const growth = true;
+const MainBudgetCardComponent: React.FC<MainBudgetCardComponentProps> = ({ budget, setSelectedBudget, handleDelete, handleVisibleEdit, handleVisibleDetails }) => {
     
     return (
         <div className="flex flex-col gap-4 border-[#DFE1E7] border-2 rounded-xl text-[14px] p-3">
@@ -22,13 +21,13 @@ const MainBudgetCardComponent: React.FC<MainBudgetCardComponentProps> = ({ budge
                         {budget.budgetCategory}
                 </div>
                 <div className="flex flex-row gap-3">
-                    <button className="flex flex-row justify-center items-center gap-2 border-[#DFE1E7] text-[12px] border-2 p-[6px] rounded-lg hover:cursor-pointer">
+                    <button onClick={() => { setSelectedBudget(budget); handleVisibleEdit(); }} className="flex flex-row justify-center items-center gap-2 border-[#DFE1E7] text-[12px] border-2 p-[6px] rounded-lg hover:cursor-pointer">
                         <MdOutlineModeEditOutline className="text-[16px]" />
                         <div>
                             Edit
                         </div>
                     </button>
-                    <button className="flex flex-row justify-center items-center gap-2 border-[#DFE1E7] text-[12px] border-2 p-[6px] rounded-lg hover:cursor-pointer">
+                    <button onClick={() => { handleDelete(budget.budgetID); }} className="flex flex-row justify-center items-center gap-2 border-[#DFE1E7] text-[12px] border-2 p-[6px] rounded-lg hover:cursor-pointer">
                         <MdDeleteOutline className="text-[16px]" />
                         <div>
                             Delete
@@ -47,12 +46,16 @@ const MainBudgetCardComponent: React.FC<MainBudgetCardComponentProps> = ({ budge
                     {getCurrency(budget.currency)}
                     {budget.spent}
                 </div>
-                <div className={`flex justify-between ${growth ? "bg-[#EFFEFA] text-[#28806F]" : "bg-[#feefef] text-[#802828]"} w-full px-4 py-2 rounded-b-xl`}>
-                    15.43% Than last month
-                    {growth ? <FiTrendingUp /> : <FiTrendingDown />}
+                <div className={`flex justify-center ${0.8 * budget.limit > budget.spent ? "bg-[#EFFEFA] text-[#28806F]" : "bg-[#feefef] text-[#802828]"} w-full px-4 py-2 rounded-b-xl`}>
+                    <div className="flex items-center gap-2">
+                        Your spend limit is:
+                        <div className="flex items-center">
+                            {getCurrency(budget.currency)} {budget.limit}
+                        </div>
+                    </div>
                 </div>
             </div>
-            <button onClick={() => { setSelectedBudget(budget); handleVisible(); }} className="w-full border-[#DFE1E7] border-2 rounded-lg py-2  hover:cursor-pointer">Open</button>
+            <button onClick={() => { setSelectedBudget(budget); handleVisibleDetails(); }} className="w-full border-[#DFE1E7] border-2 rounded-lg py-2  hover:cursor-pointer">See Transactions</button>
         </div>
     );
 }

@@ -1,117 +1,59 @@
-import { FaUserCircle } from "react-icons/fa";
-import { IoAddOutline } from "react-icons/io5";
-import { RiArrowRightSLine, RiBankFill, RiSearchLine } from "react-icons/ri";
+import { RiFilter3Line, RiSearchLine } from "react-icons/ri";
+import { useSelector } from "react-redux";
+import { AccountData, deleteAccount } from "../../../redux/accountSlice";
+import MainAccountCardComponent from "./MainAccountCardComponent";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../redux/store";
+import toast from "react-hot-toast";
+import MainEditAccountForm from "./MainEditAccountForm";
 
 const MainRecipientsComponent = () => {
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    const accounts: AccountData[] = useSelector((state) => state.account.data);
+
+    const [selectedAccount, setSelectedAccount] = useState<AccountData>();
+    const [visibleAccountEditForm, setVisibleAccountEditForm] = useState(false);
+
+    const handleVisibleEditform: () => void = () => {
+        setVisibleAccountEditForm(!visibleAccountEditForm);
+    }
+
+    const handleDelete: (accountID: number) => void = (accountID: number) => {
+        try {
+            dispatch(deleteAccount(accountID));
+            toast.success("Account deleted successfully.");
+        } catch (error) {
+            toast.error("Error while deleting account.");
+            console.log("Error while deleting account ", error);
+        }
+    }
+
     return (
         <div className="flex w-full flex-col gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-            <div className="flex gap-3 items-center text-[14px]">
-                <div className="flex gap-2 items-center text-[#666D80] border-[#DFE1E7] border-2 px-3 py-2 rounded-lg">
-                    <RiSearchLine className="text-[16px]"/>
-                    <input className="focus:outline-none" placeholder="Search"/>
-                </div>
-                <button className="flex items-center gap-2 border-[#DFE1E7] border-2 px-4 py-2 rounded-lg hover:cursor-pointer">
-                    <IoAddOutline className="text-[16px]"/>
-                    Add a Recipient
-                </button>
-            </div>
-            <div className="w-full flex flex-col gap-4 border-[#DFE1E7] border-2 text-[13px] md:text-[14px] lg:text-[15px] rounded-lg p-3">
-                <div className="flex justify-between items-center">
-                    <div className="">
-                        Your Accounts
+            <div className="flex flex-col gap-4">
+                <div className="flex flex-col lg:flex-row w-full gap-3 items-start justify-between text-[14px]">
+                    <div className="flex gap-2 items-center text-[#666D80] border-[#DFE1E7] border-2 px-3 py-2 rounded-lg">
+                        <RiSearchLine className="text-[16px]"/>
+                        <input className="focus:outline-none" placeholder="Search"/>
                     </div>
-                    <button className="flex items-center gap-2 text-[12px]  border-[#DFE1E7] border-2 px-3 py-1 rounded-lg hover:cursor-pointer">
-                        <IoAddOutline className="text-[14px]"/>
-                        Add
+                    <button className="flex items-center gap-2 border-[#DFE1E7] border-2 px-4 py-2 rounded-lg hover:cursor-pointer">
+                        <RiFilter3Line className="text-[16px]"/>
+                        Filter
                     </button>
                 </div>
-                <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-2 text-[13px] lg:text-[14px] ">
-                        <div className="bg-gradient-to-b from-gray-300 via-gray-200 to-white p-[10px] rounded-full">
-                            <div className="bg-white p-[10px] rounded-full">
-                                <RiBankFill className="text-[16px]" />
-                            </div>
-                        </div>
-                        <div>
-                            Add one of your bank account
-                        </div>
-                    </div>
-                    <button className="text-[12px]  hover:cursor-pointer">
-                        <RiArrowRightSLine className="text-[22px] text-black"/>
-                    </button>
+                <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-2 xl:gap-32 w-full">
+                    {accounts && accounts.length !== 0 ? accounts.map((account: AccountData, index: number) => (
+                        <MainAccountCardComponent key={index} account={account} setSelectedAccount={setSelectedAccount} handleDelete={handleDelete} handleVisibleEdit={handleVisibleEditform} />
+                    )) : <div className="flex items-center justify-center text-[#666D80]">No accounts found.</div>}
                 </div>
             </div>
-            <div className="w-full flex flex-col gap-4 border-[#DFE1E7] border-2 text-[13px] md:text-[14px] lg:text-[15px] rounded-lg p-3">
-                <div className="flex justify-between items-center">
-                    <div className="">
-                        Your Recipients
-                    </div>
-                    <button className="flex items-center gap-2 text-[12px]  border-[#DFE1E7] border-2 px-3 py-1 rounded-lg hover:cursor-pointer">
-                        <IoAddOutline className="text-[14px]"/>
-                        Add
-                    </button>
-                </div>
-                <div className="flex w-full flex-col gap-3 justify-between items-center">
-                    <div className="flex w-full justify-between">
-                        <div className="flex items-center gap-2 text-[13px] lg:text-[14px] ">
-                            <div className="bg-gradient-to-b from-gray-300 via-gray-200 to-white p-[5px] rounded-full">
-                                <FaUserCircle className="text-[20px]"/>
-                            </div>
-                            <div className="flex flex-col justify-between">
-                                <div>
-                                    Manan Patel
-                                </div>
-                                <div className="text-[#818898] text-[12px] lg:text-[13px]">
-                                    USD Account ending with 1289
-                                </div>
-                            </div>
-                        </div>
-                        <button className="text-[12px]  hover:cursor-pointer">
-                            <RiArrowRightSLine className="text-[22px] text-black"/>
-                        </button>
-                    </div>
-                </div>
-                <div className="flex w-full flex-col gap-3 justify-between items-center">
-                    <div className="flex w-full justify-between">
-                        <div className="flex items-center gap-2 text-[13px] lg:text-[14px] ">
-                            <div className="bg-gradient-to-b from-gray-300 via-gray-200 to-white p-[5px] rounded-full">
-                                <FaUserCircle className="text-[20px]"/>
-                            </div>
-                            <div className="flex flex-col justify-between">
-                                <div>
-                                    Manan Patel
-                                </div>
-                                <div className="text-[#818898] text-[12px] lg:text-[13px]">
-                                    USD Account ending with 1289
-                                </div>
-                            </div>
-                        </div>
-                        <button className="text-[12px]  hover:cursor-pointer">
-                            <RiArrowRightSLine className="text-[22px] text-black"/>
-                        </button>
-                    </div>
-                </div>
-                <div className="flex w-full flex-col gap-3 justify-between items-center">
-                    <div className="flex w-full justify-between">
-                        <div className="flex items-center gap-2 text-[13px] lg:text-[14px] ">
-                            <div className="bg-gradient-to-b from-gray-300 via-gray-200 to-white p-[5px] rounded-full">
-                                <FaUserCircle className="text-[20px]"/>
-                            </div>
-                            <div className="flex flex-col justify-between">
-                                <div>
-                                    Manan Patel
-                                </div>
-                                <div className="text-[#818898] text-[12px] lg:text-[13px]">
-                                    USD Account ending with 1289
-                                </div>
-                            </div>
-                        </div>
-                        <button className="text-[12px]  hover:cursor-pointer">
-                            <RiArrowRightSLine className="text-[22px] text-black"/>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            {(visibleAccountEditForm) && (
+                <div className="fixed inset-0 bg-black/70 z-10"></div>
+            )}
+            <MainEditAccountForm isVisible={visibleAccountEditForm} onClose={handleVisibleEditform} />
         </div>
     );
 }

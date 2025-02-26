@@ -48,7 +48,7 @@ const accountSlice = createSlice({
                 state.data = [];
             }
             else {
-                state.data = state.data?.filter((account) => account.accountID === action.payload);
+                state.data = state.data?.filter((account) => account.accountID !== action.payload);
             }
         }
     },
@@ -72,9 +72,9 @@ const accountSlice = createSlice({
 export const { addAccountState, updateAccountState, deleteAccountState } = accountSlice.actions;
 export default accountSlice.reducer;
 
-export const fetchAccount = (userName: string) => async (dispatch) => {
+export const fetchAccount = (userID: number) => async (dispatch) => {
     try {
-        const response = await AccountAPIManager.getAllAccounts(userName);
+        const response = await AccountAPIManager.getAllAccounts(userID);
         dispatch(setAccounts(response.data.accounts));
     } catch (error) {
         console.log("Error while fetching accounts ", error);

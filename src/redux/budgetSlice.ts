@@ -12,10 +12,12 @@ export interface BudgetData {
     accountID: number,
     currency: string,
     userID: number,
+    startDate: Date,
+    endDate: Date,
+    budgetDuration: string,
     budgetCategory: string,
     limit: number,
     spent: number,
-    expense: number,
 }
 
 const initialState: BudgetState = {
@@ -49,7 +51,7 @@ const budgetSlice = createSlice({
                 state.data = [];
             }
             else {
-                state.data = state.data?.filter((budget) => budget.budgetID === action.payload);
+                state.data = state.data?.filter((budget) => budget.budgetID !== action.payload);
             }
         }
     },
@@ -97,13 +99,16 @@ export const addBudget = (data: BudgetData) => async (dispatch) => {
 export const updateBudget = (budgetID: number, data: BudgetData) => async (dispatch) => {
         try {
             const response = await BudgetAPIManager.updateBudget(budgetID, data);
-            dispatch(updateBudgetState(response.data.budget));
+            if(response.data.budget){    
+                dispatch(updateBudgetState(response.data.budget));
+            }
+            return response;
         } catch (error) {
             console.log("Error while updating budget ", error);
         }
     };
 
-export const deleteAccount = (budgetID: number) => async (dispatch) => {
+export const deleteBudget = (budgetID: number) => async (dispatch) => {
     try {
         await BudgetAPIManager.deleteBudget(budgetID);
         dispatch(deleteBudgetState(budgetID));

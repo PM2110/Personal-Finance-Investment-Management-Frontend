@@ -39,3 +39,5 @@ export const category = [
     {key: "healthBeauty", value: "Health & Beauty"},
     {key: "other", value: "Other"},
 ]
+
+export const duration = ["24H", "7D", "1M", "6M", "12M"]

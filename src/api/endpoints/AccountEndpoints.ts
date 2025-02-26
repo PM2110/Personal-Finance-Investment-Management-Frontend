@@ -1,6 +1,6 @@
 const AccountEndpoints = {
     addAccount: () => `/account`,
-    getAllAccounts: (userName: string) => `/account/${userName}`,
+    getAllAccounts: (userID: number) => `/account/${userID}`,
     updateAccount: (accountID: number) => `/account/${accountID}`,
     deleteAccount: (accountID: number) => `/account/${accountID}`,
 }

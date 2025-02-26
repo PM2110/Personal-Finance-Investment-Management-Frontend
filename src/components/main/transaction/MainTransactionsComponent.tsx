@@ -7,14 +7,12 @@ import { deleteTransaction, setTransactions, TransactionData } from "../../../re
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import toast from "react-hot-toast";
-import { BudgetData } from "../../../redux/budgetSlice";
 
 const MainTransactionsComponent = () => {
 
     const dispatch = useDispatch<AppDispatch>();
 
     const transactionsData = useSelector((state) => state.transaction.data);
-    const balanceData = useSelector((state) => state?.balance?.data);
     const { userName } = useSelector((state) => state.user.data);
     const [selected, setSelected] = useState(1);
     const [visibleTransactionDetails, setVisibleTransactionDetails] = useState(false);

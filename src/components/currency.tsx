@@ -2,7 +2,7 @@ import { GB, IN, US } from "country-flag-icons/react/1x1";
 import { BiDollar, BiPound, BiRupee } from "react-icons/bi";
 
 export const currencyList = [
-    { value: "GBP", name: "Pound Sterling", flag: <GB className="rounded-full" /> },
+    { value: "GBP", name: "United Kingdom's Pound Sterling", flag: <GB className="rounded-full" /> },
     { value: "INR", name: "Indian Rupee", flag: <IN className="rounded-full" /> },
     { value: "USD", name: "US Dollar", flag: <US className="rounded-full" /> },
 ];

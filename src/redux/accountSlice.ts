@@ -98,7 +98,10 @@ export const addAccount = (data: AccountData) => async (dispatch) => {
 export const updateAccount = (accountID: number, data: AccountData) => async (dispatch) => {
         try {
             const response = await AccountAPIManager.updateAccount(accountID, data);
-            dispatch(updateAccountState(response.data.account));
+            if(response.data.account){
+                dispatch(updateAccountState(response.data.account));
+            }
+            return response;
         } catch (error) {
             console.log("Error while updating account ", error);
         }

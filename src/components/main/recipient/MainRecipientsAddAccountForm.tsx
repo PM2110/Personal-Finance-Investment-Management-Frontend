@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import { useSelector } from "react-redux";
+import { currencyList } from "../../currency";
 
 interface MainRecipientsAddAccountFormProps {
     isVisible: boolean,
@@ -64,7 +65,7 @@ const MainRecipientsAddAccountForm: React.FC<MainRecipientsAddAccountFormProps> 
                             />
                         </div>
                         <div className="flex flex-col gap-1">
-                            <label>Transaction Type</label>
+                            <label>Account Type</label>
                             <select 
                                 className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none"
                                 {...register("accountType")}
@@ -89,9 +90,9 @@ const MainRecipientsAddAccountForm: React.FC<MainRecipientsAddAccountFormProps> 
                                 className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none"
                                 {...register("currency")}
                             >
-                                <option value="GBP">United Kingdom Pound Sterling</option>
-                                <option value="USD">United States Dollar</option>
-                                <option value="INR">Indian Rupee</option>
+                                {currencyList.map((type, index) => (
+                                    <option key={index} value={type.value}>{type.name}</option>
+                                ))}
                             </select>
                         </div>
                         <button className="mt-auto bg-black text-white text-[15px] w-full py-[6px]  border-black border-2 hover:cursor-pointer rounded-lg">

@@ -114,7 +114,7 @@ const MainBudgetComponent = () => {
                 <div className="fixed inset-0 bg-black/70 z-10"></div>
             )}
             <MainBudgetDetailsComponent isVisible={visibleMainBudgetDetails} onClose={handleVisibleMainBudget} accounts={accounts} budget={selectedBudget} />
-            <MainBudgetEditForm isVisible={visibleMainBudgetEditForm} onClose={handleVisibleMainBalanceEdit} accounts={accounts} budget={selectedBudget} />
+            {visibleMainBudgetEditForm && <MainBudgetEditForm isVisible={visibleMainBudgetEditForm} onClose={handleVisibleMainBalanceEdit} accounts={accounts} budget={selectedBudget} />}
         </div>
     );
 }

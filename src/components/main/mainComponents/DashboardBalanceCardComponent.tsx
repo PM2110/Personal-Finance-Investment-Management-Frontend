@@ -21,7 +21,7 @@ const DashboardBalanceCardComponent = () => {
     }
 
     if(!balance || balance.length === 0){
-        return (<div className="flex items-center justify-center text-[#666D80] border-[#DFE1E7] border-2 rounded-xl">No Balance Found.</div>)
+        return (<div className="flex items-center justify-center text-[#666D80] border-[#DFE1E7] border-2 rounded-xl">No Budget Found.</div>)
     }
 
     return (

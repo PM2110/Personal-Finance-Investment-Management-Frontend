@@ -24,19 +24,13 @@ const MainBudgetEditForm: React.FC<MainBudgetEditFormProps> = ({ isVisible, onCl
     const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
     const [alreadyStarted, setAlreadyStarted] = useState(true);
 
-    const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm<BudgetData>();
-
-    useEffect(() => {
-        setValue("accountID", selectedAccount?.accountID);
-        setValue("budgetCategory", budget?.budgetCategory || "");
-        setValue("budgetDuration", budget?.budgetDuration || "");
-        setValue("budgetID", budget?.budgetID || 0);
-        setValue("limit", budget?.limit || 0);
-        setValue("spent", budget?.spent || 0);
-        setValue("userID", budget?.userID || 0);
-        setValue("startDate", budget?.startDate || new Date());
-        setValue("endDate", budget?.endDate || new Date());
-    }, [budget, selectedAccount, setValue, isVisible])
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<BudgetData>({
+        defaultValues: {
+          ...budget, 
+          startDate: budget?.startDate ? new Date(budget.startDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
+        }
+    });
+      
 
     const onSubmit: SubmitHandler<BudgetData> = async (data: BudgetData) => {
         try {
@@ -117,12 +111,12 @@ const MainBudgetEditForm: React.FC<MainBudgetEditFormProps> = ({ isVisible, onCl
                     </div>
                     <div className="flex flex-col gap-2 px-4 w-full text-[14px]">
                         <label>Enter your limit</label>
-                        <div className="flex items-center border-[#DFE1E7] border-2 rounded-lg">
-                            <div className="bg-[#DFE1E7] p-2 text-[18px]">
+                        <div className="flex items-center border-[#DFE1E7] bg-[#DFE1E7] border-2 rounded-lg">
+                            <div className="p-2 text-[18px]">
                                 {getCurrency(selectedAccount?.currency || "")}
                             </div>
                             <input
-                                className="w-full rounded-lg px-2 focus:outline-none"
+                                className="w-full rounded-r-lg bg-white p-2 focus:outline-none"
                                 placeholder="Enter your limit..."
                                 {...register("limit")}
                             />
@@ -152,12 +146,12 @@ const MainBudgetEditForm: React.FC<MainBudgetEditFormProps> = ({ isVisible, onCl
                     </div>
                     {alreadyStarted ? <div className="flex flex-col gap-2 px-4 w-full text-[14px]">
                         <label>Already Spent</label>
-                        <div className="flex items-center border-[#DFE1E7] border-2 rounded-lg">
-                            <div className="bg-[#DFE1E7] p-2 text-[18px]">
+                        <div className="flex items-center border-[#DFE1E7] bg-[#DFE1E7] border-2 rounded-lg">
+                            <div className="p-2 text-[18px]">
                                 {getCurrency(selectedAccount?.currency || "")}
                             </div>
                             <input
-                                className="w-full rounded-lg px-2 focus:outline-none"
+                                className="w-full rounded-r-lg bg-white p-2 focus:outline-none"
                                 placeholder="Enter amount that is already spent..."
                                 {...register("spent")}
                             />

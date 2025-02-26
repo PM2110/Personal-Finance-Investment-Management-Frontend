@@ -15,7 +15,7 @@ const getColor: (accountType: string) => string = (accountType) => {
         case "savings":
             return "FFE3B9"
         default:
-            return "666D80"
+            return "F6F8FA"
     }
 }
 

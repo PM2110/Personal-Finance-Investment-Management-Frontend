@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { addTransaction, TransactionData } from "../../../redux/transactionSlice";
 import { useSelector } from "react-redux";
 import { BudgetData } from "../../../redux/budgetSlice";
+import { AccountData } from "../../../redux/accountSlice";
 
 interface MainTransactionAddFormProps {
     isVisible: boolean,
@@ -17,7 +18,9 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
 
     const dispatch = useDispatch<AppDispatch>();
     const { userName, userID } = useSelector((state) => state.user.data);
+    const accounts = useSelector((state) => state.account.data);
     const [transactionType, setTransactionType] = useState("Income");
+    const [selectedAccount, setSelectedAccount] = useState<AccountData>(accounts[0]);
     const { register, handleSubmit, reset, formState: { errors }, watch } = useForm<TransactionData>();
     const balanceList = useSelector((state) => state.budget.data);
 
@@ -62,6 +65,14 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
                             <select onChange={(e) => setTransactionType(e.target.value)} className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none">
                                 <option value="Income">Income</option>
                                 <option value="Expense">Expense</option>
+                            </select>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <label>Account</label>
+                            <select onChange={(e) => setSelectedAccount(accounts.filter((account: AccountData) => account.accountID === Number(e.target.value))[0])} className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none">
+                                {accounts.map((account: AccountData, index: number) => (
+                                    <option key={index} value={account.accountID}>{account.accountHolder} (Acc. No. : xxx{account.accountNumber.slice(account.accountNumber.length - 4, account.accountNumber.length)})</option>
+                                ))}
                             </select>
                         </div>
                         <div className="flex flex-col gap-1">

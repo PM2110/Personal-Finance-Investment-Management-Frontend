@@ -97,12 +97,12 @@ const MainBudgetAddForm: React.FC<MainBudgetAddFormProps> = ({ isVisible, onClos
                     </div>
                     <div className="flex flex-col gap-2 px-4 w-full text-[14px]">
                         <label>Enter your limit</label>
-                        <div className="flex items-center border-[#DFE1E7] border-2 rounded-lg">
-                            <div className="bg-[#DFE1E7] p-2 text-[18px]">
+                        <div className="flex items-center border-[#DFE1E7] bg-[#DFE1E7] border-2 rounded-lg">
+                            <div className="text-[18px] p-2">
                                 {getCurrency(selectedAccount?.currency || "")}
                             </div>
                             <input
-                                className="w-full rounded-lg px-2 focus:outline-none"
+                                className="w-full bg-white rounded-r-lg p-2 focus:outline-none"
                                 placeholder="Enter your limit..."
                                 {...register("limit")}
                             />

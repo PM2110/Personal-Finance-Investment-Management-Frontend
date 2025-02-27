@@ -72,6 +72,24 @@ const accountSlice = createSlice({
 export const { addAccountState, updateAccountState, deleteAccountState } = accountSlice.actions;
 export default accountSlice.reducer;
 
+export const getAccount = (accountID: number) => async () => {
+    try {
+        const response = await AccountAPIManager.getAccount(accountID);
+        return response.data.account;
+    } catch (error) {
+        console.log("Error while fetching account ", error);
+    }
+}
+
+export const getAccounts = (userID: number) => async () => {
+    try {
+        const response = await AccountAPIManager.getAllAccounts(userID);
+        return response.data.accounts ? response.data.accounts : null
+    } catch (error) {
+        console.log("Error while fetching other user's accounts ", error);
+    }
+}
+
 export const fetchAccount = (userID: number) => async (dispatch) => {
     try {
         const response = await AccountAPIManager.getAllAccounts(userID);

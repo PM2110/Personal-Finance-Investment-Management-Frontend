@@ -7,18 +7,25 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import toast from "react-hot-toast";
 import MainEditAccountForm from "./MainEditAccountForm";
+import MainAccountTransactionsComponent from "./MainAccountTransactionsComponent";
 
 const MainRecipientsComponent = () => {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const accounts: AccountData[] = useSelector((state) => state.account.data);
+    const { userID } = useSelector((state) => state.user.data);
+    const accounts: AccountData[] = useSelector((state) => state.account.data).filter((account: AccountData) => account.userID === userID);
 
-    const [selectedAccount, setSelectedAccount] = useState<AccountData>();
+    const [selectedAccount, setSelectedAccount] = useState<AccountData | null>(null);
     const [visibleAccountEditForm, setVisibleAccountEditForm] = useState(false);
+    const [visibleAccountTransactions, setVisibleAccountTransactions] = useState(false);
 
     const handleVisibleEditform: () => void = () => {
         setVisibleAccountEditForm(!visibleAccountEditForm);
+    }
+
+    const handleVisibleAccountTransactions: () => void = () => {
+        setVisibleAccountTransactions(!visibleAccountTransactions);
     }
 
     const handleDelete: (accountID: number) => void = (accountID: number) => {
@@ -46,14 +53,15 @@ const MainRecipientsComponent = () => {
                 </div>
                 <div className={`${accounts && accounts.length !== 0 ? "grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-2 xl:gap-4" : "h-full w-full"} `}>
                     {accounts && accounts.length !== 0 ? accounts.map((account: AccountData, index: number) => (
-                        <MainAccountCardComponent key={index} account={account} setSelectedAccount={setSelectedAccount} handleDelete={handleDelete} handleVisibleEdit={handleVisibleEditform} />
+                        <MainAccountCardComponent key={index} account={account} setSelectedAccount={setSelectedAccount} handleDelete={handleDelete} handleVisibleAccountTransactions={handleVisibleAccountTransactions} handleVisibleEdit={handleVisibleEditform} />
                     )) : <div className="flex items-center justify-center h-full w-full text-[#666D80]">No accounts found.</div>}
                 </div>
             </div>
-            {(visibleAccountEditForm) && (
+            {(visibleAccountEditForm || visibleAccountTransactions) && (
                 <div className="fixed inset-0 bg-black/70 z-10"></div>
             )}
             {visibleAccountEditForm && <MainEditAccountForm isVisible={visibleAccountEditForm} onClose={handleVisibleEditform} account={selectedAccount} />}
+            <MainAccountTransactionsComponent isVisible={visibleAccountTransactions} onClose={handleVisibleAccountTransactions} account={selectedAccount} />
         </div>
     );
 }

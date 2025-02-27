@@ -7,6 +7,10 @@ const AccountAPIManager = {
         const url = AccountEndpoints.addAccount();
         return APIMethods.post(url, data);
     },
+    getAccount: (accountID: number) => {
+        const url = AccountEndpoints.getAccount(accountID);
+        return APIMethods.get(url);
+    },
     getAllAccounts: (userID: number) => {
         const url = AccountEndpoints.getAllAccounts(userID);
         return APIMethods.get(url);

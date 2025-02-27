@@ -6,6 +6,7 @@ import { useState } from "react";
 interface MainAccountCardComponentProps {
     account: AccountData,
     setSelectedAccount: (account: AccountData) => void,
+    handleVisibleAccountTransactions: () => void,
     handleVisibleEdit: () => void,
     handleDelete: (accountID: number) => void,
 }
@@ -19,7 +20,7 @@ const getColor: (accountType: string) => string = (accountType) => {
     }
 }
 
-const MainAccountCardComponent: React.FC<MainAccountCardComponentProps> = ({ account, setSelectedAccount, handleVisibleEdit, handleDelete }) => {
+const MainAccountCardComponent: React.FC<MainAccountCardComponentProps> = ({ account, setSelectedAccount, handleVisibleAccountTransactions, handleVisibleEdit, handleDelete }) => {
     
     const [balanceVisible, setBalanceVisible] = useState(false);
     const [numberVisible, setNumberVisible] = useState(false);
@@ -71,7 +72,7 @@ const MainAccountCardComponent: React.FC<MainAccountCardComponentProps> = ({ acc
                     </button>
                 </div>
             </div>
-            <button className="flex w-full border-[#DFE1E7] border-2 rounded-lg justify-center p-2 text-[#666D80]">
+            <button onClick={() => { setSelectedAccount(account); handleVisibleAccountTransactions(); }} className="flex w-full border-[#DFE1E7] border-2 rounded-lg justify-center p-2 text-[#666D80] hover:cursor-pointer">
                 View Transactions
             </button>
         </div>

@@ -10,7 +10,7 @@ import MainFamilyComponent from "../components/main/family/MainFamilyComponent";
 import MainTransactionsComponent from "../components/main/transaction/MainTransactionsComponent";
 
 const HomePage = () => {
-    const [selected, setSelected] = useState(5);
+    const [selected, setSelected] = useState(1);
 
     const getForm = () => {
         switch (selected){

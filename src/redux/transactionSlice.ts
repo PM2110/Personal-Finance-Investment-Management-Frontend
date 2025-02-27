@@ -9,14 +9,21 @@ interface TransactionState {
 
 export interface TransactionData {
     transactionID: string,
+    // accountID: number,
     userID: number,
+    senderAccountID: number,
+    receiverAccountID: number,
+    status: string,
+    deduct: boolean,
+    includeInBudget: boolean,
     budgetID: number,
-    currency: string,
-    fees: number,
+    sentCurrency: string,
+    receivedCurrency: string,
+    sentAmount: number,
+    receivedAmount: number,
     from: string,
     to: string,
     category: string,
-    amount: number,
     date: string,
 }
 

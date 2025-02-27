@@ -26,6 +26,10 @@ const UserAPIManager = {
         const url = UserEndpoints.sendEmail();
         return APIMethods.post(url, data);
     },
+    verifyEmail: (data: { email: string }) => {
+        const url = UserEndpoints.verifyEmail();
+        return APIMethods.post(url, data);
+    },
     updateUser: (userID: number, data: UserData) => {
         const url = UserEndpoints.updateUser(userID);
         return APIMethods.put(url, data);

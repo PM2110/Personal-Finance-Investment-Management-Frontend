@@ -4,20 +4,28 @@ import { RiPieChart2Line } from "react-icons/ri";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { useSelector } from "react-redux";
 import { setTransactions, TransactionData } from "../../../redux/transactionSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import { getCurrency } from "../../currency";
+import { AccountData } from "../../../redux/accountSlice";
 
-const DashboardSpendingCardComponent = () => {
+interface DashboardSpendingCardComponentProps {
+    account: AccountData | null,
+}
+
+const DashboardSpendingCardComponent: React.FC<DashboardSpendingCardComponentProps> = ({ account }) => {
 
     const dispatch = useDispatch<AppDispatch>();
     const { userName } = useSelector((state) => state.user.data);
-    const transactions = useSelector((state) => state.transaction.data);
+    const transactions = useSelector((state) => state.transaction.data).filter((transaction: TransactionData) => transaction.senderAccountID === account?.accountID);
+
+    const [visibleBalance, setVisibleBalance] = useState(false);
+    
     let spent: number = 0;
     transactions.forEach((transaction: TransactionData) => {
         if(transaction.from === userName){
-            spent = Number(Number(spent) + Number(transaction.amount));
+            spent = Number(Number(spent) + Number(transaction.sentAmount));
         }
     })
 
@@ -42,7 +50,7 @@ const DashboardSpendingCardComponent = () => {
             <div className="border-[#DFE1E7] border-1 h-[1px]"></div>
             <div className="flex flex-col items-center justify-center h-20 text-[13px]">
                 <CircularProgressbar
-                    value={spent / 200}
+                    value={(spent * 100) / account?.balance}
                     circleRatio={0.5}
                     strokeWidth={18}
                     styles={{
@@ -54,13 +62,13 @@ const DashboardSpendingCardComponent = () => {
                     }}
                 />
                 <div className="flex items-center">
-                    Spent: {getCurrency("GBP")}{spent}
+                    Spent: {getCurrency(account?.currency || "")}{spent}
                 </div>
             </div>
             <div className="border-[#DFE1E7] border-1 h-[1px]"></div>
             <div className="flex justify-between items-center rounded-lg p-2 bg-[#F0FBFF] text-[#116B97] text-[13px]">
                 <div className="flex gap-1">
-                    Your weekly spending limit is <b className="flex items-center gap-[2px]"> {getCurrency("GBP")}20,000 </b>
+                    Your account balance is <button onClick={() => setVisibleBalance(!visibleBalance)} className="flex items-center gap-[2px] hover:cursor-pointer"> {getCurrency(account?.currency || "")} {visibleBalance ? account?.balance : `xxxx${account?.balance.toString().slice(account?.balance.toString().length - 4)}` } </button>
                 </div>
                 <GoInfo className=" text-[13px]"/>
             </div>

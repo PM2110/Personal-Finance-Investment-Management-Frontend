@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
-import { ChangeEvent, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AccountData, updateAccount } from "../../../redux/accountSlice";
 import toast from "react-hot-toast";
@@ -10,7 +9,7 @@ import { currencyList } from "../../currency";
 interface MainEditAccountFormProps {
     isVisible: boolean,
     onClose: () => void,
-    account: AccountData,
+    account: AccountData | null,
 }
 
 const MainEditAccountForm: React.FC<MainEditAccountFormProps> = ({ isVisible, onClose, account }) => {
@@ -21,7 +20,7 @@ const MainEditAccountForm: React.FC<MainEditAccountFormProps> = ({ isVisible, on
 
     const onSubmit: SubmitHandler<AccountData> = async (data: AccountData) => {
         try {
-            const response = await dispatch(updateAccount(account.accountID, data));
+            const response = await dispatch(updateAccount(account?.accountID, data));
             if(response?.data.account){
                 toast.success("Account updated successfully.");
                 reset();

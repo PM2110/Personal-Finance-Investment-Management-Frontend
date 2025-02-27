@@ -7,27 +7,40 @@ import { deleteTransaction, setTransactions, TransactionData } from "../../../re
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import toast from "react-hot-toast";
+import { MdAccountBalance } from "react-icons/md";
+import { AccountData } from "../../../redux/accountSlice";
 
 const MainTransactionsComponent = () => {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const transactionsData = useSelector((state) => state.transaction.data);
+    const accounts: AccountData[] = useSelector((state) => state.account?.data);
+    const [selectedAccount, setSelectedAccount] = useState(accounts ? accounts[0] : null);
+
+    const transactionsData: TransactionData[] = useSelector((state) => state.transaction.data);
     const { userName } = useSelector((state) => state.user.data);
+
     const [selected, setSelected] = useState(1);
+    
     const [visibleTransactionDetails, setVisibleTransactionDetails] = useState(false);
     const [visibleTransactionFilterForm, setVisibleTransactionFilterForm] = useState(false);
 
+
     const [transaction, setTransaction] = useState(transactionsData);
     const [selectedTransaction, setSelectedTransaction] = useState<TransactionData>();
+    
     const [sortColumn, setSortColumn] = useState("name");
     const [sortOrder, setSortOrder] = useState("asc");
+    
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(5);
 
     useEffect(() => {
         dispatch(setTransactions(userName));
-    }, [])
+        setTransaction(transactionsData.filter((transaction: TransactionData) => transaction.senderAccountID === selectedAccount?.accountID || transaction.receiverAccountID === selectedAccount?.accountID));
+    }, [selectedAccount])
+
+    console.log(transactionsData, selectedAccount?.accountID);
 
     const handleSort = (column: keyof typeof transactionsData[0]) => {
         const order = sortColumn === column && sortOrder === "asc" ? "desc" : "asc";
@@ -80,7 +93,17 @@ const MainTransactionsComponent = () => {
                     <RiSearchLine className="text-[16px]" />
                     <input className="focus:outline-none" placeholder="Search" />
                 </div>
-                <button className="flex items-center gap-2 text-[13px]  border-[#DFE1E7] border-2 px-3 py-2 rounded-lg hover:bg-black hover:border-black hover:text-white hover:cursor-pointer"><RiArrowGoForwardLine className="text-[14px]" /> Export</button>
+                <div className="flex flex-row gap-2">
+                    <button className="flex items-center gap-2 text-[13px]  border-[#DFE1E7] border-2 px-3 py-2 rounded-lg hover:bg-black hover:border-black hover:text-white hover:cursor-pointer"><RiArrowGoForwardLine className="text-[14px]" /> Export</button>
+                    <div className="flex gap-2 items-center border-[#DFE1E7] border-2 px-4 py-2 rounded-lg">
+                        <MdAccountBalance className="text-[14px]"/>
+                        <select onChange={(e) => setSelectedAccount(accounts.filter((account) => account.accountID === Number(e.target.value))[0])} className="focus:outline-none pr-1">
+                            {accounts && accounts.length !== 0 && accounts.map((account, index) => (
+                                <option key={index} value={account?.accountID}>{account?.accountHolder} (Acc No.: xxx{account?.accountNumber.slice(account?.accountNumber.length - 4)})</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
             </div>
             <div className="flex flex-col border-[#DFE1E7] border-2 rounded-xl h-full p-3">
                 <div className="flex flex-col gap-2 lg:flex-row justify-between lg:items-center">
@@ -107,7 +130,7 @@ const MainTransactionsComponent = () => {
                                 <thead>
                                     <tr className="text-left bg-gray-100 text-[14px]">
                                         <th className="p-3 cursor-pointer font-normal" onClick={() => handleSort("from")}>To / From</th>
-                                        <th className="p-3 cursor-pointer font-normal" onClick={() => handleSort("amount")}>Amount</th>
+                                        <th className="p-3 cursor-pointer font-normal" onClick={() => handleSort("sentAmount")}>Amount Sent / Received</th>
                                         <th className="p-3 font-normal">Status</th>
                                         <th className="p-3 cursor-pointer font-normal" onClick={() => handleSort("date")}>Date & Time</th>
                                         <th className="p-3 font-normal"></th>
@@ -117,7 +140,7 @@ const MainTransactionsComponent = () => {
                                     {selected === 1 && paginatedTransactions.map((transaction: TransactionData, index: number) => (
                                         <tr key={index} onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="border-[#DFE1E7] border-t hover:bg-gray-50 text-[13px]">
                                             <td className="p-3 w-[27.5%]">{transaction.to === userName ? transaction.from : transaction.to}</td>
-                                            <td className="p-3 w-[20%]">{transaction.currency} {Number(transaction.amount).toFixed(2)}</td>
+                                            <td className="p-3 w-[20%]">{transaction.to === userName ? `${transaction.receivedCurrency} ${Number(transaction.receivedAmount).toFixed(2)}` : `${transaction.sentCurrency} ${Number(transaction.sentAmount).toFixed(2)}`}</td>
                                             <td className="p-3 w-[20%]">{transaction.category}</td>
                                             <td className="p-3 w-[27.5%]">{new Date(transaction.date).toLocaleString()}</td>
                                             <td className="p-3 w-[5%]"><RiArrowRightSLine onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="text-[22px] text-black"/></td>
@@ -126,7 +149,7 @@ const MainTransactionsComponent = () => {
                                     {selected === 2 && paginatedTransactions.map((transaction: TransactionData, index: number) => (
                                         transaction.to === userName && <tr key={index} onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="border-[#DFE1E7] border-t hover:bg-gray-50 text-[13px]">
                                             <td className="p-3 w-[27.5%]">{transaction.to === userName ? transaction.from : transaction.to}</td>
-                                            <td className="p-3 w-[20%]">{transaction.currency} {Number(transaction.amount).toFixed(2)}</td>
+                                            <td className="p-3 w-[20%]">{transaction.receivedCurrency} {Number(transaction.receivedAmount).toFixed(2)}</td>
                                             <td className="p-3 w-[20%]">{transaction.category}</td>
                                             <td className="p-3 w-[27.5%]">{transaction.date}</td>
                                             <td className="p-3 w-[5%]"><RiArrowRightSLine onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="text-[22px] text-black"/></td>
@@ -135,7 +158,7 @@ const MainTransactionsComponent = () => {
                                     {selected === 3 && paginatedTransactions.map((transaction: TransactionData, index: number) => (
                                         transaction.from === userName && <tr key={index} onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="border-[#DFE1E7] border-t hover:bg-gray-50 text-[13px]">
                                             <td className="p-3 w-[27.5%]">{transaction.to === userName ? transaction.from : transaction.to}</td>
-                                            <td className="p-3 w-[20%]">{transaction.currency} {Number(transaction.amount).toFixed(2)}</td>
+                                            <td className="p-3 w-[20%]">{transaction.sentCurrency} {Number(transaction.sentAmount).toFixed(2)}</td>
                                             <td className="p-3 w-[20%]">{transaction.category}</td>
                                             <td className="p-3 w-[27.5%]">{transaction.date}</td>
                                             <td className="p-3 w-[5%]"><RiArrowRightSLine onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="text-[22px] text-black"/></td>

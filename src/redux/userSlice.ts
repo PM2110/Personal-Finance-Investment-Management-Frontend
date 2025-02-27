@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import UserAPIManager from '../api/apiManager/UserAPIManager';
-import NewsAPIManager from '../api/apiManager/NewsAPIManager';
+import ServiceAPIManager from '../api/apiManager/ServiceAPIManager';
 
 interface UserState {
     isLoading: boolean;
@@ -59,12 +59,30 @@ const userSlice = createSlice({
 
 export default userSlice.reducer;
 
-export const fetchNews = (newsType: string) => async() => {
+export const fetchNews = (newsType: string) => async () => {
     try {
-        const response = await NewsAPIManager.getNews(newsType);
+        const response = await ServiceAPIManager.getNews(newsType);
         return response.data.news;
     } catch (error) {
         console.log("Error while fetching news ", error);
+    }
+}
+
+export const exchangeRates = (data: { from: string, to: string }) => async () => {
+    try {
+        const response = await ServiceAPIManager.exchangeRate(data);
+        return response.data.rate;
+    } catch (error) {
+        console.log("Error while verifying user ", error);
+    }
+}
+
+export const verifyEmail = (data: { email: string }) => async () => {
+    try {
+        const response = await UserAPIManager.verifyEmail(data);
+        return response.data.otherID;
+    } catch (error) {
+        console.log("Error while verifying user ", error);
     }
 }
 

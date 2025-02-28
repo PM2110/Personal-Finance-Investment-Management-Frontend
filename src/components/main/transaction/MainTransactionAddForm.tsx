@@ -23,11 +23,14 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
     
     const [transactionType, setTransactionType] = useState("Income");
     const [verified, setVerified] = useState(false);
+
+    const [cvv, setCVV] = useState(0);
+    const [cvvVerified, setCvvVerified] = useState(false);
     
     const [otherEmail, setOtherEmail] = useState("");
     const [otherAccountsList, setOtherAccountsList] = useState<AccountData[] | null>(null);
     
-    const { register, handleSubmit, reset, formState: { errors }, watch } = useForm<TransactionData>();
+    const { register, handleSubmit, reset, formState: { errors }, getValues } = useForm<TransactionData>();
 
     useEffect(() => {
         dispatch(fetchAccount(userID));
@@ -49,6 +52,26 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
         }
     }
 
+    const handleCVVChange: (e: ChangeEvent<HTMLInputElement>) => void = (e) => {
+        setCVV(Number(e.target.value));
+        setCvvVerified(false);
+    }
+
+    const handleCVVVerify: () => void = async () => {
+        const accountID = Number(getValues("senderAccountID"));
+        if(!accountID){
+            toast.error("Please select account first.");
+        } else {
+            const senderAccount: AccountData = accounts.filter((acc) => acc.accountID === accountID)[0];
+            if(senderAccount.cvv === cvv){
+                setCvvVerified(true);
+                toast.success("CVV verified.");
+            } else {
+                toast.error("Incorrect CVV.");
+            }
+        }
+    }
+
     const onSubmit: SubmitHandler<TransactionData> = async (data: TransactionData) => {
         try {
             if(transactionType === "Expense"){
@@ -67,7 +90,6 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
             }
             data.userID = userID;
             data.sentAmount = Number(data.sentAmount);
-            console.log("Here");
             // const balance: BudgetData = balanceList.filter((balance: BudgetData) => balance.currency === data.currency)[0];
             // data.budgetID = balance.budgetID;
             const response = await dispatch(addTransaction(data));
@@ -186,6 +208,19 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
                                     {...register("sentAmount")}
                                 />
                             </div>
+                            {transactionType === "Expense" && <div className="flex flex-col gap-1 w-full">
+                                <label>CVV</label>
+                                <div className="flex gap-2">
+                                    <input 
+                                        className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none"
+                                        placeholder="Enter your cvv..."
+                                        onChange={handleCVVChange}
+                                    />
+                                    {cvvVerified ? <div className="flex items-center bg-green-500 text-white p-2 rounded-lg font-bold text-[13px]">Verified</div> : <button onClick={handleSubmit(handleCVVVerify)} className="bg-black text-white text-[13px] p-[10px] rounded-lg hover:cursor-pointer">
+                                        Verify
+                                    </button>}
+                                </div>
+                            </div>}
                             <div className="flex flex-col gap-1">
                                 <label>Category</label>
                                 <select 

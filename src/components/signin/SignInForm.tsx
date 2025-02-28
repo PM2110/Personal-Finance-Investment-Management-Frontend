@@ -41,7 +41,6 @@ const SignInForm = () => {
                 dispatch(fetchUserPreference(response?.data.user.userID));
                 localStorage.setItem('token', response?.data.token);
                 toast.success("Successfull signin");
-                console.log("Hmm : ", response?.data.user.isVerified);
                 if(response?.data.user.isVerified){
                     // setIsLoggedIn(true);
                     navigate("/");

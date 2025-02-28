@@ -89,18 +89,6 @@ export const addFamily = (data: FamilyData) => async (dispatch) => {
     }
 }
 
-export const addMember = (data: { memberEmail: string, familyMember: FamilyMember }) => async (dispatch) => {
-    try {
-        const response = await FamilyAPIManager.addFamilyMember(data);
-        if(response.data.family){
-            dispatch(updateFamilyState(response.data.family));
-        }
-        return response;
-    } catch (error) {
-        console.log("Error while adding new member ", error);
-    }
-}
-
 export const updateFamily = (familyID: number, data: FamilyData) => async (dispatch) => {
     try {
         const response = await FamilyAPIManager.updateFamily(familyID, data);

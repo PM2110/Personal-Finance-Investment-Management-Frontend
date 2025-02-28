@@ -58,7 +58,7 @@ const MainFamilyComponent = () => {
             {(visibleFamilyAddMembers || visibleFamilyDetails) && (
                 <div className="fixed inset-0 bg-black/70 z-10"></div>
             )}
-            <MainFamilyAddMemberForm isVisible={visibleFamilyAddMembers} onClose={handleFamilyAddMembers}/>
+            {visibleFamilyAddMembers && <MainFamilyAddMemberForm isVisible={visibleFamilyAddMembers} onClose={handleFamilyAddMembers}/>}
             <MainFamilyDetailsComponent isVisible={visibleFamilyDetails} onClose={handleFamilyDetails} family={selectedFamily} />
         </div>
     );

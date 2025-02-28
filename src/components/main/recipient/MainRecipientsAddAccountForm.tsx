@@ -22,6 +22,7 @@ const MainRecipientsAddAccountForm: React.FC<MainRecipientsAddAccountFormProps> 
     const onSubmit: SubmitHandler<AccountData> = async (data: AccountData) => {
         try {
             data.userID = userID;
+            data.cvv = Number(data.cvv);
             const response = await dispatch(addAccount(data));
             if (response?.data) {
                 reset();
@@ -82,6 +83,15 @@ const MainRecipientsAddAccountForm: React.FC<MainRecipientsAddAccountFormProps> 
                                 className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none"
                                 placeholder="Enter balance..."
                                 {...register("balance")}
+                            />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <label>CVV</label>
+                            <input 
+                                className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none"
+                                placeholder="Enter your cvv..."
+                                type="password"
+                                {...register("cvv")}
                             />
                         </div>
                         <div className="flex flex-col gap-1">

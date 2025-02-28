@@ -59,6 +59,15 @@ const userSlice = createSlice({
 
 export default userSlice.reducer;
 
+export const getUserNames = (users: string) => async () => {
+    try {
+        const response = await UserAPIManager.getUserNames(users);
+        return response.data.userNames;
+    } catch (error) {
+        console.log("Error while fetching usernames ", error);
+    }
+}
+
 export const fetchNews = (newsType: string) => async () => {
     try {
         const response = await ServiceAPIManager.getNews(newsType);

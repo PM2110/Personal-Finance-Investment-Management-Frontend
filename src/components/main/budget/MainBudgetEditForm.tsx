@@ -40,7 +40,6 @@ const MainBudgetEditForm: React.FC<MainBudgetEditFormProps> = ({ isVisible, onCl
             data.accountID = selectedAccount?.accountID || 0;
             data.currency = selectedAccount?.currency || "";
             const response = await dispatch(updateBudget(data.budgetID, data));
-            console.log(response);
             if(response?.data.budget){
                 toast.success("Budget updated successfully.");
                 reset();

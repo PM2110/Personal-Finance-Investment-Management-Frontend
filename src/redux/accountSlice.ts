@@ -10,6 +10,7 @@ interface AccountState {
 export interface AccountData {
     userID: number,
     accountID: number,
+    cvv: number,
     accountNumber: string,
     accountHolder: string,
     accountType: string,

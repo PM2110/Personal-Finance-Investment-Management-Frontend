@@ -1,46 +1,51 @@
 import { RiCloseLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
-import { addMember, FamilyData } from "../../../redux/familySlice";
-import { ChangeEvent, useState } from "react";
+import { FamilyData } from "../../../redux/familySlice";
+import { ChangeEvent, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
+import { addFamilyMember, FamilyAddData, FamilyMemberData } from "../../../redux/familyMemberSlice";
+import { getUserNames } from "../../../redux/userSlice";
 
 interface MainFamilyAddMemberFormProps {
     isVisible: boolean,
     onClose: () => void
 }
 
-interface FamilyMember {
-    memberEmail: string,
-    relationType: string,
-    relationWith: number,
-    familyID: number,
-}
-
-const relations = ["Father", "Son", "Daughter", "Mother", "Brother", "Sister", "Uncle", "Aunty", "Cousin", "Grandfather", "Grandmother", "Grandson", "Granddaughter"];
+const relations = ["Father", "Son", "Daughter", "Mother", "Brother", "Sister", "Uncle", "Aunt", "Cousin", "Grandfather", "Grandmother", "Grandson", "Granddaughter"];
 
 const MainFamilyAddMemberForm: React.FC<MainFamilyAddMemberFormProps> = ({ isVisible, onClose }) => {
 
     const dispatch = useDispatch<AppDispatch>();
     const families = useSelector((state) => state.family.data);
+    const { userID } = useSelector((state) => state.user.data);
     const [selectedFamily, setSelectedFamily] = useState<FamilyData>(families[0]);
-    const { reset, handleSubmit, formState: { errors }, register } = useForm<FamilyMember>();
+    const { reset, handleSubmit, formState: { errors }, register } = useForm<FamilyAddData>();
+
+    const [userNames, setUserNames] = useState<[{userID: number, userName: string}]>();
+
+    useEffect(() => {
+        dispatch(getUserNames(selectedFamily.familyMembers)).then((response) => setUserNames(response));
+    }, []);
 
     const handleOnFamilyChange: (e: ChangeEvent<HTMLSelectElement>) => void = (e) => {
         setSelectedFamily(families.filter((family: FamilyData) => family.familyName === e.target.value)[0]);
     }
 
-    const onSubmit: SubmitHandler<FamilyMember> = async (data: FamilyMember) => {
+    const onSubmit: SubmitHandler<FamilyAddData> = async (data: FamilyAddData) => {
         try {
             data.familyID = selectedFamily.familyID;
-            const response = await dispatch(addMember({ memberEmail: data.memberEmail, familyMember: data }));
+            data.user1 = userID;
+            const response = await dispatch(addFamilyMember(data));
             if(response?.status === 200 && response.data.msg){
                 toast.error(response.data.msg);
             }
             else if(response?.status === 200) {
                 toast.success("New member added successfully.");
+                reset();
+                onClose();
             }
         } catch (error) {
             toast.error("Error adding new member.");
@@ -81,7 +86,7 @@ const MainFamilyAddMemberForm: React.FC<MainFamilyAddMemberFormProps> = ({ isVis
                             <input
                                 className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none"
                                 placeholder="Enter Members's email..."
-                                {...register("memberEmail")} 
+                                {...register("userEmail")} 
                             />
                         </div>
                     </div>
@@ -105,10 +110,10 @@ const MainFamilyAddMemberForm: React.FC<MainFamilyAddMemberFormProps> = ({ isVis
                                 <label className="text-[13px]">Relation with</label>
                                 <select
                                     className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[12px] focus:outline-none"
-                                    {...register("relationWith")}
+                                    {...register("user1")}
                                 >
-                                    {selectedFamily?.familyMembers.trim().split(" ").map((member, index) => (
-                                        <option key={index} value={member}>{member}</option>
+                                    {userNames && userNames.map((member, index) => (
+                                        <option key={index} value={member.userID}>{member.userName}</option>
                                     ))}
                                 </select>
                             </div>

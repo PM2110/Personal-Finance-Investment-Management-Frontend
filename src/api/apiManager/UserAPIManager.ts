@@ -22,6 +22,10 @@ const UserAPIManager = {
         const url = UserEndpoints.signIn();
         return APIMethods.post(url, data);
     },
+    getUserNames: (data: string) => {
+        const url = UserEndpoints.getUserNames(data);
+        return APIMethods.get(url);
+    },
     sendEmail: (data: EmailData) => {
         const url = UserEndpoints.sendEmail();
         return APIMethods.post(url, data);

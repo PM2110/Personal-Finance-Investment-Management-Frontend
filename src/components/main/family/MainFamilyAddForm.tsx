@@ -19,7 +19,7 @@ const MainFamilyAddForm: React.FC<MainFamilyAddFormProps> = ({ isVisible, onClos
 
     const onSubmit: SubmitHandler<FamilyData> = async (data: FamilyData) => {
         try {
-            data.familyMembers = ` ${userName} `;
+            data.familyMembers = ` ${userID} `;
             data.createdByID = userID;
             dispatch(addFamily(data));
             toast.success("Family added successfully.");

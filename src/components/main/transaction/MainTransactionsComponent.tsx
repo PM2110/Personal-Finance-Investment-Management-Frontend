@@ -40,8 +40,6 @@ const MainTransactionsComponent = () => {
         setTransaction(transactionsData.filter((transaction: TransactionData) => transaction.senderAccountID === selectedAccount?.accountID || transaction.receiverAccountID === selectedAccount?.accountID));
     }, [selectedAccount])
 
-    console.log(transactionsData, selectedAccount?.accountID);
-
     const handleSort = (column: keyof typeof transactionsData[0]) => {
         const order = sortColumn === column && sortOrder === "asc" ? "desc" : "asc";
         setSortColumn(column);

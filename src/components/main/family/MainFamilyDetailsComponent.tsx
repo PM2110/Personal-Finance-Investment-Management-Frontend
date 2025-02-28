@@ -1,5 +1,10 @@
 import { RiCloseLine } from "react-icons/ri";
 import { FamilyData } from "../../../redux/familySlice";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../redux/store";
+import { FamilyMemberData, setFamilyMember } from "../../../redux/familyMemberSlice";
+import { useSelector } from "react-redux";
 
 interface MainFamilyDetailsComponentProps {
     isVisible: boolean,
@@ -8,7 +13,14 @@ interface MainFamilyDetailsComponentProps {
 }
 
 const MainFamilyDetailsComponent: React.FC<MainFamilyDetailsComponentProps> = ({ isVisible, onClose, family }) => {
-    const members = family?.familyMembers.trim().split(" ");
+    
+    const dispatch = useDispatch<AppDispatch>();
+    const familyMembers: FamilyMemberData[] = useSelector((state) => state.familyMember.data);
+
+    useEffect(() => {
+        dispatch(setFamilyMember(family?.familyID || 0));
+    }, [family, dispatch])
+    
     return (
         <div className={`flex flex-col justify-between fixed top-0 right-0 h-full min-w-[600px] bg-white shadow-lg transform ${isVisible ? "translate-x-0" : "translate-x-full"} transition-transform duration-300 ease-in-out z-20`}>
             <div className="flex flex-col gap-4">
@@ -19,15 +31,16 @@ const MainFamilyDetailsComponent: React.FC<MainFamilyDetailsComponentProps> = ({
                     </button>
                 </div>
                 <div className="px-4 text-[13px] text-[#666D80]">
-                    Created by {members && members[0]} at {family && new Date(family.createdAt).toLocaleString()} 
+                    Created by {family?.createdByID} at {family && new Date(family.createdAt).toLocaleString()} 
                 </div>
                 <div className="flex flex-col gap-4">
                     <div className="text-[#818898] text-[14px] bg-[#F6F8FA] py-1 px-4 w-full">
                         MEMBERS
                     </div>
                     <div className="px-4 text-[13px] text-[#666D80]">
-                        {members && members.length !== 0 ? members.map((member, index) => (
-                            <div>{member}</div>
+                        <div>{family?.createdByID} ( ADMIN )</div>
+                        {familyMembers && familyMembers.length !== 0 ? familyMembers.map((member: FamilyMemberData, index: number) => (
+                            <div key={index}>{member.user2} ( {member.relationType} of {member.user1} )</div>
                         )) : "No members found." }
                     </div>
                 </div>

@@ -43,7 +43,6 @@ const MainBudgetAddForm: React.FC<MainBudgetAddFormProps> = ({ isVisible, onClos
             data.spent = Number(data.spent) || 0;
             data.accountID = selectedAccount?.accountID || 0;
             data.currency = selectedAccount?.currency || "";
-            console.log(data);
             const response = await dispatch(addBudget(data));
             if(response?.status === 201){
                 toast.success("Budget added successfully.");

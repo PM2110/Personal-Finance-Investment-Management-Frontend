@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { RiArrowLeftDownLine, RiArrowRightUpLine, RiFilter3Line } from "react-icons/ri";
-import BarChatComponent from "../mainComponents/BarChatComponent";
+import BarChatComponent from "../mainComponents/BarChatComponent";  // Import the chart
 import DashboardBalanceCardComponent from "../mainComponents/DashboardBalanceCardComponent";
-import { US } from "country-flag-icons/react/1x1";
 import DashboardSpendingCardComponent from "../mainComponents/DashboardSpendingCardComponent";
 import DashboardTransactionCardComponent from "../mainComponents/DashboardTransactionCardComponent";
 import { GoCreditCard } from "react-icons/go";
@@ -11,6 +10,7 @@ import DashboardNewsCardComponent from "../mainComponents/DashboardNewsCardCompo
 import { MdAccountBalance } from "react-icons/md";
 import { AccountData } from "../../../redux/accountSlice";
 import { useSelector } from "react-redux";
+import BarChartComponent from "../mainComponents/BarChatComponent";
 
 interface MainDashboardComponentProps {
     setPage: (page: number) => void;
@@ -101,12 +101,15 @@ const MainDashboardComponent: React.FC<MainDashboardComponentProps> = ({ setPage
                         </div>
                     </div>
                     <div className="h-full overflow-y-auto">
-                        <BarChatComponent />
+                        {/* Pass the selected account's accountID to the TransactionChart */}
+                        {selectedAccount && (
+                            <BarChartComponent accountID={selectedAccount?.accountID} />
+                        )}
                     </div>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default MainDashboardComponent;

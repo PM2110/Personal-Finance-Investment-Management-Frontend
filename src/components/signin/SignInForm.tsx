@@ -7,9 +7,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import { sendEmail, signIn, UserData } from "../../redux/userSlice";
+import { sendEmail, setUser, signIn, UserData } from "../../redux/userSlice";
 import { fetchUserPreference } from "../../redux/userPreferenceSlice";
-// import { AppContext } from "../../AppContext";
+import { AppContext } from "../../AppContext";
 
 interface SignInFormData {
     email: string;
@@ -20,7 +20,11 @@ interface SignInFormData {
 const SignInForm = () => {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
-    // const { setIsLoggedIn } = useContext(AppContext);
+    const appContext = useContext(AppContext);
+    if (!appContext) {
+        throw new Error("AppContext is null");
+    }
+    const { setIsLoggedIn } = appContext;
     const [visible, setVisible] = useState(false);
     const { register, handleSubmit, reset, formState: { errors }, watch } = useForm<SignInFormData>({
         defaultValues: {
@@ -41,6 +45,7 @@ const SignInForm = () => {
                 dispatch(fetchUserPreference(response?.data.user.userID));
                 localStorage.setItem('token', response?.data.token);
                 toast.success("Successfull signin");
+                setIsLoggedIn(true);
                 if(response?.data.user.isVerified){
                     // setIsLoggedIn(true);
                     navigate("/");

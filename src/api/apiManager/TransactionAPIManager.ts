@@ -11,6 +11,10 @@ const TransactionAPIManager = {
         const url = TransactionEndpoints.getAllTransactions(userName);
         return APIMethods.get(url);
     },
+    acceptTransaction: (transactionID: string) => {
+        const url = TransactionEndpoints.acceptTransaction(transactionID);
+        return APIMethods.put(url, {})
+    },
     updateTransaction: (transactionID: string, data: TransactionData) => {
         const url = TransactionEndpoints.updateTransaction(transactionID);
         return APIMethods.put(url, data);

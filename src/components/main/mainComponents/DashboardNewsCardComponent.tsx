@@ -24,7 +24,6 @@ const DashboardNewsCardComponent = () => {
     const analyzeSentiment = (text: string): number => {
         const sentiment = SentimentIntensityAnalyzer.polarity_scores(text);
         const compoundScore = sentiment.compound;
-        console.log(`Sentiment for "${text}": ${compoundScore}`);
         if (isNaN(compoundScore)) {
             console.error(`Invalid sentiment score for: ${text}`);
             return 0;
@@ -34,12 +33,9 @@ const DashboardNewsCardComponent = () => {
 
     useEffect(() => {
         dispatch(fetchNews(newsType)).then((news) => {
-            console.log("Fetched news:", news);
             setNews(news);
         });
     }, [newsType, dispatch]);
-
-    console.log("News state:", news);
 
     if (!news || news.length === 0) {
         return (

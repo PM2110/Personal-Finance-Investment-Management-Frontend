@@ -1,27 +1,26 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, LabelList } from 'recharts';
 import { TransactionData } from '../../../redux/transactionSlice'; // Adjust import if necessary
+import { UserData } from '../../../redux/userSlice';
+import { GoCreditCard } from 'react-icons/go';
 
 interface BarChartComponentProps {
     accountID: number;
 }
 
 const BarChartComponent: React.FC<BarChartComponentProps> = ({ accountID }) => {
-    const [timePeriod, setTimePeriod] = useState('7days'); // Default to 7 days
-    const { userName } = useSelector((state: any) => state.user.data);
+    const [timePeriod, setTimePeriod] = useState('7days');
+    const { userName } = useSelector((state: { user: { data: UserData } }) => state.user.data);
 
-    // Fetch transactions from the Redux store
-    const transactions: TransactionData[] = useSelector((state: any) => state.transaction.data);
+    const transactions: TransactionData[] = useSelector((state: { transaction: { data: TransactionData[] } }) => state.transaction.data);
 
-    // Function to filter transactions based on time period
     const filterTransactionsByTimePeriod = (transactions: TransactionData[], accountID: number, timePeriod: string) => {
         const currentTime = new Date();
-        let filteredTransactions = transactions.filter(
+        const filteredTransactions = transactions.filter(
             (transaction) => transaction.senderAccountID === accountID || transaction.receiverAccountID === accountID
         );
 
-        // Filter based on selected time period
         switch (timePeriod) {
             case '24hours':
                 return filteredTransactions.filter(
@@ -48,22 +47,18 @@ const BarChartComponent: React.FC<BarChartComponentProps> = ({ accountID }) => {
         }
     };
 
-    // Memoize the filtered transactions
     const filteredTransactions = useMemo(() => filterTransactionsByTimePeriod(transactions, accountID, timePeriod), [
         transactions,
         accountID,
         timePeriod,
     ]);
 
-    // Process daily incoming and outgoing transactions for the chart
     const chartData = useMemo(() => {
         const dailyData: { date: string; incoming: number; outgoing: number }[] = [];
 
-        // Calculate the start date for 7 days ago
         const currentDate = new Date();
-        const startDate = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 days ago
+        const startDate = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
 
-        // Create empty daily data for the past 7 days
         for (let i = 0; i < 7; i++) {
             const day = new Date(startDate.getTime() + i * 24 * 60 * 60 * 1000);
             const dayLabel = `${day.getMonth() + 1}/${day.getDate()}`;
@@ -75,22 +70,17 @@ const BarChartComponent: React.FC<BarChartComponentProps> = ({ accountID }) => {
             });
         }
 
-        // Iterate through filtered transactions and sum up incoming/outgoing amounts for each day
         filteredTransactions.forEach((transaction) => {
             const transactionDate = new Date(transaction.date);
-            const dayIndex = Math.floor((currentDate.getTime() - transactionDate.getTime()) / (24 * 60 * 60 * 1000)); // Day index (0 to 6)
+            const dayIndex = Math.floor((currentDate.getTime() - transactionDate.getTime()) / (24 * 60 * 60 * 1000));
 
-            // Make sure the transaction date is within the last 7 days
             if (dayIndex >= 0 && dayIndex < 7) {
                 
-                // Identify whether the transaction is incoming or outgoing
                 if (transaction.from !== userName) {
                     const amount = transaction.receivedAmount;
-                    // Incoming (received)
                     dailyData[dayIndex].incoming += amount;
                 } else {
                     const amount = transaction.sentAmount;
-                    // Outgoing (sent)
                     dailyData[dayIndex].outgoing += amount;
                 }
             }
@@ -101,9 +91,11 @@ const BarChartComponent: React.FC<BarChartComponentProps> = ({ accountID }) => {
 
     return (
         <div>
-            {/* Dropdown for time period selection */}
-            <div className="flex justify-between items-center mb-4">
-                <label className="text-sm">Time Period: </label>
+            <div className="flex h-auto justify-between text-[14px]">
+                <div className="flex gap-2 items-center">
+                    <GoCreditCard />
+                    Budget Overview
+                </div>
                 <select
                     value={timePeriod}
                     onChange={(e) => setTimePeriod(e.target.value)}
@@ -116,8 +108,7 @@ const BarChartComponent: React.FC<BarChartComponentProps> = ({ accountID }) => {
                     <option value="1year">1 Year</option>
                 </select>
             </div>
-
-            {/* Responsive Bar Chart */}
+            <div className="bg-[#DFE1E7] h-[1px] mt-1"></div>
             <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -125,10 +116,10 @@ const BarChartComponent: React.FC<BarChartComponentProps> = ({ accountID }) => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="incoming" fill="#8884d8">
+                    <Bar dataKey="incoming" fill="#E5EFFF">
                         <LabelList dataKey="incoming" position="top" />
                     </Bar>
-                    <Bar dataKey="outgoing" fill="#82ca9d">
+                    <Bar dataKey="outgoing" fill="#666D80">
                         <LabelList dataKey="outgoing" position="top" />
                     </Bar>
                 </BarChart>

@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { RiArrowLeftDownLine, RiArrowRightUpLine, RiFilter3Line } from "react-icons/ri";
-import BarChatComponent from "../mainComponents/BarChatComponent";  // Import the chart
 import DashboardBalanceCardComponent from "../mainComponents/DashboardBalanceCardComponent";
 import DashboardSpendingCardComponent from "../mainComponents/DashboardSpendingCardComponent";
-import DashboardTransactionCardComponent from "../mainComponents/DashboardTransactionCardComponent";
 import { GoCreditCard } from "react-icons/go";
 import { LuSettings } from "react-icons/lu";
 import DashboardNewsCardComponent from "../mainComponents/DashboardNewsCardComponent";
@@ -11,6 +9,7 @@ import { MdAccountBalance } from "react-icons/md";
 import { AccountData } from "../../../redux/accountSlice";
 import { useSelector } from "react-redux";
 import BarChartComponent from "../mainComponents/BarChatComponent";
+import DashboardHealthScoreComponent from "../mainComponents/DashboardHealthScoreComponent";
 
 interface MainDashboardComponentProps {
     setPage: (page: number) => void;
@@ -50,58 +49,9 @@ const MainDashboardComponent: React.FC<MainDashboardComponentProps> = ({ setPage
                 <DashboardBalanceCardComponent account={selectedAccount} />
                 <DashboardSpendingCardComponent account={selectedAccount} />
                 <DashboardNewsCardComponent />
-                <DashboardTransactionCardComponent setPage={setPage} />
-                <div className="flex flex-col gap-2 border-[#DFE1E7] col-span-1 sm:col-span-2 lg:col-span-2 border-2 rounded-xl h-[125%] p-2">
-                    <div className="flex h-auto justify-between text-[14px]">
-                        <div className="flex gap-2 items-center">
-                            <GoCreditCard />
-                            Budget Overview
-                        </div>
-                        <div className="flex gap-3">
-                            <div className="flex gap-1 items-center text-[#818898]">
-                                <div className="h-2 w-2 bg-[#666D80] rounded-full"></div>
-                                Outcome
-                            </div>
-                            <div className="flex gap-1 items-center text-[#818898]">
-                                <div className="h-2 w-2 bg-[#E5EFFF] rounded-full"></div>
-                                Income
-                            </div>
-                            <button className="w-auto min-w-[110px] flex items-center gap-2 border-[#DFE1E7] text-[12px] border-2 p-[8px] rounded-xl hover:cursor-pointer">
-                                <LuSettings />
-                                <div>
-                                    More Options
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-                    <div className="bg-[#DFE1E7] h-[1px] mt-1"></div>
-                    <div className="m-2 flex gap-4 text-[14px] justify-between text-[#666D80]">
-                        <div className="flex w-full flex-row gap-2 items-center">
-                            <div className="bg-[#F8F5FF] p-4 rounded-full">
-                                <RiArrowLeftDownLine className=" text-black text-[17px]"/>
-                            </div>
-                            <div className="flex flex-col justify-between">
-                                Income
-                                <div className="text-black ">
-                                    $ 2103,1011
-                                </div>
-                            </div>
-                        </div>
-                        <div className="bg-[#DFE1E7] w-[2px]"></div>
-                        <div className="flex w-full flex-row gap-2 items-center">
-                            <div className="bg-[#E5EFFF] p-4 rounded-full">
-                                <RiArrowRightUpLine className=" text-blue-600 text-[17px]"/>
-                            </div>
-                            <div className="flex flex-col justify-between">
-                                Outcome
-                                <div className="text-black ">
-                                    $ 0321,1110
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <DashboardHealthScoreComponent account={selectedAccount} />
+                <div className="flex flex-col gap-2 border-[#DFE1E7] col-span-1 sm:col-span-2 xl:col-span-2 border-2 rounded-xl h-[100%] p-2">
                     <div className="h-full overflow-y-auto">
-                        {/* Pass the selected account's accountID to the TransactionChart */}
                         {selectedAccount && (
                             <BarChartComponent accountID={selectedAccount?.accountID} />
                         )}

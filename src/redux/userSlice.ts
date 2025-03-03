@@ -16,7 +16,8 @@ export interface UserData {
     password: string,
     phoneNumber: string,
     address: string,
-    profilePic: string
+    profilePic: string,
+    isLoggedIn: boolean,
 }
 
 interface EmailData {
@@ -89,7 +90,8 @@ export const exchangeRates = (data: { from: string, to: string }) => async () =>
 export const verifyEmail = (data: { email: string }) => async () => {
     try {
         const response = await UserAPIManager.verifyEmail(data);
-        return response.data.otherID;
+        console.log(response.data)
+        return response.data;
     } catch (error) {
         console.log("Error while verifying user ", error);
     }
@@ -107,7 +109,7 @@ export const signUp = (data: UserData) => async (dispatch) => {
     try {
         const response = await UserAPIManager.signUp(data);
         if (response.status === 201) {
-            dispatch(setUser({ ...response.data.user, phoneNumber: '',  address: '', profilePic: ''}));
+            dispatch(setUser({ ...response.data.user, phoneNumber: '',  address: '', profilePic: '', isLoggedIn: true}));
         }
         return response;
     } catch (error) {
@@ -119,7 +121,7 @@ export const signIn = (data: UserData) => async (dispatch) => {
     try {
         const response = await UserAPIManager.signIn({ ...data, userName: '' });
         if (response.data.user) {
-            dispatch(setUser({ ...data, userID: response.data.user.userID, userName: response.data.user.userName, phoneNumber: '',  address: '', profilePic: ''}));
+            dispatch(setUser({ ...data, userID: response.data.user.userID, userName: response.data.user.userName, phoneNumber: '',  address: '', profilePic: '', isLoggedIn: true}));
         }
         return response;
     } catch (error) {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine, RiUser6Line, RiUserAddFill } from "react-icons/ri";
@@ -9,6 +9,7 @@ import { sendEmail, signUp, UserData } from "../../redux/userSlice";
 import toast from "react-hot-toast";
 import { AppDispatch } from "../../redux/store";
 import { addUserPreference, UserPreferenceData } from "../../redux/userPreferenceSlice";
+import { AppContext } from "../../AppContext";
 
 interface SignUpFormData {
     userName: string;
@@ -17,6 +18,11 @@ interface SignUpFormData {
 }
 
 const SignUpForm = () => {
+    const appContext = useContext(AppContext);
+    if (!appContext) {
+        throw new Error("AppContext is null");
+    }
+    const { setIsLoggedIn } = appContext;
     const dispatch = useDispatch<AppDispatch>();
     const navigate: (path: string) => void = useNavigate();
     const [visible, setVisible] = useState(false);
@@ -52,6 +58,7 @@ const SignUpForm = () => {
                 dispatch(sendEmail(email));
                 reset();
                 setSatisfied(0);
+                setIsLoggedIn(true);
                 toast.success("Successfull signup");
                 navigate("/verifyEmail");
             }

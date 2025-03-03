@@ -30,7 +30,7 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
     const [otherEmail, setOtherEmail] = useState("");
     const [otherAccountsList, setOtherAccountsList] = useState<AccountData[] | null>(null);
     
-    const { register, handleSubmit, reset, formState: { errors }, getValues } = useForm<TransactionData>();
+    const { register, handleSubmit, reset, formState: { errors }, getValues, setValue } = useForm<TransactionData>();
 
     useEffect(() => {
         dispatch(fetchAccount(userID));
@@ -42,9 +42,14 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
     }
 
     const handleVerify: () => void = async () => {
-        const otherID = await dispatch(verifyEmail({ email: otherEmail }));
+        const { otherID, otherUserName } = await dispatch(verifyEmail({ email: otherEmail }));
         if(otherID !== -1){
             toast.success(`${transactionType === "Income" ? "Sender found" : "Receiver found"}`);
+            if(transactionType === "Income"){
+                setValue("from", otherUserName);
+            } else {
+                setValue("to", otherUserName);
+            }
             await dispatch(getAccounts(otherID)).then((response) => setOtherAccountsList(response));
             setVerified(true);
         } else {
@@ -90,6 +95,7 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
             }
             data.userID = userID;
             data.sentAmount = Number(data.sentAmount);
+            data.status = transactionType === "Expense" ? "Completed" : "Pending";
             // const balance: BudgetData = balanceList.filter((balance: BudgetData) => balance.currency === data.currency)[0];
             // data.budgetID = balance.budgetID;
             const response = await dispatch(addTransaction(data));
@@ -237,22 +243,22 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
                                     <option value="other">Other</option>
                                 </select>
                             </div>
-                            <div className="flex flex-row w-full -mt-1 text-[13px] gap-2">
+                            {transactionType === "Expense" && <div className="flex flex-row w-full -mt-1 text-[13px] gap-2">
                                 <input 
                                     className="border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none"
                                     type="checkbox"
                                     {...register("deduct")}
                                 />
                                 <label>Deduct from account?</label>
-                            </div>
-                            <div className="flex flex-row w-full -mt-2 text-[13px] gap-2">
+                            </div>}
+                            {transactionType === "Expense" && <div className="flex flex-row w-full -mt-2 text-[13px] gap-2">
                                 <input 
                                     className="border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none"
                                     type="checkbox"
                                     {...register("includeInBudget")}
                                 />
                                 <label>Include in budget if present?</label>
-                            </div>
+                            </div>}
                             <button className="mt-auto bg-black text-white text-[15px] w-full py-[6px] border-black border-2 hover:cursor-pointer disabled:hover:cursor-not-allowed disabled:bg-[#666D80] disabled:border-[#666D80] rounded-lg">
                                 {transactionType === "Expense" ? "Add Transaction" : "Request"}
                             </button>

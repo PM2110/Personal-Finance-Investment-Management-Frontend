@@ -50,7 +50,7 @@ const DashboardSpendingCardComponent: React.FC<DashboardSpendingCardComponentPro
             <div className="border-[#DFE1E7] border-1 h-[1px]"></div>
             <div className="flex flex-col items-center justify-center h-20 text-[13px]">
                 <CircularProgressbar
-                    value={(spent * 100) / account?.balance}
+                    value={(spent * 100) / (account?.balance || 1)}
                     circleRatio={0.5}
                     strokeWidth={18}
                     styles={{
@@ -62,7 +62,7 @@ const DashboardSpendingCardComponent: React.FC<DashboardSpendingCardComponentPro
                     }}
                 />
                 <div className="flex items-center">
-                    Spent: {getCurrency(account?.currency || "")}{spent}
+                    Spent: {getCurrency(account?.currency || "")}{Number(spent).toFixed(2)}
                 </div>
             </div>
             <div className="border-[#DFE1E7] border-1 h-[1px]"></div>

@@ -8,6 +8,7 @@ import OtherSettingsComponent from "../components/other/settings/OtherSettingsCo
 import MainDashboardComponent from "../components/main/dashboard/MainDashboardComponent";
 import MainFamilyComponent from "../components/main/family/MainFamilyComponent";
 import MainTransactionsComponent from "../components/main/transaction/MainTransactionsComponent";
+import MainNewsComponent from "../components/main/news/MainNewsComponent";
 
 const HomePage = () => {
     const [selected, setSelected] = useState(1);
@@ -25,8 +26,10 @@ const HomePage = () => {
             case 5:
                 return <MainRecipientsComponent />
             case 6:
-                return <OtherIntegrationsComponent />
+                return <MainNewsComponent />
             case 7:
+                return <OtherIntegrationsComponent />
+            case 8:
                 return <OtherSettingsComponent />
         }
     }

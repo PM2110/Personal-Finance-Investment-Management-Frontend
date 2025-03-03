@@ -55,8 +55,10 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
             case 5:
                 return "Recipients"
             case 6:
-                return "Integrations"
+                return "News"
             case 7:
+                return "Integrations"
+            case 8:
                 return "Settings"
             default:
                 return ;
@@ -76,9 +78,11 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
             case 5:
                 return "Efficiently organize and keep track of your incoming receipts for hassel-free financial management"
             case 6:
-                return "Connect and sync with essential tools and platforms"
+                return "Stay updated with the latest news and trends in the financial world"
             case 7:
-                return "Customize and edit essential details";
+                return "Connect and sync with essential tools and platforms"
+            case 8:
+                return "Customize and edit essential details"
             default:
                 return ;
         }
@@ -96,7 +100,7 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
                 return <button onClick={handleTransactionAddForm} className="text-[13px]  bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Transaction</button>
             case 5:
                 return <button onClick={handleAccountAddForm} className="text-[13px]  bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Your Bank Account</button>
-            case 7:
+            case 8:
                 return <button className="flex items-center gap-2 text-[13px]  border-[#DFE1E7] border-2 px-3 py-2 rounded-lg hover:bg-black hover:border-black hover:text-white hover:cursor-pointer"><RiArrowGoForwardLine className="text-[14px]"/> Export</button>
         }
     }

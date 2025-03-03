@@ -109,6 +109,8 @@ const MainTransactionsComponent = () => {
                         <button onClick={() => setSelected(1)} className={`${selected === 1 ? "bg-white rounded-lg px-10 py-2 text-black" : "px-10 py-2"}`}>All</button>
                         <button onClick={() => setSelected(2)} className={`${selected === 2 ? "bg-white rounded-lg px-6 py-2 text-black" : "px-6 py-2"}`}>Income</button>
                         <button onClick={() => setSelected(3)} className={`${selected === 3 ? "bg-white rounded-lg px-6 py-2 text-black" : "px-6 py-2"}`}>Expense</button>
+                        <button onClick={() => setSelected(4)} className={`${selected === 4 ? "bg-white rounded-lg px-6 py-2 text-black" : "px-6 py-2"}`}>Pending</button>
+                        <button onClick={() => setSelected(5)} className={`${selected === 5 ? "bg-white rounded-lg px-6 py-2 text-black" : "px-6 py-2"}`}>Rejected</button>
                     </div>
                     <div className="flex s gap-3 text-[14px]">
                         <div className="flex gap-2 items-center text-[#666D80] border-[#DFE1E7] border-2 px-3 py-2 rounded-lg">
@@ -129,6 +131,7 @@ const MainTransactionsComponent = () => {
                                     <tr className="text-left bg-gray-100 text-[14px]">
                                         <th className="p-3 cursor-pointer font-normal" onClick={() => handleSort("from")}>To / From</th>
                                         <th className="p-3 cursor-pointer font-normal" onClick={() => handleSort("sentAmount")}>Amount Sent / Received</th>
+                                        <th className="p-3 font-normal">Category</th>
                                         <th className="p-3 font-normal">Status</th>
                                         <th className="p-3 cursor-pointer font-normal" onClick={() => handleSort("date")}>Date & Time</th>
                                         <th className="p-3 font-normal"></th>
@@ -139,25 +142,48 @@ const MainTransactionsComponent = () => {
                                         <tr key={index} onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="border-[#DFE1E7] border-t hover:bg-gray-50 text-[13px]">
                                             <td className="p-3 w-[27.5%]">{transaction.to === userName ? transaction.from : transaction.to}</td>
                                             <td className="p-3 w-[20%]">{transaction.to === userName ? `${transaction.receivedCurrency} ${Number(transaction.receivedAmount).toFixed(2)}` : `${transaction.sentCurrency} ${Number(transaction.sentAmount).toFixed(2)}`}</td>
-                                            <td className="p-3 w-[20%]">{transaction.category}</td>
+                                            <td className="p-3 w-[12%]">{transaction.category}</td>
+                                            <td className="p-3 w-[12%]">{transaction.status}</td>
                                             <td className="p-3 w-[27.5%]">{new Date(transaction.date).toLocaleString()}</td>
                                             <td className="p-3 w-[5%]"><RiArrowRightSLine onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="text-[22px] text-black"/></td>
                                         </tr>
                                     ))}
                                     {selected === 2 && paginatedTransactions.map((transaction: TransactionData, index: number) => (
-                                        transaction.to === userName && <tr key={index} onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="border-[#DFE1E7] border-t hover:bg-gray-50 text-[13px]">
+                                        transaction.to === userName && transaction.status === "Completed" && <tr key={index} onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="border-[#DFE1E7] border-t hover:bg-gray-50 text-[13px]">
                                             <td className="p-3 w-[27.5%]">{transaction.to === userName ? transaction.from : transaction.to}</td>
                                             <td className="p-3 w-[20%]">{transaction.receivedCurrency} {Number(transaction.receivedAmount).toFixed(2)}</td>
-                                            <td className="p-3 w-[20%]">{transaction.category}</td>
+                                            <td className="p-3 w-[12%]">{transaction.category}</td>
+                                            <td className="p-3 w-[12%]">{transaction.status}</td>
                                             <td className="p-3 w-[27.5%]">{transaction.date}</td>
                                             <td className="p-3 w-[5%]"><RiArrowRightSLine onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="text-[22px] text-black"/></td>
                                         </tr>
                                     ))}
                                     {selected === 3 && paginatedTransactions.map((transaction: TransactionData, index: number) => (
-                                        transaction.from === userName && <tr key={index} onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="border-[#DFE1E7] border-t hover:bg-gray-50 text-[13px]">
+                                        transaction.from === userName && transaction.status === "Completed" && <tr key={index} onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="border-[#DFE1E7] border-t hover:bg-gray-50 text-[13px]">
                                             <td className="p-3 w-[27.5%]">{transaction.to === userName ? transaction.from : transaction.to}</td>
                                             <td className="p-3 w-[20%]">{transaction.sentCurrency} {Number(transaction.sentAmount).toFixed(2)}</td>
-                                            <td className="p-3 w-[20%]">{transaction.category}</td>
+                                            <td className="p-3 w-[12%]">{transaction.category}</td>
+                                            <td className="p-3 w-[12%]">{transaction.status}</td>
+                                            <td className="p-3 w-[27.5%]">{transaction.date}</td>
+                                            <td className="p-3 w-[5%]"><RiArrowRightSLine onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="text-[22px] text-black"/></td>
+                                        </tr>
+                                    ))}
+                                    {selected === 4 && paginatedTransactions.map((transaction: TransactionData, index: number) => (
+                                        transaction.status === "Pending" && <tr key={index} onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="border-[#DFE1E7] border-t hover:bg-gray-50 text-[13px]">
+                                            <td className="p-3 w-[27.5%]">{transaction.to === userName ? transaction.from : transaction.to}</td>
+                                            <td className="p-3 w-[20%]">{transaction.sentCurrency} {Number(transaction.sentAmount).toFixed(2)}</td>
+                                            <td className="p-3 w-[12%]">{transaction.category}</td>
+                                            <td className="p-3 w-[12%]">{transaction.status}</td>
+                                            <td className="p-3 w-[27.5%]">{transaction.date}</td>
+                                            <td className="p-3 w-[5%]"><RiArrowRightSLine onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="text-[22px] text-black"/></td>
+                                        </tr>
+                                    ))}
+                                    {selected === 5 && paginatedTransactions.map((transaction: TransactionData, index: number) => (
+                                        transaction.status === "Rejected" && <tr key={index} onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="border-[#DFE1E7] border-t hover:bg-gray-50 text-[13px]">
+                                            <td className="p-3 w-[27.5%]">{transaction.to === userName ? transaction.from : transaction.to}</td>
+                                            <td className="p-3 w-[20%]">{transaction.sentCurrency} {Number(transaction.sentAmount).toFixed(2)}</td>
+                                            <td className="p-3 w-[12%]">{transaction.category}</td>
+                                            <td className="p-3 w-[12%]">{transaction.status}</td>
                                             <td className="p-3 w-[27.5%]">{transaction.date}</td>
                                             <td className="p-3 w-[5%]"><RiArrowRightSLine onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="text-[22px] text-black"/></td>
                                         </tr>

@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { BiUser } from "react-icons/bi";
 import { FiHome } from "react-icons/fi";
 import { GrTransaction } from "react-icons/gr";
 import { IoMdLink } from "react-icons/io";
 import { LuSettings } from "react-icons/lu";
-import { MdAccountBalance, MdOutlineFamilyRestroom, MdOutlineHelpOutline } from "react-icons/md";
+import { MdAccountBalance, MdLogout, MdNewspaper, MdOutlineFamilyRestroom, MdOutlineHelpOutline } from "react-icons/md";
 import { PiMoneyFill } from "react-icons/pi";
 import { RiArrowLeftSLine, RiArrowRightSLine, RiCloseLine, RiTeamLine } from "react-icons/ri";
 import { TfiHeadphoneAlt } from "react-icons/tfi";
+import { AppContext } from "../../AppContext";
+import { setUser } from "../../redux/userSlice";
 
 interface SideBarSendMoneyComponentProps {
     selected: number;
@@ -16,6 +18,11 @@ interface SideBarSendMoneyComponentProps {
 
 const SideBarHomeComponent: React.FC<SideBarSendMoneyComponentProps> = ({ selected, setSelected }) => {
     
+    const appContext = useContext(AppContext);
+    if (!appContext) {
+        throw new Error("AppContext is null");
+    }
+    const { setIsLoggedIn } = appContext;
     const [open, setOpen] = useState(true);
     const [visibleSupport, setVisibleSupport] = useState(true);
     const handleVisibleSupport: () => void = () => {
@@ -67,6 +74,10 @@ const SideBarHomeComponent: React.FC<SideBarSendMoneyComponentProps> = ({ select
                         <MdAccountBalance className="text-[16px]" />
                         {open && "Accounts"}
                     </button>
+                    <button onClick={() => setSelected(6)} className={`flex gap-3 items-center ${selected === 6 ? "border-[#DFE1E7] border-[2px] rounded-lg bg-white text-black" : "border-[#F6F8FA] border-[2px]"} px-2 py-[6px]`}>
+                        <MdNewspaper className="text-[16px]" />
+                        {open && "News"}
+                    </button>
                 </div>
             </div>
             <div className="w-full">
@@ -74,17 +85,17 @@ const SideBarHomeComponent: React.FC<SideBarSendMoneyComponentProps> = ({ select
                     OTHER
                 </div>
                 <div className="flex flex-col mt-4 gap-2 text-[13px]">
-                    <button onClick={() => setSelected(6)} className={`flex gap-3 items-center ${selected === 6 ? "border-[#DFE1E7] border-[2px] rounded-lg bg-white text-black" : "border-[#F6F8FA] border-[2px]"} px-2 py-[6px]`}>
+                    <button onClick={() => setSelected(7)} className={`flex gap-3 items-center ${selected === 7 ? "border-[#DFE1E7] border-[2px] rounded-lg bg-white text-black" : "border-[#F6F8FA] border-[2px]"} px-2 py-[6px]`}>
                         <IoMdLink className="text-[16px]" />
                         {open && "Integrations"}
                     </button>
-                    <button onClick={() => setSelected(7)} className={`flex gap-3 items-center ${selected === 7 || selected === 2.1 ? "border-[#DFE1E7] border-[2px] rounded-lg bg-white text-black" : "border-[#F6F8FA] border-[2px]"} px-2 py-[6px]`}>
+                    <button onClick={() => setSelected(8)} className={`flex gap-3 items-center ${selected === 8 || selected === 2.1 ? "border-[#DFE1E7] border-[2px] rounded-lg bg-white text-black" : "border-[#F6F8FA] border-[2px]"} px-2 py-[6px]`}>
                         <LuSettings className="text-[16px]" />
                         {open && "Settings"}
                     </button>
-                    <button onClick={() => setSelected(8)} className={`flex gap-3 items-center ${selected === 8 || selected === 3.1 ? "border-[#DFE1E7] border-[2px] rounded-lg bg-white text-black" : "border-[#F6F8FA] border-[2px]"} px-2 py-[6px]`}>
-                        <MdOutlineHelpOutline className="text-[16px]" />
-                        {open && "Get Help"}
+                    <button onClick={() => { setIsLoggedIn(false); localStorage.clear(); setUser(null); }} className={`flex gap-3 items-center ${selected === 9 || selected === 3.1 ? "border-[#DFE1E7] border-[2px] rounded-lg bg-white text-black" : "border-[#F6F8FA] border-[2px]"} px-2 py-[6px]`}>
+                        <MdLogout className="text-[16px]" />
+                        {open && "Log out"}
                     </button>
                 </div>
             </div>

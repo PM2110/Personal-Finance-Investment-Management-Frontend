@@ -83,6 +83,15 @@ const transactionSlice = createSlice({
 export const { addTransactionState, updateTransactionState, deleteTransactionState } = transactionSlice.actions;
 export default transactionSlice.reducer;
 
+export const acceptTransaction = (transactionID: string) => async (dispatch) => {
+    try {
+        const response = await TransactionAPIManager.acceptTransaction(transactionID);
+        dispatch(updateTransactionState(response.data.transaction));
+    } catch (error) {
+        console.log("Error while updating transaction ", error);
+    }
+}
+
 export const addTransaction = (data: TransactionData) => async (dispatch) => {
     try {
         const response = await TransactionAPIManager.addTransaction(data);
@@ -98,7 +107,7 @@ export const addTransaction = (data: TransactionData) => async (dispatch) => {
 export const updateTransaction = (transactionID: string, data: TransactionData) => async (dispatch) => {
     try {
         const response = await TransactionAPIManager.updateTransaction(transactionID, data);
-        dispatch(updateTransactionState(response.data.user));
+        dispatch(updateTransactionState(response.data.transaction));
     } catch (error) {
         console.log("Error while updating transaction ", error);
     }

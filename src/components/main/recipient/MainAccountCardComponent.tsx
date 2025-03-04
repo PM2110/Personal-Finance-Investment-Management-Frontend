@@ -2,6 +2,7 @@ import { MdDeleteOutline, MdOutlineModeEditOutline } from "react-icons/md";
 import { AccountData } from "../../../redux/accountSlice"
 import { getCurrency, getFlag } from "../../currency";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 interface MainAccountCardComponentProps {
     account: AccountData,
@@ -24,6 +25,13 @@ const MainAccountCardComponent: React.FC<MainAccountCardComponentProps> = ({ acc
     
     const [balanceVisible, setBalanceVisible] = useState(false);
     const [numberVisible, setNumberVisible] = useState(false);
+
+    const { currencyValues, currency } = useSelector((state) => state.userPreference.data);
+    let show = account.balance;
+
+    if(currency && account){
+        show = Number((account.balance) / currencyValues[account.currency]).toFixed(2);
+    }
     
     return (
         <div className="flex flex-col gap-4 border-[#DFE1E7] border-2 rounded-xl p-3">
@@ -58,9 +66,9 @@ const MainAccountCardComponent: React.FC<MainAccountCardComponentProps> = ({ acc
                     </div>
                 </div>
                 <button onClick={() => setBalanceVisible(!balanceVisible)} className="flex w-full justify-center items-center text-[32px] hover:cursor-pointer">
-                    {getCurrency(account.currency)}
+                    {currency ? getCurrency(currency) : getCurrency(account.currency)}
                     <div className="flex">
-                        {balanceVisible ? account.balance : `xxxx${account.balance.toString().slice(account.balance.toString().length - 4)}`}
+                        {balanceVisible ? show : `xxxx${show?.toString().slice(show?.toString().length - 4)}`}
                     </div>
                 </button>
                 <div className={`flex w-full justify-between p-1 px-4 rounded-b-lg bg-[#${getColor(account.accountType)}] text-[12px] text-[#666D80]`}>

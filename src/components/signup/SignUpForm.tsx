@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { sendEmail, signUp, UserData } from "../../redux/userSlice";
 import toast from "react-hot-toast";
 import { AppDispatch } from "../../redux/store";
-import { addUserPreference, UserPreferenceData } from "../../redux/userPreferenceSlice";
+import { addUserPreference, fetchUserPreference, UserPreferenceData } from "../../redux/userPreferenceSlice";
 import { AppContext } from "../../AppContext";
 
 interface SignUpFormData {
@@ -58,9 +58,10 @@ const SignUpForm = () => {
                 dispatch(sendEmail(email));
                 reset();
                 setSatisfied(0);
-                setIsLoggedIn(true);
-                toast.success("Successfull signup");
                 navigate("/verifyEmail");
+                setIsLoggedIn(true);
+                dispatch(fetchUserPreference(response?.data.user.userID));
+                toast.success("Successfull signup");
             }
         } catch (error) {
             toast.error("Error while signing up");

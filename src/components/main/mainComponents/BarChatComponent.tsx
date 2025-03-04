@@ -36,20 +36,21 @@ interface RootState {
 
 interface PartitionedBarChartProps {
   accountID: number;
-  duration: '24h' | '7d' | '1m' | '6m' | '1y';
+  duration: string;
 }
 
 const PartitionedBarChart: React.FC<PartitionedBarChartProps> = ({ accountID, duration }) => {
   const transactions = useSelector((state: RootState) => state.transaction.data);
+  const { currencyValues, currency } = useSelector((state) => state.userPreference.data);
 
   const partitions = useMemo(() => {
     const now = new Date();
     const partitionMap: Record<string, number> = {
-      '24h': 6 * 60 * 60 * 1000, // 6 hours
-      '7d': 24 * 60 * 60 * 1000, // 1 day
-      '1m': 7 * 24 * 60 * 60 * 1000, // 1 week
-      '6m': 30 * 24 * 60 * 60 * 1000, // 1 month
-      '1y': 3 * 30 * 24 * 60 * 60 * 1000, // 3 months
+      '24h': 6 * 60 * 60 * 1000,
+      '7d': 24 * 60 * 60 * 1000,
+      '1m': 7 * 24 * 60 * 60 * 1000,
+      '6m': 30 * 24 * 60 * 60 * 1000,
+      '1y': 3 * 30 * 24 * 60 * 60 * 1000,
     };
     const partitionSize = partitionMap[duration];
 
@@ -65,34 +66,66 @@ const PartitionedBarChart: React.FC<PartitionedBarChartProps> = ({ accountID, du
       };
       return durationMap[duration];
     };
+
     transactions.forEach((transaction) => {
       const date = new Date(transaction.date);
       const timeDiff = now.getTime() - date.getTime();
       if (timeDiff > getDurationMs(duration)) return;
 
       const partition = Math.floor(timeDiff / partitionSize);
-      if (!partitionedData[partition]) {
-        partitionedData[partition] = { income: 0, expense: 0 };
+      const partitionKey = `${partition}`;
+
+      if (!partitionedData[partitionKey]) {
+        partitionedData[partitionKey] = { income: 0, expense: 0 };
       }
 
       if (transaction.receiverAccountID === accountID) {
-        partitionedData[partition].income += transaction.receivedAmount || 0;
+        if(currency){
+          partitionedData[partitionKey].income += (Number(transaction.receivedAmount) || 0) / currencyValues[transaction.receivedCurrency];
+        }
+        else{
+          partitionedData[partitionKey].income += Number(transaction.receivedAmount) || 0;
+        }
       }
-      if (transaction.senderAccountID === accountID) {
-        partitionedData[partition].expense += transaction.sentAmount || 0;
+      if(currency){
+        partitionedData[partitionKey].expense += (Number(transaction.sentAmount) || 0) / currencyValues[transaction.sentCurrency];
+      }
+      else{
+        partitionedData[partitionKey].expense += Number(transaction.sentAmount) || 0;
       }
     });
 
-    return Object.entries(partitionedData).map(([key, value]) => ({
-      name: `${key}`,
+    const partitionLabels: Record<string, string[]> = {
+      '24h': ['0-6h', '6-12h', '12-18h', '18-24h'],
+      '7d': ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+      '1m': ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+      '6m': ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6'],
+      '1y': ['Q1', 'Q2', 'Q3', 'Q4'],
+    };
+
+    const partitionedArray = Object.entries(partitionedData).map(([key, value], index) => ({
+      name: partitionLabels[duration][index] || key,
       income: value.income,
       expense: value.expense,
     }));
+
+    const requiredPartitions = {
+      '24h': 4,
+      '7d': 7,
+      '1m': 4,
+      '6m': 6,
+      '1y': 4,
+    };
+
+    while (partitionedArray.length < requiredPartitions[duration]) {
+      partitionedArray.push({ name: partitionLabels[duration][partitionedArray.length], income: 0, expense: 0 });
+    }
+
+    return partitionedArray;
   }, [transactions, accountID, duration]);
 
-
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer width="100%" height={250}>
       <BarChart data={partitions} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
         <XAxis dataKey="name" />
         <YAxis />

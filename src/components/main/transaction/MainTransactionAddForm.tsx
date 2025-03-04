@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { addTransaction, TransactionData } from "../../../redux/transactionSlice";
 import { useSelector } from "react-redux";
 import { AccountData, fetchAccount, getAccounts } from "../../../redux/accountSlice";
-import { verifyEmail } from "../../../redux/userSlice";
+import { sendEmail, verifyEmail } from "../../../redux/userSlice";
 
 interface MainTransactionAddFormProps {
     isVisible: boolean,
@@ -18,7 +18,8 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
 
     const dispatch = useDispatch<AppDispatch>();
     
-    const { userName, userID } = useSelector((state) => state.user.data);
+    const { userName, userID, email } = useSelector((state) => state.user.data);
+    const { notificationMethods, generalNotifications } = useSelector((state) => state.userPreference.data);
     const accounts: AccountData[] = useSelector((state) => state.account.data);
     
     const [transactionType, setTransactionType] = useState("Income");
@@ -106,6 +107,79 @@ const MainTransactionAddForm: React.FC<MainTransactionAddFormProps> = ({ isVisib
                 reset();
                 setVerified(false);
                 onClose();
+                if(data.status === "Completed" && transactionType === "Expense" && notificationMethods[0] === '1' && generalNotifications[0] === '1'){
+                    let sendemail = {
+                        to: email,
+                        subject: "Transaction made from your account",
+                        html: `
+                          <div style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 20px; border-radius: 8px; text-align: center;">
+                              <h2 style="color: #333; font-size: 24px;">From PFIM!</h2>
+                              <p style="font-size: 16px; color: #666;">Transaction was made from your account at ${new Date().toLocaleString()}.</p>
+                              <p style="font-size: 14px; color: #999; margin-top: 20px;">If you haven't made a transaction, immediately contact your bank..</p>
+                          </div>
+                        `,
+                    };
+                    dispatch(sendEmail(sendemail));
+                    sendemail = {
+                        to: otherEmail,
+                        subject: "Transaction made to your account",
+                        html: `
+                          <div style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 20px; border-radius: 8px; text-align: center;">
+                              <h2 style="color: #333; font-size: 24px;">From PFIM!</h2>
+                              <p style="font-size: 16px; color: #666;">Transaction was made to your account at ${new Date().toLocaleString()}.</p>
+                          </div>
+                        `,
+                    };
+                    dispatch(sendEmail(sendemail));
+                } else if(data.status === "Pending" && transactionType === "Income" && notificationMethods[0] === '1' && generalNotifications[0] === '1'){
+                    let sendemail = {
+                        to: email,
+                        subject: "Transaction requested",
+                        html: `
+                          <div style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 20px; border-radius: 8px; text-align: center;">
+                              <h2 style="color: #333; font-size: 24px;">From PFIM!</h2>
+                              <p style="font-size: 16px; color: #666;">Transaction requested at ${new Date().toLocaleString()}.</p>
+                              <p style="font-size: 14px; color: #999; margin-top: 20px;">If you haven't made a transaction request, immediately contact your bank..</p>
+                          </div>
+                        `,
+                    };
+                    dispatch(sendEmail(sendemail));
+                    sendemail = {
+                        to: otherEmail,
+                        subject: "Transaction request received",
+                        html: `
+                          <div style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 20px; border-radius: 8px; text-align: center;">
+                              <h2 style="color: #333; font-size: 24px;">From PFIM!</h2>
+                              <p style="font-size: 16px; color: #666;">Transaction request was made to your account at ${new Date().toLocaleString()}.</p>
+                          </div>
+                        `,
+                    };
+                    dispatch(sendEmail(sendemail));
+                } else if(data.status === "Completed" && transactionType === "Income" && notificationMethods[0] === '1' && generalNotifications[0] === '1'){
+                    let sendemail = {
+                        to: email,
+                        subject: "Transaction was made to your account",
+                        html: `
+                          <div style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 20px; border-radius: 8px; text-align: center;">
+                              <h2 style="color: #333; font-size: 24px;">From PFIM!</h2>
+                              <p style="font-size: 16px; color: #666;">Transaction was made in your account at ${new Date().toLocaleString()}.</p>
+                            </div>
+                        `,
+                    };
+                    dispatch(sendEmail(sendemail));
+                    sendemail = {
+                        to: otherEmail,
+                        subject: "Transaction was made from your account",
+                        html: `
+                            <div style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 20px; border-radius: 8px; text-align: center;">
+                            <h2 style="color: #333; font-size: 24px;">From PFIM!</h2>
+                            <p style="font-size: 16px; color: #666;">Transaction was made from your account at ${new Date().toLocaleString()}.</p>
+                            <p style="font-size: 14px; color: #999; margin-top: 20px;">If you haven't made a transaction request, immediately contact your bank..</p>
+                            </div>
+                        `,
+                    };
+                    dispatch(sendEmail(sendemail));
+                } 
                 toast.success("Transaction added successfully.");
             }
         } catch {

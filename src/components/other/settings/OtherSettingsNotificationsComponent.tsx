@@ -2,6 +2,7 @@ import { useState } from "react";
 import { updateUserPreference, UserPreferenceData } from "../../../redux/userPreferenceSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
+import toast from "react-hot-toast";
 
 interface OtherSettingsNotificationsComponenetProps {
     userPreference: UserPreferenceData,
@@ -10,7 +11,7 @@ interface OtherSettingsNotificationsComponenetProps {
 const OtherSettingsNotificationsComponenet: React.FC<OtherSettingsNotificationsComponenetProps> = ({ userPreference }) => {
     
     const dispatch = useDispatch<AppDispatch>();
-
+    const [lowBalanceValue, setLowBalanceValue] = useState(userPreference.lowBalance);
     const [transactionAlerts, setTransactionAlerts] = useState(userPreference.generalNotifications[0] === '1');
     const [lowBalanceAlerts, setLowBalanceAlerts] = useState(userPreference.generalNotifications[1] === '1');
     const [exclusiveOffersAlerts, setExclusiveOffersAlerts] = useState(userPreference.generalNotifications[2] === '1');
@@ -41,6 +42,14 @@ const OtherSettingsNotificationsComponenet: React.FC<OtherSettingsNotificationsC
             newNotificationMethod = userPreference.notificationMethods.slice(0, 1).concat(e.target.checked ? '1' : '0');
         }
         dispatch(updateUserPreference(userPreference.userID, { notificationMethods: newNotificationMethod } as UserPreferenceData));
+    }
+
+    const handleSave: () => void = () => {
+        if(!Number(lowBalanceValue) || lowBalanceValue < 0 || lowBalanceValue > 1){
+            toast.error("Please enter a valid value between 0 and 1");
+            return;
+        }
+        dispatch(updateUserPreference(userPreference.userID, { lowBalance: lowBalanceValue } as UserPreferenceData))
     }
 
     return (
@@ -89,6 +98,15 @@ const OtherSettingsNotificationsComponenet: React.FC<OtherSettingsNotificationsC
                             <div className="text-[12px] text-[#676769]">
                                 Receive notifications by SMS.
                             </div>
+                        </div>
+                        <div className="flex items-end gap-2">
+                            {lowBalanceAlerts &&
+                                <div className="ml-4 flex flex-col text-[12px] gap-1">
+                                    <label>Fix your low budget (0 to 1)</label>
+                                    <input defaultValue={lowBalanceValue} onChange={(e) => setLowBalanceValue(Number(e.target.value))} className="p-1 text-[12px] border-[#DFE1E7] border-2 focus:outline-none rounded-lg"/>
+                                </div>
+                            }
+                            {lowBalanceAlerts && <button onClick={handleSave} className="bg-green-500 px-2 py-[6px] text-[12px] rounded-lg text-white">Save</button>}
                         </div>
                     </div>
                     <div className="flex flex-row gap-4 items-start justify-between">

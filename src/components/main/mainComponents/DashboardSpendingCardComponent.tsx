@@ -19,13 +19,21 @@ const DashboardSpendingCardComponent: React.FC<DashboardSpendingCardComponentPro
     const dispatch = useDispatch<AppDispatch>();
     const { userName } = useSelector((state) => state.user.data);
     const transactions = useSelector((state) => state.transaction.data).filter((transaction: TransactionData) => transaction.senderAccountID === account?.accountID);
-
-    const [visibleBalance, setVisibleBalance] = useState(false);
+    const { currencyValues, currency } = useSelector((state) => state.userPreference.data);
+    const [visibleBalance, setVisibleBalance] = useState(true);
+    let show = account?.balance;
+    if(currency && account){
+        show = Number(account?.balance) / currencyValues[account?.currency];
+    }
     
     let spent: number = 0;
     transactions.forEach((transaction: TransactionData) => {
         if(transaction.from === userName){
-            spent = Number(Number(spent) + Number(transaction.sentAmount));
+            if(currency){
+                spent = Number(spent) + (Number(transaction.sentAmount) / currencyValues[transaction.sentCurrency]);
+            } else {
+                spent = Number(spent) + (Number(transaction.sentAmount));
+            }
         }
     })
 
@@ -48,27 +56,30 @@ const DashboardSpendingCardComponent: React.FC<DashboardSpendingCardComponentPro
                 </button>
             </div>
             <div className="border-[#DFE1E7] border-1 h-[1px]"></div>
-            <div className="flex flex-col items-center justify-center h-20 text-[13px]">
-                <CircularProgressbar
-                    value={(spent * 100) / (account?.balance || 1)}
-                    circleRatio={0.5}
-                    strokeWidth={18}
-                    styles={{
-                        root: {
-                            transform: "rotate(0.75turn)"
-                        },
-                        path: { stroke: "black", strokeLinecap: "butt" },
-                        trail: { stroke: "#C4C4C4", strokeLinecap: "butt" },
-                    }}
-                />
-                <div className="flex items-center">
-                    Spent: {getCurrency(account?.currency || "")}{Number(spent).toFixed(2)}
+            <div className="flex flex-col items-center justify-center h-40 text-[13px]">
+                <div className="h-fit w-4/5 mt-42">
+                    <CircularProgressbar
+                        value={(spent * 100) / (show || 1)}
+                        circleRatio={0.5}
+                        strokeWidth={18}
+                        styles={{
+                            root: {
+                                transform: "rotate(0.75turn)"
+                            },
+                            path: { stroke: "black", strokeLinecap: "butt" },
+                            trail: { stroke: "#C4C4C4", strokeLinecap: "butt" },
+                        }}
+                    />
                 </div>
+                
             </div>
-            <div className="border-[#DFE1E7] border-1 h-[1px]"></div>
+            <div className="flex h-auto items-center justify-center w-full -mt-8">
+                Spent: {currency ? getCurrency(currency) : getCurrency(account?.currency || "")}{Number(spent).toFixed(2)}
+            </div>
+            <div className="border-[#DFE1E7] border-1 h-[1px] mt-2"></div>
             <div className="flex justify-between items-center rounded-lg p-2 bg-[#F0FBFF] text-[#116B97] text-[13px]">
                 <div className="flex gap-1">
-                    Your account balance is <button onClick={() => setVisibleBalance(!visibleBalance)} className="flex items-center gap-[2px] hover:cursor-pointer"> {getCurrency(account?.currency || "")} {visibleBalance ? account?.balance : `xxxx${account?.balance.toString().slice(account?.balance.toString().length - 4)}` } </button>
+                    Your account balance is <button onClick={() => setVisibleBalance(!visibleBalance)} className="flex items-center gap-[2px] hover:cursor-pointer"> {currency ? getCurrency(currency) : getCurrency(account?.currency || "")} {visibleBalance ? show : `xxxx${show?.toString().slice(show?.toString().length - 4)}` } </button>
                 </div>
                 <GoInfo className=" text-[13px]"/>
             </div>

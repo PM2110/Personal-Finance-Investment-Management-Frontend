@@ -6,13 +6,13 @@ import { AppDispatch } from "../../redux/store";
 import { updateUser, UserData, verifyUser } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../AppContext";
-// import { AppContext } from "../../AppContext";
 
 const EmailVerifiedComponent = () => {
 
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const appContext = useContext(AppContext);
+    const { email } = useSelector((state) => state.user.data);
     if (!appContext) {
         throw new Error("AppContext is null");
     }
@@ -37,7 +37,7 @@ const EmailVerifiedComponent = () => {
                     Email Verified
                 </div>
                 <div className="text-[#666D80] text-[14px] text-center">
-                    Your email address <b>pmpatelmanan21@gmail.com</b> has been verified. In the future, you need to use this email address when logging in to <b>PFIM</b>
+                    Your email address <b>{email}</b> has been verified. In the future, you need to use this email address when logging in to <b>PFIM</b>
                 </div>
                 <button onClick={() => { 
                     dispatch(verifyUser(""));

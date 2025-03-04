@@ -1,11 +1,31 @@
 import { RiCloseLine } from "react-icons/ri";
+import { useState } from "react";
 
 interface MainTransactionFilterFormProps {
     isVisible: boolean,
-    onClose: () => void
+    onClose: () => void,
+    onApplyFilter: (status: string, direction: string, category: string) => void,
+    onClearFilter: () => void,
 }
 
-const MainTransactionFilterForm: React.FC<MainTransactionFilterFormProps> = ({ isVisible, onClose }) => {
+const MainTransactionFilterForm: React.FC<MainTransactionFilterFormProps> = ({ isVisible, onClose, onApplyFilter, onClearFilter }) => {
+    const [status, setStatus] = useState<string>("");
+    const [direction, setDirection] = useState<string>("All");
+    const [category, setCategory] = useState<string>("");
+
+    const handleApplyFilter = () => {
+        onApplyFilter(status, direction, category);
+        onClose();
+    };
+
+    const handleClearFilter = () => {
+        setStatus("");
+        setDirection("All");
+        setCategory("");
+        onClearFilter();
+        onClose();
+    };
+
     return (
         <div className={`flex flex-col justify-between fixed top-0 right-0 h-full min-w-[300px] bg-white shadow-lg transform ${isVisible ? "translate-x-0" : "translate-x-full"} transition-transform duration-300 ease-in-out z-20`}>
             <div className="flex flex-col gap-4">
@@ -20,7 +40,15 @@ const MainTransactionFilterForm: React.FC<MainTransactionFilterFormProps> = ({ i
                         STATUS
                     </div>
                     <div className="px-4">
-                        <select className="w-full text-[13px] border-[#DFE1E7] border-2 rounded-xl p-2 focus:outline-none">
+                        <select
+                            value={status}
+                            onChange={(e) => setStatus(e.target.value)}
+                            className="w-full text-[13px] border-[#DFE1E7] border-2 rounded-xl p-2 focus:outline-none"
+                        >
+                            <option value="">All</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Rejected">Rejected</option>
                         </select>
                     </div>
                 </div>
@@ -29,7 +57,11 @@ const MainTransactionFilterForm: React.FC<MainTransactionFilterFormProps> = ({ i
                         DIRECTION
                     </div>
                     <div className="px-4">
-                        <select className="w-full text-[13px] border-[#DFE1E7] border-2 rounded-xl p-2 focus:outline-none">
+                        <select
+                            value={direction}
+                            onChange={(e) => setDirection(e.target.value)}
+                            className="w-full text-[13px] border-[#DFE1E7] border-2 rounded-xl p-2 focus:outline-none"
+                        >
                             <option value="All">All</option>
                             <option value="Income">Income</option>
                             <option value="Expense">Expense</option>
@@ -41,7 +73,12 @@ const MainTransactionFilterForm: React.FC<MainTransactionFilterFormProps> = ({ i
                         CATEGORY
                     </div>
                     <div className="px-4">
-                        <select className="w-full text-[13px] border-[#DFE1E7] border-2 rounded-xl p-2 focus:outline-none">
+                        <select
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            className="w-full text-[13px] border-[#DFE1E7] border-2 rounded-xl p-2 focus:outline-none"
+                        >
+                            <option value="">All</option>
                             <option value="HouseHold">House hold</option>
                             <option value="HomeImprovement">Home Improvement</option>
                             <option value="Food&Drink">Food & Drink</option>
@@ -55,10 +92,10 @@ const MainTransactionFilterForm: React.FC<MainTransactionFilterFormProps> = ({ i
                 </div>
             </div>
             <div className="flex gap-2 p-4 mt-auto">
-                <button className="mt-1 text-[15px] w-full py-[6px]  border-[#DFE1E7] border-2 hover:cursor-pointer rounded-lg">
+                <button onClick={handleClearFilter} className="mt-1 text-[15px] w-full py-[6px]  border-[#DFE1E7] border-2 hover:cursor-pointer rounded-lg">
                     Clear All
                 </button>
-                <button className="mt-1 bg-black text-white text-[15px] w-full py-[6px]  border-black border-2 hover:cursor-pointer rounded-lg">
+                <button onClick={handleApplyFilter} className="mt-1 bg-black text-white text-[15px] w-full py-[6px]  border-black border-2 hover:cursor-pointer rounded-lg">
                     Apply All
                 </button>
             </div>

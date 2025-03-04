@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import toast from "react-hot-toast";
+import { sendEmail } from "../../../redux/userSlice";
 
 interface MainTransactionDetailsComponentProps {
     isVisible: boolean,
@@ -23,6 +24,8 @@ const MainTransactionDetailsComponent: React.FC<MainTransactionDetailsComponentP
     const { userName } = useSelector((state) => state.user.data);
     const [receiverAccount, setReceiverAccount] = useState<AccountData>();
     const [senderAccount, setSenderAccount] = useState<AccountData>();
+    const { generalNotifications, notificationMethods } = useSelector((state) => state.userPreference.data);
+    const { email } = useSelector((state) => state.user.data);
 
     useEffect(() => {
         dispatch(getAccount(transaction?.receiverAccountID || 0)).then((response) => setReceiverAccount(response));
@@ -30,18 +33,57 @@ const MainTransactionDetailsComponent: React.FC<MainTransactionDetailsComponentP
     }, [transaction, dispatch])
 
     const handleReject = () => {
+        if(notificationMethods[0] === '1' && generalNotifications[0] === '1'){
+            const sendemail = {
+                to: email,
+                subject: "Transaction request rejected",
+                html: `
+                    <div style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 20px; border-radius: 8px; text-align: center;">
+                        <h2 style="color: #333; font-size: 24px;">From PFIM!</h2>
+                        <p style="font-size: 16px; color: #666;">Your transaction request ${transaction?.transactionID} was rejected at ${new Date().toLocaleString()}.</p>
+                    </div>
+                `,
+            };
+            dispatch(sendEmail(sendemail));
+        }
         dispatch(updateTransaction(transaction?.transactionID || "", { ...transaction, status: "Rejected" } as TransactionData));
         toast.success("Transaction rejected successfully.");
         onClose();
     }
 
     const handleAccept = () => {
+        if(notificationMethods[0] === '1' && generalNotifications[0] === '1'){
+            const sendemail = {
+                to: email,
+                subject: "Transaction request accepted",
+                html: `
+                    <div style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 20px; border-radius: 8px; text-align: center;">
+                        <h2 style="color: #333; font-size: 24px;">From PFIM!</h2>
+                        <p style="font-size: 16px; color: #666;">Your transaction request ${transaction?.transactionID} was accepted at ${new Date().toLocaleString()}.</p>
+                    </div>
+                `,
+            };
+            dispatch(sendEmail(sendemail));
+        }
         dispatch(acceptTransaction(transaction?.transactionID || ""));
         toast.success("Transaction accepted successfully.");
         onClose();
     }
 
     const handleRequest = () => {
+        if(notificationMethods[0] === '1' && generalNotifications[0] === '1'){
+            const sendemail = {
+                to: email,
+                subject: "Transaction requested again",
+                html: `
+                    <div style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 20px; border-radius: 8px; text-align: center;">
+                        <h2 style="color: #333; font-size: 24px;">From PFIM!</h2>
+                        <p style="font-size: 16px; color: #666;">Your transaction request ${transaction?.transactionID} was sent again at ${new Date().toLocaleString()}.</p>
+                    </div>
+                `,
+            };
+            dispatch(sendEmail(sendemail));
+        }
         dispatch(updateTransaction(transaction?.transactionID || "", { ...transaction, status: "Pending" } as TransactionData));
         toast.success("Transaction requested successfully.");
         onClose();

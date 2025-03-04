@@ -6,9 +6,9 @@ const ServiceAPIManager = {
         const url = ServiceEndpoints.getNews(newsType);
         return APIMethods.get(url);
     },
-    exchangeRate: (data: { from: string, to: string}) => {
-        const url = ServiceEndpoints.exchangeRate();
-        return APIMethods.post(url, data);  
+    exchangeRate: (currency: string) => {
+        const url = ServiceEndpoints.exchangeRate(currency);
+        return APIMethods.get(url);  
     },
 }
 

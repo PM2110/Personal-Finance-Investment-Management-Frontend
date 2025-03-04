@@ -90,10 +90,6 @@ const MainBudgetComponent = () => {
                 </div>
                 <div className="flex gap-3 justify-between text-[14px]">
                     <div className="flex gap-2 items-center border-[#DFE1E7] border-2 px-4 py-2 rounded-lg">
-                        <RiFilter3Line className="text-[16px]"/>
-                        Filter
-                    </div>
-                    <div className="flex gap-2 items-center border-[#DFE1E7] border-2 px-4 py-2 rounded-lg">
                         <MdAccountBalance className="text-[14px]"/>
                         <select onChange={(e) => setSelectedAccount(accounts.filter((account) => account.accountID === Number(e.target.value))[0])} className="focus:outline-none pr-1">
                             {accounts && accounts.length !== 0 && accounts.map((account, index) => (

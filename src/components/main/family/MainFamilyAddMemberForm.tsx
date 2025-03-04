@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
-import { addFamilyMember, FamilyAddData, FamilyMemberData } from "../../../redux/familyMemberSlice";
+import { addFamilyMember, FamilyAddData } from "../../../redux/familyMemberSlice";
 import { getUserNames } from "../../../redux/userSlice";
 
 interface MainFamilyAddMemberFormProps {
@@ -14,20 +14,22 @@ interface MainFamilyAddMemberFormProps {
     onClose: () => void
 }
 
-const relations = ["Father", "Son", "Daughter", "Mother", "Brother", "Sister", "Uncle", "Aunt", "Cousin", "Grandfather", "Grandmother", "Grandson", "Granddaughter"];
+const relations = ["Father", "Son", "Daughter", "Mother", "Brother", "Sister"];
 
 const MainFamilyAddMemberForm: React.FC<MainFamilyAddMemberFormProps> = ({ isVisible, onClose }) => {
 
     const dispatch = useDispatch<AppDispatch>();
-    const families = useSelector((state) => state.family.data);
     const { userID } = useSelector((state) => state.user.data);
-    const [selectedFamily, setSelectedFamily] = useState<FamilyData>(families[0]);
+    const families = useSelector((state) => state.family.data).filter((family: FamilyData) => family.createdByID === userID);
+    const [selectedFamily, setSelectedFamily] = useState<FamilyData>(families ? families[0] : null);
     const { reset, handleSubmit, formState: { errors }, register } = useForm<FamilyAddData>();
 
     const [userNames, setUserNames] = useState<[{userID: number, userName: string}]>();
 
     useEffect(() => {
-        dispatch(getUserNames(selectedFamily.familyMembers)).then((response) => setUserNames(response));
+        if(selectedFamily){
+            dispatch(getUserNames(selectedFamily?.familyMembers)).then((response) => setUserNames(response));
+        }
     }, []);
 
     const handleOnFamilyChange: (e: ChangeEvent<HTMLSelectElement>) => void = (e) => {
@@ -37,7 +39,7 @@ const MainFamilyAddMemberForm: React.FC<MainFamilyAddMemberFormProps> = ({ isVis
     const onSubmit: SubmitHandler<FamilyAddData> = async (data: FamilyAddData) => {
         try {
             data.familyID = selectedFamily.familyID;
-            data.user1 = userID;
+            data.user1 = Number(data.user1);
             const response = await dispatch(addFamilyMember(data));
             if(response?.status === 200 && response.data.msg){
                 toast.error(response.data.msg);
@@ -68,14 +70,16 @@ const MainFamilyAddMemberForm: React.FC<MainFamilyAddMemberFormProps> = ({ isVis
                             SELECT FAMILY
                         </div>
                         <div className="px-4 flex flex-col gap-4 text-[#666D80]">
-                            <select onChange={handleOnFamilyChange} className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none">
+                            {!families || families.length === 0
+                            ? <div className="text-[#666D80] text-[13px]">No families found.</div>
+                            : <select onChange={handleOnFamilyChange} className="w-full border-[#DFE1E7] border-2 rounded-lg p-2 text-[13px] focus:outline-none">
                                 {families && families.length != 0
                                 ? families.map((family: FamilyData, index: number) => (
                                     <option key={index} value={family.familyName}>{family.familyName}</option>
                                 )) 
                                 : "No Families Found."
                                 }
-                            </select>
+                            </select>}
                         </div>
                     </div>
                     <div className="flex flex-col gap-4">
@@ -120,7 +124,7 @@ const MainFamilyAddMemberForm: React.FC<MainFamilyAddMemberFormProps> = ({ isVis
                         </div>
                     </div>
                     <div className="p-4 mt-auto">
-                        <button className=" bg-black text-white text-[15px] w-full py-[6px]  border-black border-2 hover:cursor-pointer rounded-lg">
+                        <button className=" bg-black text-white text-[15px] w-full py-[6px] border-black border-2 hover:cursor-pointer rounded-lg">
                             Add New Member
                         </button>
                     </div>

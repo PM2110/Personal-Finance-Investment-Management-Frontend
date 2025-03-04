@@ -5,11 +5,13 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import { FamilyMemberData, setFamilyMember, updateFamilyMember } from "../../../redux/familyMemberSlice";
 import { useSelector } from "react-redux";
-import { getUserNames } from "../../../redux/userSlice";
+import { getUserNames, sendEmail } from "../../../redux/userSlice";
 import { AccountData, getAccounts } from "../../../redux/accountSlice";
 import toast from "react-hot-toast";
 import { category } from "../../currency";
 import { addTransaction, TransactionData } from "../../../redux/transactionSlice";
+import FamilyTree from "./FamilyTree";
+import { buildFamilyTree, FamilyTreeNode } from "./BuildFamilyTree";
 
 interface MainFamilyDetailsComponentProps {
     isVisible: boolean,
@@ -18,13 +20,13 @@ interface MainFamilyDetailsComponentProps {
 }
 
 const MainFamilyDetailsComponent: React.FC<MainFamilyDetailsComponentProps> = ({ isVisible, onClose, family }) => {
-    
     const dispatch = useDispatch<AppDispatch>();
-    const { userID, userName } = useSelector((state) => state.user.data);
+    const { userID, userName, email } = useSelector((state) => state.user.data);
     const familyMembers: FamilyMemberData[] = useSelector((state) => state.familyMember.data);
+    const { notificationMethods, generalNotifications } = useSelector((state) => state.userPreference.data);
     const [ids, setIds] = useState<string>("");
     const [userNames, setUserNames] = useState<{ userID: number, userName: string }[]>([]);
-    const [idUser, setIdUser] = useState<{ [key: number]: string }>();
+    const [idUser, setIdUser] = useState<{ [key: number]: string }>({});
     const [selectedMember, setSelectedMember] = useState<FamilyMemberData | null>(null);
     const [accounts, setAccounts] = useState<AccountData[]>();
     const [isEditPopupVisible, setIsEditPopupVisible] = useState(false);
@@ -104,6 +106,19 @@ const MainFamilyDetailsComponent: React.FC<MainFamilyDetailsComponentProps> = ({
                     sentCurrency: selectedAccount?.currency,
                     sentAmount: -1,
                 } as TransactionData));
+                if(notificationMethods[0] === '1' && generalNotifications[0] === '1'){
+                    const sendemail = {
+                        to: email,
+                        subject: "Transaction requested",
+                        html: `
+                            <div style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 20px; border-radius: 8px; text-align: center;">
+                                <h2 style="color: #333; font-size: 24px;">From PFIM!</h2>
+                                <p style="font-size: 16px; color: #666;">Transaction request was made at ${new Date().toLocaleString()}.</p>
+                            </div>
+                        `,
+                    };
+                    dispatch(sendEmail(sendemail));
+                }
             } else {
                 dispatch(addTransaction({
                     userID: userID,
@@ -119,6 +134,19 @@ const MainFamilyDetailsComponent: React.FC<MainFamilyDetailsComponentProps> = ({
                     sentCurrency: selectedAccount?.currency,
                     sentAmount: -1,
                 } as TransactionData));
+                if(notificationMethods[0] === '1' && generalNotifications[0] === '1'){
+                    const sendemail = {
+                        to: email,
+                        subject: "Transaction made to your account",
+                        html: `
+                        <div style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 20px; border-radius: 8px; text-align: center;">
+                            <h2 style="color: #333; font-size: 24px;">From PFIM!</h2>
+                            <p style="font-size: 16px; color: #666;">Transaction was made to your account at ${new Date().toLocaleString()}.</p>
+                        </div>
+                        `,
+                    };
+                    dispatch(sendEmail(sendemail));
+                }
                 dispatch(updateFamilyMember(selectedMember.memberID, { spent: (selectedMember.spent || 0) + takeAmount } as FamilyMemberData));
                 toast.success("Amount taken successfully.");
             }
@@ -127,6 +155,19 @@ const MainFamilyDetailsComponent: React.FC<MainFamilyDetailsComponentProps> = ({
     };
 
     const admin = family?.createdByID === userID;
+
+    const [familyTree, setFamilyTree] = useState<FamilyTreeNode | null>(null);
+    useEffect(() => {
+        setFamilyTree(buildFamilyTree(familyMembers, idUser, family?.createdByID || 0));
+    }, [familyMembers, idUser, family?.createdByID]);
+
+    const canEdit = (member: FamilyMemberData) => {
+        return admin || member.relationType === "Father" || member.relationType === "Mother";
+    };
+
+    const canTake = (member: FamilyMemberData) => {
+        return member.relationType === "Son" || member.relationType === "Daughter";
+    };
 
     return (
         <div className={`flex flex-col justify-between fixed top-0 right-0 h-full min-w-[600px] bg-white shadow-lg transform ${isVisible ? "translate-x-0" : "translate-x-full"} transition-transform duration-300 ease-in-out z-20`}>
@@ -144,21 +185,9 @@ const MainFamilyDetailsComponent: React.FC<MainFamilyDetailsComponentProps> = ({
                     <div className="text-[#818898] text-[14px] bg-[#F6F8FA] py-1 px-4 w-full">
                         MEMBERS
                     </div>
-                    <div className="px-4 text-[13px] text-[#666D80]">
+                    <div className="flex flex-col gap-2 px-4 text-[13px] text-[#666D80]">
                         <div>{idUser && idUser[Number(family?.createdByID)]} ( ADMIN )</div>
-                        {familyMembers && familyMembers.length !== 0 ? familyMembers.map((member: FamilyMemberData, index: number) => (
-                            <div key={index} className="flex justify-between">
-                                <div>
-                                    {idUser && idUser[member.user2]} ( {member.relationType} of {idUser && idUser[member.user1]} )
-                                </div>
-                                {((member.relationType === "Daughter" || member.relationType === "Son") && member.user2 === userID) &&  <button onClick={() => handleTakeClick(member)}>
-                                    Take
-                                </button>}
-                                {(admin || ((member.relationType === "Father" || member.relationType === "Mother") && member.user2 === userID)) &&  <button onClick={() => handleEditClick(member)}>
-                                    Edit
-                                </button>}
-                            </div>
-                        )) : "No members found." }
+                        {familyTree ? <FamilyTree data={familyTree} /> : "No members found."}
                     </div>
                 </div>
             </div>

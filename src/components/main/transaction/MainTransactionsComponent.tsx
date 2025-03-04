@@ -11,7 +11,6 @@ import { MdAccountBalance } from "react-icons/md";
 import { AccountData } from "../../../redux/accountSlice";
 
 const MainTransactionsComponent = () => {
-
     const dispatch = useDispatch<AppDispatch>();
 
     const accounts: AccountData[] = useSelector((state) => state.account?.data);
@@ -21,24 +20,26 @@ const MainTransactionsComponent = () => {
     const { userName } = useSelector((state) => state.user.data);
 
     const [selected, setSelected] = useState(1);
-    
     const [visibleTransactionDetails, setVisibleTransactionDetails] = useState(false);
     const [visibleTransactionFilterForm, setVisibleTransactionFilterForm] = useState(false);
 
-
-    const [transaction, setTransaction] = useState(transactionsData);
-    const [selectedTransaction, setSelectedTransaction] = useState<TransactionData>();
-    
+    const [transaction, setTransaction] = useState<TransactionData[]>([]);
+    const [selectedTransaction, setSelectedTransaction] = useState<TransactionData | null>(null);
     const [sortColumn, setSortColumn] = useState("name");
     const [sortOrder, setSortOrder] = useState("asc");
-    
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(5);
 
+    const [filterStatus, setFilterStatus] = useState<string>("");
+    const [filterCategory, setFilterCategory] = useState<string>("");
+
     useEffect(() => {
         dispatch(setTransactions(userName));
+    }, [dispatch, userName]);
+
+    useEffect(() => {
         setTransaction(transactionsData.filter((transaction: TransactionData) => transaction.senderAccountID === selectedAccount?.accountID || transaction.receiverAccountID === selectedAccount?.accountID));
-    }, [selectedAccount])
+    }, [selectedAccount, transactionsData]);
 
     const handleSort = (column: keyof typeof transactionsData[0]) => {
         const order = sortColumn === column && sortOrder === "asc" ? "desc" : "asc";
@@ -71,16 +72,35 @@ const MainTransactionsComponent = () => {
 
     const handleDelete = () => {
         try {
-            dispatch(deleteTransaction(selectedTransaction.transactionID));
-            toast.success("Transaction deleted successfully.")
-            handleTransactionDetails();
+            if (selectedTransaction) {
+                dispatch(deleteTransaction(selectedTransaction.transactionID));
+                toast.success("Transaction deleted successfully.")
+                handleTransactionDetails();
+            }
         } catch (error) {
             toast.error("Error while deleting transaction.");
             console.log("Error occured while deleting transaction ", error);
         }
     }
 
-    if(!transactionsData || transactionsData.length === 0){
+    const handleApplyFilter = (status: string, category: string) => {
+        setFilterStatus(status);
+        setFilterCategory(category);
+    };
+
+    const handleClearFilter = () => {
+        setFilterStatus("");
+        setFilterCategory("");
+    };
+
+    const filteredTransactions = transaction.filter((transaction) => {
+        return (
+            (filterStatus === "" || transaction.status === filterStatus) &&
+            (filterCategory === "" || transaction.category === filterCategory)
+        );
+    });
+
+    if (!transactionsData || transactionsData.length === 0) {
         return (<div className="h-full flex items-center justify-center text-[#666D80]">No Transactions Found.</div>);
     }
 
@@ -138,7 +158,7 @@ const MainTransactionsComponent = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="overflow-y-auto">
-                                    {selected === 1 && paginatedTransactions.map((transaction: TransactionData, index: number) => (
+                                    {selected === 1 && filteredTransactions.map((transaction: TransactionData, index: number) => (
                                         <tr key={index} onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="border-[#DFE1E7] border-t hover:bg-gray-50 text-[13px]">
                                             <td className="p-3 w-[27.5%]">{transaction.to === userName ? transaction.from : transaction.to}</td>
                                             <td className="p-3 w-[20%]">{transaction.to === userName ? `${transaction.receivedCurrency} ${Number(transaction.receivedAmount).toFixed(2)}` : `${transaction.sentCurrency} ${Number(transaction.sentAmount).toFixed(2)}`}</td>
@@ -148,7 +168,7 @@ const MainTransactionsComponent = () => {
                                             <td className="p-3 w-[5%]"><RiArrowRightSLine onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="text-[22px] text-black"/></td>
                                         </tr>
                                     ))}
-                                    {selected === 2 && paginatedTransactions.map((transaction: TransactionData, index: number) => (
+                                    {selected === 2 && filteredTransactions.map((transaction: TransactionData, index: number) => (
                                         transaction.to === userName && transaction.status === "Completed" && <tr key={index} onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="border-[#DFE1E7] border-t hover:bg-gray-50 text-[13px]">
                                             <td className="p-3 w-[27.5%]">{transaction.to === userName ? transaction.from : transaction.to}</td>
                                             <td className="p-3 w-[20%]">{transaction.receivedCurrency} {Number(transaction.receivedAmount).toFixed(2)}</td>
@@ -158,7 +178,7 @@ const MainTransactionsComponent = () => {
                                             <td className="p-3 w-[5%]"><RiArrowRightSLine onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="text-[22px] text-black"/></td>
                                         </tr>
                                     ))}
-                                    {selected === 3 && paginatedTransactions.map((transaction: TransactionData, index: number) => (
+                                    {selected === 3 && filteredTransactions.map((transaction: TransactionData, index: number) => (
                                         transaction.from === userName && transaction.status === "Completed" && <tr key={index} onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="border-[#DFE1E7] border-t hover:bg-gray-50 text-[13px]">
                                             <td className="p-3 w-[27.5%]">{transaction.to === userName ? transaction.from : transaction.to}</td>
                                             <td className="p-3 w-[20%]">{transaction.sentCurrency} {Number(transaction.sentAmount).toFixed(2)}</td>
@@ -168,7 +188,7 @@ const MainTransactionsComponent = () => {
                                             <td className="p-3 w-[5%]"><RiArrowRightSLine onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="text-[22px] text-black"/></td>
                                         </tr>
                                     ))}
-                                    {selected === 4 && paginatedTransactions.map((transaction: TransactionData, index: number) => (
+                                    {selected === 4 && filteredTransactions.map((transaction: TransactionData, index: number) => (
                                         transaction.status === "Pending" && <tr key={index} onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="border-[#DFE1E7] border-t hover:bg-gray-50 text-[13px]">
                                             <td className="p-3 w-[27.5%]">{transaction.to === userName ? transaction.from : transaction.to}</td>
                                             <td className="p-3 w-[20%]">{transaction.sentCurrency} {Number(transaction.sentAmount).toFixed(2)}</td>
@@ -178,7 +198,7 @@ const MainTransactionsComponent = () => {
                                             <td className="p-3 w-[5%]"><RiArrowRightSLine onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="text-[22px] text-black"/></td>
                                         </tr>
                                     ))}
-                                    {selected === 5 && paginatedTransactions.map((transaction: TransactionData, index: number) => (
+                                    {selected === 5 && filteredTransactions.map((transaction: TransactionData, index: number) => (
                                         transaction.status === "Rejected" && <tr key={index} onClick={() => { setSelectedTransaction(transaction); setVisibleTransactionDetails(!visibleTransactionDetails) }} className="border-[#DFE1E7] border-t hover:bg-gray-50 text-[13px]">
                                             <td className="p-3 w-[27.5%]">{transaction.to === userName ? transaction.from : transaction.to}</td>
                                             <td className="p-3 w-[20%]">{transaction.sentCurrency} {Number(transaction.sentAmount).toFixed(2)}</td>
@@ -230,7 +250,7 @@ const MainTransactionsComponent = () => {
                 <div className="fixed inset-0 bg-black/70 z-10"></div>
             )}
             <MainTransactionDetailsComponent isVisible={visibleTransactionDetails} onClose={handleTransactionDetails} userName={userName} handleDelete={handleDelete} transaction={selectedTransaction}/>
-            <MainTransactionFilterForm isVisible={visibleTransactionFilterForm} onClose={handleTransactionFilter} />
+            <MainTransactionFilterForm isVisible={visibleTransactionFilterForm} onClose={handleTransactionFilter} onApplyFilter={handleApplyFilter} onClearFilter={handleClearFilter} />
         </div>
     );
 }

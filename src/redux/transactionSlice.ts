@@ -9,7 +9,6 @@ interface TransactionState {
 
 export interface TransactionData {
     transactionID: string,
-    // accountID: number,
     userID: number,
     senderAccountID: number,
     receiverAccountID: number,

@@ -37,7 +37,7 @@ const EmailVerificationComponent = () => {
                     To login, check your email
                 </div>
                 <div className="text-[#666D80] text-[13px] text-center">
-                    For security, we've sent you an email to <b>pmpatelmanan21@gmail.com.</b> Simply click the link in the email and you'll be set.
+                    For security, we've sent you an email to <b>{user.email}.</b> Simply click the link in the email and you'll be set.
                 </div>
                 <div className="mt-4 text-[#666D80] text-[13px]">
                     Didn't get an email?

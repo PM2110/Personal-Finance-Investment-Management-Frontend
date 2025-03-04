@@ -12,7 +12,9 @@ import { useSelector } from "react-redux";
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(useSelector((state) => state?.user?.data?.isLoggedIn) || false);
-    const [isVerified, setIsVerified] = useState(false);
+    const [isVerified, setIsVerified] = useState(useSelector((state) => state?.user?.data?.isVerified) || false);
+
+    console.log(useSelector((state) => state.user.data));
     
     return (
         <AppContext.Provider value={{ isLoggedIn, setIsLoggedIn, isVerified, setIsVerified }} >
@@ -22,7 +24,7 @@ const App = () => {
                     <Route path="/verifyEmail" element={<EmailVerificationPage />} />
                     <Route path="/emailVerified" element={<EmailVerifiedPage />} />
                     <Route path="/signin" element={isLoggedIn ? <Navigate to="/" /> : <SignInPage />} />
-                    <Route path="/" element={isLoggedIn ? <HomePage /> : <Navigate to="/signin" />} />
+                    <Route path="/" element={isVerified ? isLoggedIn ? <HomePage /> : <Navigate to="/signin" /> : <Navigate to="/verifyEmail" />} />
                     <Route path="/addAccount" element={isLoggedIn ? <AddAccountPage /> : <Navigate to="/signin" />} />
                     <Route path="/sendMoney" element={<SendMoneyPage />} />
                 </Routes>

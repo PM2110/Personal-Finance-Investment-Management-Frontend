@@ -40,7 +40,7 @@ const MainNewsComponent = () => {
 
     if (!news || news.length === 0) {
         return (
-            <div className="flex items-center justify-center text-[#666D80] border-[#DFE1E7] border-2 rounded-xl">
+            <div className="flex h-full items-center justify-center text-[#666D80]">
                 No News Found.
             </div>
         );

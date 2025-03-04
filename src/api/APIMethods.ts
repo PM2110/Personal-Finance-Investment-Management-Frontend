@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BaseURL = "http://localhost:5000/api"
+const BaseURL = "http://localhost:5001/api"
 
 const APIMethods = {
     get: async (url : string) => {

@@ -53,7 +53,7 @@ const MainDashboardComponent: React.FC<MainDashboardComponentProps> = ({ setPage
                 <div className="flex flex-col gap-2 border-[#DFE1E7] col-span-1 sm:col-span-2 xl:col-span-2 border-2 rounded-xl h-[100%] p-2">
                     <div className="h-full overflow-y-auto">
                         {selectedAccount && (
-                            <BarChartComponent accountID={selectedAccount?.accountID} />
+                            <BarChartComponent accountID={selectedAccount?.accountID} duration={'24h'}/>
                         )}
                     </div>
                 </div>

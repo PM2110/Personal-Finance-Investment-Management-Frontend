@@ -40,7 +40,14 @@ export const setUser = createAsyncThunk('setUser', async (userData : UserData | 
 const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {  },
+    reducers: {
+        verifyUser: (state, payload) => {
+            if(state.data){
+                state.data.isVerified = true;
+                state.data.isLoggedIn = true;
+            }
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(setUser.pending, (state) => {
@@ -58,6 +65,7 @@ const userSlice = createSlice({
     },
 });
 
+export const { verifyUser } = userSlice.actions;
 export default userSlice.reducer;
 
 export const getUserNames = (users: string) => async () => {

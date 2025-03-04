@@ -1,17 +1,22 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { MdMarkEmailRead } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import { updateUser, UserData } from "../../redux/userSlice";
+import { updateUser, UserData, verifyUser } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../../AppContext";
 // import { AppContext } from "../../AppContext";
 
 const EmailVerifiedComponent = () => {
 
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
-    // const { setIsLoggedIn, setIsVerified } = useContext(AppContext);
+    const appContext = useContext(AppContext);
+    if (!appContext) {
+        throw new Error("AppContext is null");
+    }
+    const { setIsVerified } = appContext;
     const { isVerified, userID } = useSelector((state) => state.user.data);
 
     useEffect(() => {
@@ -34,9 +39,11 @@ const EmailVerifiedComponent = () => {
                 <div className="text-[#666D80] text-[14px] text-center">
                     Your email address <b>pmpatelmanan21@gmail.com</b> has been verified. In the future, you need to use this email address when logging in to <b>PFIM</b>
                 </div>
-                <button onClick={() => { navigate("/"); 
-                    // setIsLoggedIn(true); setIsVerified(true);
-                     }} className="bg-black text-white text-[15px] w-full py-[6px] font-bold border-black border-2 hover:bg-white hover:text-black rounded-lg">Continue</button>
+                <button onClick={() => { 
+                    dispatch(verifyUser(""));
+                    navigate("/"); 
+                    setIsVerified(true);
+                }} className="bg-black text-white text-[15px] w-full py-[6px] font-bold border-black border-2 hover:bg-white hover:text-black rounded-lg">Continue</button>
             </div>
         </div>
     );

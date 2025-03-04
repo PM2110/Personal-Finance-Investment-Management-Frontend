@@ -1,131 +1,108 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useSelector } from 'react-redux';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, LabelList } from 'recharts';
-import { TransactionData } from '../../../redux/transactionSlice'; // Adjust import if necessary
-import { UserData } from '../../../redux/userSlice';
-import { GoCreditCard } from 'react-icons/go';
 
-interface BarChartComponentProps {
-    accountID: number;
+// Define types
+interface TransactionData {
+  transactionID: string;
+  userID: number;
+  senderAccountID: number;
+  receiverAccountID: number;
+  status: string;
+  deduct: boolean;
+  includeInBudget: boolean;
+  budgetID: number;
+  sentCurrency: string;
+  receivedCurrency: string;
+  sentAmount: number;
+  receivedAmount: number;
+  from: string;
+  to: string;
+  category: string;
+  date: string;
 }
 
-const BarChartComponent: React.FC<BarChartComponentProps> = ({ accountID }) => {
-    const [timePeriod, setTimePeriod] = useState('7days');
-    const { userName } = useSelector((state: { user: { data: UserData } }) => state.user.data);
+interface PartitionedData {
+  name: string;
+  income: number;
+  expense: number;
+}
 
-    const transactions: TransactionData[] = useSelector((state: { transaction: { data: TransactionData[] } }) => state.transaction.data);
+interface RootState {
+  transaction: {
+    data: TransactionData[];
+  };
+}
 
-    const filterTransactionsByTimePeriod = (transactions: TransactionData[], accountID: number, timePeriod: string) => {
-        const currentTime = new Date();
-        const filteredTransactions = transactions.filter(
-            (transaction) => transaction.senderAccountID === accountID || transaction.receiverAccountID === accountID
-        );
+interface PartitionedBarChartProps {
+  accountID: number;
+  duration: '24h' | '7d' | '1m' | '6m' | '1y';
+}
 
-        switch (timePeriod) {
-            case '24hours':
-                return filteredTransactions.filter(
-                    (transaction) => currentTime.getTime() - new Date(transaction.date).getTime() <= 24 * 60 * 60 * 1000
-                );
-            case '7days':
-                return filteredTransactions.filter(
-                    (transaction) => currentTime.getTime() - new Date(transaction.date).getTime() <= 7 * 24 * 60 * 60 * 1000
-                );
-            case '1month':
-                return filteredTransactions.filter(
-                    (transaction) => currentTime.getTime() - new Date(transaction.date).getTime() <= 30 * 24 * 60 * 60 * 1000
-                );
-            case '6months':
-                return filteredTransactions.filter(
-                    (transaction) => currentTime.getTime() - new Date(transaction.date).getTime() <= 6 * 30 * 24 * 60 * 60 * 1000
-                );
-            case '1year':
-                return filteredTransactions.filter(
-                    (transaction) => currentTime.getTime() - new Date(transaction.date).getTime() <= 365 * 24 * 60 * 60 * 1000
-                );
-            default:
-                return filteredTransactions;
-        }
+const PartitionedBarChart: React.FC<PartitionedBarChartProps> = ({ accountID, duration }) => {
+  const transactions = useSelector((state: RootState) => state.transaction.data);
+
+  const partitions = useMemo(() => {
+    const now = new Date();
+    const partitionMap: Record<string, number> = {
+      '24h': 6 * 60 * 60 * 1000, // 6 hours
+      '7d': 24 * 60 * 60 * 1000, // 1 day
+      '1m': 7 * 24 * 60 * 60 * 1000, // 1 week
+      '6m': 30 * 24 * 60 * 60 * 1000, // 1 month
+      '1y': 3 * 30 * 24 * 60 * 60 * 1000, // 3 months
     };
+    const partitionSize = partitionMap[duration];
 
-    const filteredTransactions = useMemo(() => filterTransactionsByTimePeriod(transactions, accountID, timePeriod), [
-        transactions,
-        accountID,
-        timePeriod,
-    ]);
+    const partitionedData: Record<string, { income: number; expense: number }> = {};
 
-    const chartData = useMemo(() => {
-        const dailyData: { date: string; incoming: number; outgoing: number }[] = [];
+    const getDurationMs = (duration: string): number => {
+      const durationMap: Record<string, number> = {
+        '24h': 24 * 60 * 60 * 1000,
+        '7d': 7 * 24 * 60 * 60 * 1000,
+        '1m': 30 * 24 * 60 * 60 * 1000,
+        '6m': 6 * 30 * 24 * 60 * 60 * 1000,
+        '1y': 12 * 30 * 24 * 60 * 60 * 1000,
+      };
+      return durationMap[duration];
+    };
+    transactions.forEach((transaction) => {
+      const date = new Date(transaction.date);
+      const timeDiff = now.getTime() - date.getTime();
+      if (timeDiff > getDurationMs(duration)) return;
 
-        const currentDate = new Date();
-        const startDate = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+      const partition = Math.floor(timeDiff / partitionSize);
+      if (!partitionedData[partition]) {
+        partitionedData[partition] = { income: 0, expense: 0 };
+      }
 
-        for (let i = 0; i < 7; i++) {
-            const day = new Date(startDate.getTime() + i * 24 * 60 * 60 * 1000);
-            const dayLabel = `${day.getMonth() + 1}/${day.getDate()}`;
+      if (transaction.receiverAccountID === accountID) {
+        partitionedData[partition].income += transaction.receivedAmount || 0;
+      }
+      if (transaction.senderAccountID === accountID) {
+        partitionedData[partition].expense += transaction.sentAmount || 0;
+      }
+    });
 
-            dailyData.push({
-                date: dayLabel,
-                incoming: 0,
-                outgoing: 0,
-            });
-        }
+    return Object.entries(partitionedData).map(([key, value]) => ({
+      name: `${key}`,
+      income: value.income,
+      expense: value.expense,
+    }));
+  }, [transactions, accountID, duration]);
 
-        filteredTransactions.forEach((transaction) => {
-            const transactionDate = new Date(transaction.date);
-            const dayIndex = Math.floor((currentDate.getTime() - transactionDate.getTime()) / (24 * 60 * 60 * 1000));
 
-            if (dayIndex >= 0 && dayIndex < 7) {
-                
-                if (transaction.from !== userName) {
-                    const amount = transaction.receivedAmount;
-                    dailyData[dayIndex].incoming += amount;
-                } else {
-                    const amount = transaction.sentAmount;
-                    dailyData[dayIndex].outgoing += amount;
-                }
-            }
-        });
-
-        return dailyData;
-    }, [filteredTransactions, userName]);
-
-    return (
-        <div>
-            <div className="flex h-auto justify-between text-[14px]">
-                <div className="flex gap-2 items-center">
-                    <GoCreditCard />
-                    Budget Overview
-                </div>
-                <select
-                    value={timePeriod}
-                    onChange={(e) => setTimePeriod(e.target.value)}
-                    className="bg-white border border-gray-300 p-2 rounded"
-                >
-                    <option value="24hours">24 Hours</option>
-                    <option value="7days">7 Days</option>
-                    <option value="1month">1 Month</option>
-                    <option value="6months">6 Months</option>
-                    <option value="1year">1 Year</option>
-                </select>
-            </div>
-            <div className="bg-[#DFE1E7] h-[1px] mt-1"></div>
-            <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="incoming" fill="#E5EFFF">
-                        <LabelList dataKey="incoming" position="top" />
-                    </Bar>
-                    <Bar dataKey="outgoing" fill="#666D80">
-                        <LabelList dataKey="outgoing" position="top" />
-                    </Bar>
-                </BarChart>
-            </ResponsiveContainer>
-        </div>
-    );
+  return (
+    <ResponsiveContainer width="100%" height={400}>
+      <BarChart data={partitions} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="income" fill="#E5EFFF" />
+        <Bar dataKey="expense" fill="#666D80" />
+      </BarChart>
+    </ResponsiveContainer>
+  );
 };
 
-export default BarChartComponent;
+export default PartitionedBarChart;

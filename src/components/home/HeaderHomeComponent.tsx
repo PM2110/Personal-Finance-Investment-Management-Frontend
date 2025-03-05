@@ -7,6 +7,7 @@ import MainFamilyAddForm from "../main/family/MainFamilyAddForm";
 import MainTransactionAddForm from "../main/transaction/MainTransactionAddForm";
 import MainRecipientsAddAccountForm from "../main/recipient/MainRecipientsAddAccountForm";
 import { useSelector } from "react-redux";
+import { GetConstant } from "../constants"; // Import GetConstant function
 
 interface HeaderHomeComponentProps {
     selected: number,
@@ -14,7 +15,7 @@ interface HeaderHomeComponentProps {
 
 const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) => {
 
-    const navigate: (path :string) => void = useNavigate();
+    const navigate = useNavigate();
     const { userName } = useSelector((state) => state?.user?.data);
     const [visibleBalanceAddForm, setVisibleBalanceAddForm] = useState(false);
     const [visibleDashboardExchangeForm, setVisibleDashboardExchangeForm] = useState(false);
@@ -22,94 +23,126 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
     const [visibleTransactionAddForm, setVisibleTransactionAddForm] = useState(false);
     const [visibleAccountAddForm, setVisibleAccountAddForm] = useState(false);
 
-    const handleBalanceAddForm: () => void = () => {
-        setVisibleBalanceAddForm(!visibleBalanceAddForm);
-    }
-
-    const handleDashboardExchangeForm: () => void = () => {
-        setVisibleDashboardExchangeForm(!visibleDashboardExchangeForm);
-    }
-
-    const handleFamilyAddForm: () => void = () => {
-        setVisibleFamilyAddForm(!visibleFamilyAddForm);
-    }
-
-    const handleTransactionAddForm: () => void = () => {
-        setVisibleTransactionAddForm(!visibleTransactionAddForm);
-    }
-
-    const handleAccountAddForm: () => void = () => {
-        setVisibleAccountAddForm(!visibleAccountAddForm);
-    }
+    const handleBalanceAddForm = () => setVisibleBalanceAddForm(!visibleBalanceAddForm);
+    const handleDashboardExchangeForm = () => setVisibleDashboardExchangeForm(!visibleDashboardExchangeForm);
+    const handleFamilyAddForm = () => setVisibleFamilyAddForm(!visibleFamilyAddForm);
+    const handleTransactionAddForm = () => setVisibleTransactionAddForm(!visibleTransactionAddForm);
+    const handleAccountAddForm = () => setVisibleAccountAddForm(!visibleAccountAddForm);
 
     const getHeaderTitle = () => {
         switch (selected){
             case 1:
-                return "Your Financial Dashboard"
+                return GetConstant("YOURFINANCIALDASHBOARD");
             case 2:
-                return "My Budget"
+                return GetConstant("MYBUDGET");
             case 3:
-                return "My Family"
+                return GetConstant("MYFAMILY");
             case 4:
-                return "Transactions"
+                return GetConstant("ADDTRANSACTION");
             case 5:
-                return "Recipients"
+                return GetConstant("ADD_ACCOUNT");
             case 6:
-                return "News"
+                return GetConstant("NEWS");
             case 7:
-                return "Integrations"
+                return GetConstant("INTEGRATIONS");
             case 8:
-                return "Settings"
+                return GetConstant("EXPORT");
             default:
                 return ;
         }
     }
 
     const getHeaderData = () => {
-        switch (selected){
+        switch (selected) {
             case 1:
-                return `Welcome back, ${userName}!`
+                return `${GetConstant("WELCOME_BACK")}, ${userName}!`;
             case 2:
-                return "Effortlessly manage and monitor your financial resources with ease"
+                return GetConstant("EFFORTLESSLY_MANAGE_FINANCE");
             case 3:
-                return "Organize and access your Family"
+                return GetConstant("ORGANIZE_FAMILY");
             case 4:
-                return "Efficiently organize and keep track of your incoming receipts for hassel-free financial management"
+                return GetConstant("ORGANIZE_RECEIPTS");
             case 5:
-                return "Efficiently organize and keep track of your incoming receipts for hassel-free financial management"
+                return GetConstant("ORGANIZE_RECEIPTS");
             case 6:
-                return "Stay updated with the latest news and trends in the financial world"
+                return GetConstant("STAY_UPDATED");
             case 7:
-                return "Connect and sync with essential tools and platforms"
+                return GetConstant("CONNECT_TO_TOOLS");
             case 8:
-                return "Customize and edit essential details"
+                return GetConstant("CUSTOMIZE_DETAILS");
             default:
                 return ;
         }
     }
 
     const getButton = () => {
-        switch (selected){
+        switch (selected) {
             case 1:
-                return <button onClick={handleDashboardExchangeForm} className="text-[13px]  border-[#DFE1E7] border-2 px-3 py-2 rounded-lg hover:bg-black hover:border-black hover:text-white hover:cursor-pointer">Exchange Rate</button>
+                return (
+                    <button
+                        onClick={handleDashboardExchangeForm}
+                        className="text-[13px] border-[#DFE1E7] border-2 px-3 py-2 rounded-lg hover:bg-black hover:border-black hover:text-white hover:cursor-pointer"
+                    >
+                        {GetConstant("EXCHANGE_RATE")}
+                    </button>
+                );
             case 2:
-                return <button onClick={handleBalanceAddForm} className="text-[13px]  bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Budget</button>
+                return (
+                    <button
+                        onClick={handleBalanceAddForm}
+                        className="text-[13px] bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer"
+                    >
+                        {GetConstant("ADDBUDGET")}
+                    </button>
+                );
             case 3:
-                return <button onClick={handleFamilyAddForm} className="text-[13px]  bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Family</button>
+                return (
+                    <button
+                        onClick={handleFamilyAddForm}
+                        className="text-[13px] bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer"
+                    >
+                        {GetConstant("ADDFAMILY")}
+                    </button>
+                );
             case 4:
-                return <button onClick={handleTransactionAddForm} className="text-[13px]  bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Transaction</button>
+                return (
+                    <button
+                        onClick={handleTransactionAddForm}
+                        className="text-[13px] bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer"
+                    >
+                        {GetConstant("ADDTRANSACTIONBUTTON")}
+                    </button>
+                );
             case 5:
-                return <button onClick={handleAccountAddForm} className="text-[13px]  bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer">Add Your Bank Account</button>
+                return (
+                    <button
+                        onClick={handleAccountAddForm}
+                        className="text-[13px] bg-black text-white px-3 py-2 rounded-lg hover:cursor-pointer"
+                    >
+                        {GetConstant("ADD_ACCOUNT")}
+                    </button>
+                );
+            case 6:
+            case 7:
+                return (
+                    <button className="flex items-center gap-2 text-white text-[13px] px-3 py-2 rounded-lg">
+                        <RiArrowGoForwardLine className="text-[14px]" /> {GetConstant("EXPORT")}
+                    </button>
+                );
             case 8:
-                return <button className="flex items-center gap-2 text-[13px]  border-[#DFE1E7] border-2 px-3 py-2 rounded-lg hover:bg-black hover:border-black hover:text-white hover:cursor-pointer"><RiArrowGoForwardLine className="text-[14px]"/> Export</button>
+                return (
+                    <button className="flex items-center gap-2 text-[13px] border-[#DFE1E7] border-2 px-3 py-2 rounded-lg hover:bg-black hover:border-black hover:text-white hover:cursor-pointer">
+                        <RiArrowGoForwardLine className="text-[14px]" /> {GetConstant("EXPORT")}
+                    </button>
+                );
         }
     }
-    
+
     return (
         <div className="relative flex flex-row w-full justify-between sm:items-start items-center">
             <div className="flex gap-3">
                 <div className="flex flex-col justify-center">
-                    <div className=" sm:text-[16px] md:text-[15px] lg:text-[16px]">
+                    <div className="sm:text-[16px] md:text-[15px] lg:text-[16px]">
                         {getHeaderTitle()}
                     </div>
                     <div className="sm:text-[12px] md:text-[13px] lg:text-[14px] text-[#666D80]">
@@ -125,10 +158,10 @@ const HeaderHomeComponent: React.FC<HeaderHomeComponentProps> = ({ selected }) =
             {(visibleBalanceAddForm || visibleDashboardExchangeForm || visibleFamilyAddForm || visibleTransactionAddForm || visibleAccountAddForm) && (
                 <div className="fixed inset-0 bg-black/70 z-10"></div>
             )}
-            <MainBalanceAddForm isVisible={visibleBalanceAddForm} onClose={handleBalanceAddForm}/>
-            <MainDashboardExchangeForm isVisible={visibleDashboardExchangeForm} onClose={handleDashboardExchangeForm}/>
-            <MainFamilyAddForm isVisible={visibleFamilyAddForm} onClose={handleFamilyAddForm}/>
-            <MainTransactionAddForm isVisible={visibleTransactionAddForm} onClose={handleTransactionAddForm}/>
+            <MainBalanceAddForm isVisible={visibleBalanceAddForm} onClose={handleBalanceAddForm} />
+            <MainDashboardExchangeForm isVisible={visibleDashboardExchangeForm} onClose={handleDashboardExchangeForm} />
+            <MainFamilyAddForm isVisible={visibleFamilyAddForm} onClose={handleFamilyAddForm} />
+            <MainTransactionAddForm isVisible={visibleTransactionAddForm} onClose={handleTransactionAddForm} />
             <MainRecipientsAddAccountForm isVisible={visibleAccountAddForm} onClose={handleAccountAddForm} />
         </div>
     );

@@ -23,8 +23,8 @@ const App = () => {
                     <Route path="/emailVerified" element={<EmailVerifiedPage />} />
                     <Route path="/signin" element={isLoggedIn ? <Navigate to="/" /> : <SignInPage />} />
                     <Route path="/" element={isLoggedIn ? <HomePage /> : <Navigate to="/signin" />} />
-                    <Route path="/addAccount" element={isLoggedIn ? <AddAccountPage /> : <Navigate to="/signin" />} />
-                    <Route path="/sendMoney" element={<SendMoneyPage />} />
+                    {/* <Route path="/addAccount" element={isLoggedIn ? <AddAccountPage /> : <Navigate to="/signin" />} /> */}
+                    {/* <Route path="/sendMoney" element={<SendMoneyPage />} /> */}
                 </Routes>
             </BrowserRouter>
         </AppContext.Provider>

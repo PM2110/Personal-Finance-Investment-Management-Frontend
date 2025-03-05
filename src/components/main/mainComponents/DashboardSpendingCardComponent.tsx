@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import { getCurrency } from "../../currency";
 import { AccountData } from "../../../redux/accountSlice";
+import { GetConstant } from "../../constants";
 
 interface DashboardSpendingCardComponentProps {
     account: AccountData | null,
@@ -46,12 +47,12 @@ const DashboardSpendingCardComponent: React.FC<DashboardSpendingCardComponentPro
             <div className="flex justify-between">
                 <div className="flex items-center gap-2 text-[14px] ">
                     <RiPieChart2Line />
-                    Spending Summary
+                    {GetConstant("SPENDING_SUMMARY")}
                 </div>
                 <button className="w-auto min-w-[110px] flex items-center gap-2 border-[#DFE1E7] text-[12px] border-2 p-[6px] rounded-xl hover:cursor-pointer">
                     <LuSettings />
                     <div>
-                        More Options
+                        {GetConstant("MORE_OPTIONS")}
                     </div>
                 </button>
             </div>
@@ -74,12 +75,12 @@ const DashboardSpendingCardComponent: React.FC<DashboardSpendingCardComponentPro
                 
             </div>
             <div className="flex h-auto items-center justify-center w-full -mt-8">
-                Spent: {currency ? getCurrency(currency) : getCurrency(account?.currency || "")}{Number(spent).toFixed(2)}
+                {GetConstant("SPENT")}: {currency ? getCurrency(currency) : getCurrency(account?.currency || "")}{Number(spent).toFixed(2)}
             </div>
             <div className="border-[#DFE1E7] border-1 h-[1px] mt-2"></div>
             <div className="flex justify-between items-center rounded-lg p-2 bg-[#F0FBFF] text-[#116B97] text-[13px]">
                 <div className="flex gap-1">
-                    Your account balance is <button onClick={() => setVisibleBalance(!visibleBalance)} className="flex items-center gap-[2px] hover:cursor-pointer"> {currency ? getCurrency(currency) : getCurrency(account?.currency || "")} {visibleBalance ? show : `xxxx${show?.toString().slice(show?.toString().length - 4)}` } </button>
+                    {GetConstant("ACCOUNT_BALANCE")} <button onClick={() => setVisibleBalance(!visibleBalance)} className="flex items-center gap-[2px] hover:cursor-pointer"> {currency ? getCurrency(currency) : getCurrency(account?.currency || "")} {visibleBalance ? show : `xxxx${show?.toString().slice(show?.toString().length - 4)}` } </button>
                 </div>
                 <GoInfo className=" text-[13px]"/>
             </div>

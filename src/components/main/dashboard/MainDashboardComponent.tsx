@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { RiFilter3Line } from "react-icons/ri";
-import DashboardBalanceCardComponent from "../mainComponents/DashboardBalanceCardComponent";
 import DashboardSpendingCardComponent from "../mainComponents/DashboardSpendingCardComponent";
 import DashboardNewsCardComponent from "../mainComponents/DashboardNewsCardComponent";
 import { MdAccountBalance } from "react-icons/md";
@@ -10,17 +8,11 @@ import BarChartComponent from "../mainComponents/BarChatComponent";
 import DashboardHealthScoreComponent from "../mainComponents/DashboardHealthScoreComponent";
 import PieChartComponent from "./PieChartComponent";
 
-interface MainDashboardComponentProps {
-    setPage: (page: number) => void;
-}
-
-const MainDashboardComponent: React.FC<MainDashboardComponentProps> = ({ setPage }) => {
+const MainDashboardComponent: React.FC = () => {
     const [selected, setSelected] = useState(1);
 
     const accounts: AccountData[] = useSelector((state) => state.account?.data);
     const [selectedAccount, setSelectedAccount] = useState(accounts ? accounts[0] : null);
-
-    const { currencyValues, currency } = useSelector((state) => state.userPreference.data);
 
     const getDuration: () => string = () => {
         switch (selected) {

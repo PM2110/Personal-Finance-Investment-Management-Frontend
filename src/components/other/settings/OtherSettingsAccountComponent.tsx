@@ -4,6 +4,7 @@ import { updateUser, UserData } from "../../../redux/userSlice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
+import { GetConstant } from "../../constants";
 
 interface OtherSettingsAccountComponentProps {
     user: UserData;
@@ -43,7 +44,7 @@ const OtherSettingsAccountComponent: React.FC<OtherSettingsAccountComponentProps
             <div className="w-full flex gap-8">
                 <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col justify-between">
                     <div className="text-[13px] font-semibold">
-                        Profile Photo
+                        {GetConstant("PROFILE_PHOTO_LABEL")}
                     </div>
                     <div className="text-[12px] text-[#676769]">
                         Min 400x400px, PNG or JPEG formats.
@@ -54,15 +55,16 @@ const OtherSettingsAccountComponent: React.FC<OtherSettingsAccountComponentProps
                         <BiUser />
                     </div>
                     <button className="flex items-center gap-3 text-[12px] font-medium border-[#DFE1E7] border-2 px-5 py-2 rounded-lg">
-                        Change
+                        {GetConstant("CHANGE_LABEL")}
                     </button>
                 </div>
             </div>
             <div className="h-[1px] bg-[#DFE1E7]"></div>
+            
             <div className="w-full flex gap-8">
                 <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col justify-between">
                     <div className="text-[13px] font-semibold">
-                        Full Name
+                        {GetConstant("FULL_NAME_LABEL")}
                     </div>
                     <div className="text-[12px] text-[#676769]">
                         The official full name for billings and contact requests.
@@ -76,20 +78,25 @@ const OtherSettingsAccountComponent: React.FC<OtherSettingsAccountComponentProps
                     </div>}
                     {edit === 1
                      ? <div className="flex flex-row gap-3">
-                        <button onClick={() => { setEdit(0); setValue(''); }} className="flex items-center gap-3 text-[12px] font-medium bg-red-500 w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">Cancel</button>
-                        <button onClick={handleSubmit} className="flex items-center gap-3 text-[12px] font-medium bg-[#40C4AA] w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">Save</button>
+                        <button onClick={() => { setEdit(0); setValue(''); }} className="flex items-center gap-3 text-[12px] font-medium bg-red-500 w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">
+                            {GetConstant("CANCEL_LABEL")}
+                        </button>
+                        <button onClick={handleSubmit} className="flex items-center gap-3 text-[12px] font-medium bg-[#40C4AA] w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">
+                            {GetConstant("SAVE_LABEL")}
+                        </button>
                     </div>
                      : <button onClick={() => { setEdit(1); setValue(user.userName); }} className="flex items-center gap-3 text-[12px] font-medium hover:cursor-pointer">
-                        Edit
+                        {GetConstant("EDIT_LABEL")}
                         <RiArrowRightSLine className="text-[13px] text-black"/>
                     </button>}
                 </div>
             </div>
             <div className="h-[1px] bg-[#DFE1E7]"></div>
+
             <div className="w-full flex gap-8">
                 <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col justify-between">
                     <div className="text-[13px] font-semibold">
-                        Email Address
+                        {GetConstant("EMAIL_LABEL")}
                     </div>
                     <div className="text-[12px] text-[#676769]">
                         The official email address for billings and contact requests.
@@ -103,20 +110,25 @@ const OtherSettingsAccountComponent: React.FC<OtherSettingsAccountComponentProps
                     </div>}
                     {edit === 2
                      ? <div className="flex flex-row gap-3">
-                        <button onClick={() => { setEdit(0); setValue(''); }} className="flex items-center gap-3 text-[12px] font-medium bg-red-500 w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">Cancel</button>
-                        <button onClick={handleSubmit} className="flex items-center gap-3 text-[12px] font-medium bg-[#40C4AA] w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">Save</button>
+                        <button onClick={() => { setEdit(0); setValue(''); }} className="flex items-center gap-3 text-[12px] font-medium bg-red-500 w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">
+                            {GetConstant("CANCEL_LABEL")}
+                        </button>
+                        <button onClick={handleSubmit} className="flex items-center gap-3 text-[12px] font-medium bg-[#40C4AA] w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">
+                            {GetConstant("SAVE_LABEL")}
+                        </button>
                     </div>
                      : <button onClick={() => { setEdit(2); setValue(user.email); }} className="flex items-center gap-3 text-[12px] font-medium hover:cursor-pointer">
-                        Edit
+                        {GetConstant("EDIT_LABEL")}
                         <RiArrowRightSLine className="text-[13px] text-black"/>
                     </button>}
                 </div>
             </div>
             <div className="h-[1px] bg-[#DFE1E7]"></div>
+
             <div className="w-full flex gap-8">
                 <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col justify-between">
                     <div className="text-[13px] font-semibold">
-                        Phone Number
+                        {GetConstant("PHONE_LABEL")}
                     </div>
                     <div className="text-[12px] text-[#676769]">
                         The official phone number for billings and contact requests.
@@ -130,23 +142,29 @@ const OtherSettingsAccountComponent: React.FC<OtherSettingsAccountComponentProps
                     </div>}
                     {edit === 3
                      ? <div className="flex flex-row gap-3">
-                        <button onClick={() => { setEdit(0); setValue(''); }} className="flex items-center gap-3 text-[12px] font-medium bg-red-500 w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">Cancel</button>
-                        <button onClick={handleSubmit} className="flex items-center gap-3 text-[12px] font-medium bg-[#40C4AA] w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">Save</button>
+                        <button onClick={() => { setEdit(0); setValue(''); }} className="flex items-center gap-3 text-[12px] font-medium bg-red-500 w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">
+                            {GetConstant("CANCEL_LABEL")}
+                        </button>
+                        <button onClick={handleSubmit} className="flex items-center gap-3 text-[12px] font-medium bg-[#40C4AA] w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">
+                            {GetConstant("SAVE_LABEL")}
+                        </button>
                     </div>
                      : <button onClick={() => { setEdit(3); setValue(user.phoneNumber); }} className="flex items-center gap-3 text-[12px] font-medium hover:cursor-pointer">
-                        {user.phoneNumber ? "Edit" : "Add"}
+                        {user.phoneNumber ? GetConstant("EDIT_LABEL") : GetConstant("ADD_LABEL")}
                         <RiArrowRightSLine className="text-[13px] text-black"/>
                     </button>}
                 </div>
             </div>
             <div className="h-[1px] bg-[#DFE1E7]"></div>
+
+            {/* Address */}
             <div className="w-full flex gap-8">
                 <div className="w-[80%] sm:max-lg:min-w-[50%] md:w-[50%] lg:min-[30.8%] lg:w-[30.8%] xl:min-w-[30.8%] flex flex-col justify-between">
                     <div className="text-[13px] font-semibold">
-                        Address
+                        {GetConstant("ADDRESS_LABEL")}
                     </div>
                     <div className="text-[12px] text-[#676769]">
-                        The official residencial address for billing details and shipments.
+                        The official residential address for billing details and shipments.
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 justify-between">
@@ -157,11 +175,15 @@ const OtherSettingsAccountComponent: React.FC<OtherSettingsAccountComponentProps
                     </div>}
                     {edit === 4
                      ? <div className="flex flex-row gap-3">
-                        <button onClick={() => { setEdit(0); setValue(''); }} className="flex items-center gap-3 text-[12px] font-medium bg-red-500 w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">Cancel</button>
-                        <button onClick={handleSubmit} className="flex items-center gap-3 text-[12px] font-medium bg-[#40C4AA] w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">Save</button>
+                        <button onClick={() => { setEdit(0); setValue(''); }} className="flex items-center gap-3 text-[12px] font-medium bg-red-500 w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">
+                            {GetConstant("CANCEL_LABEL")}
+                        </button>
+                        <button onClick={handleSubmit} className="flex items-center gap-3 text-[12px] font-medium bg-[#40C4AA] w-fit px-2 py-1 rounded-lg text-white hover:cursor-pointer">
+                            {GetConstant("SAVE_LABEL")}
+                        </button>
                     </div>
                      : <button onClick={() => { setEdit(4); setValue(user.address); }} className="flex items-center gap-3 text-[12px] font-medium hover:cursor-pointer">
-                        {user.address ? "Edit" : "Add"}
+                        {user.address ? GetConstant("EDIT_LABEL") : GetConstant("ADD_LABEL")}
                         <RiArrowRightSLine className="text-[13px] text-black"/>
                     </button>}
                 </div>

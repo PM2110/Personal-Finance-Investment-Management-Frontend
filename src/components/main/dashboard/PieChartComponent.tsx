@@ -3,6 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { useMemo } from 'react';
+import { GetConstant } from '../../constants';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -108,11 +109,11 @@ const PieChartComponent: React.FC<{ accountID: number, duration: string }> = ({ 
     return (
         <div className="flex flex-col lg:flex-row gap-4 border-[#DFE1E7] border-2 p-2 rounded-xl">
             <div className="w-full lg:w-1/2">
-                <h3 className="text-center">Income by Category</h3>
+                <h3 className="text-center">{GetConstant("INCOME_BY_CATEGORY")}</h3> {/* Use constant here */}
                 <Pie data={incomeData} />
             </div>
             <div className="w-full lg:w-1/2">
-                <h3 className="text-center">Expense by Category</h3>
+                <h3 className="text-center">{GetConstant("EXPENSE_BY_CATEGORY")}</h3> {/* Use constant here */}
                 <Pie data={expenseData} />
             </div>
         </div>

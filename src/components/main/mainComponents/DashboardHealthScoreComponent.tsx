@@ -6,6 +6,7 @@ import { TransactionData } from '../../../redux/transactionSlice';
 import { MdHealthAndSafety } from 'react-icons/md';
 import { getCurrency } from '../../currency';
 import { RiArrowLeftDownLine, RiArrowRightUpLine } from 'react-icons/ri';
+import { GetConstant } from '../../constants';
 
 interface DashboardHealthScoreComponentProps {
     account: AccountData | null;
@@ -20,12 +21,14 @@ const DashboardHealthScoreComponent: React.FC<DashboardHealthScoreComponentProps
     let totalExpenses = expenseTransactions.reduce((sum: number, transaction: TransactionData) => sum + Number(transaction.sentAmount), 0);
     const { currencyValues, currency } = useSelector((state) => state.userPreference.data);
     const healthScore = totalExpenses === 0 ? 100 : (totalIncome / totalExpenses) * 100 > 100 ? 100 : (totalIncome / totalExpenses) * 100 ;
+
     if(currency){
         totalIncome = totalIncome / currencyValues[account?.currency];
         totalExpenses = totalExpenses / currencyValues[account?.currency];
     }
+
     if (!account) {
-        return <div>No account selected</div>;
+        return <div>{GetConstant("NO_ACCOUNT_SELECTED")}</div>;
     }
 
     return (
@@ -33,7 +36,7 @@ const DashboardHealthScoreComponent: React.FC<DashboardHealthScoreComponentProps
             <div className="flex h-auto justify-between text-[14px]">
                 <div className="flex gap-2 items-center">
                     <GoCreditCard />
-                    Health Score
+                    {GetConstant("HEALTH_SCORE_LABEL")}
                 </div>
             </div>
             <div className="bg-[#DFE1E7] h-[1px] mt-1"></div>
@@ -43,7 +46,7 @@ const DashboardHealthScoreComponent: React.FC<DashboardHealthScoreComponentProps
                         <MdHealthAndSafety className=" text-black text-[17px]"/>
                     </div>
                     <div className="flex flex-col justify-between">
-                        Health Score
+                        {GetConstant("HEALTH_SCORE_LABEL")}
                         <div className="text-black ">
                             {healthScore.toFixed(2)}
                         </div>
@@ -56,7 +59,7 @@ const DashboardHealthScoreComponent: React.FC<DashboardHealthScoreComponentProps
                     <RiArrowLeftDownLine className=" text-black text-[17px]"/>
                 </div>
                 <div className="flex flex-col justify-between">
-                    Total Income
+                    {GetConstant("TOTAL_INCOME_LABEL")}
                     <div className="flex items-center gap-1 text-[#666D80] text-[13px]">
                         {currency ? getCurrency(currency) : getCurrency(account.currency)} {Number(totalIncome).toFixed(2)}
                     </div>
@@ -68,7 +71,7 @@ const DashboardHealthScoreComponent: React.FC<DashboardHealthScoreComponentProps
                     <RiArrowRightUpLine className=" text-blue-600 text-[17px]"/>
                 </div>
                 <div className="flex flex-col justify-between">
-                    Total Expense
+                    {GetConstant("TOTAL_EXPENSE_LABEL")}
                     <div className="flex items-center gap-1 text-[#666D80] text-[13px]">
                         {currency ? getCurrency(currency) : getCurrency(account.currency)} {Number(totalExpenses).toFixed(2)}
                     </div>

@@ -1,5 +1,6 @@
 import { GoShieldLock } from "react-icons/go";
 import { RiLockPasswordLine } from "react-icons/ri";
+import { GetConstant } from "../../constants";
 
 const OtherSettingsPrivacySecurityComponent = () => {
     return (
@@ -7,10 +8,10 @@ const OtherSettingsPrivacySecurityComponent = () => {
             <div className="w-full flex gap-8">
                 <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col gap-1">
                     <div className="text-[13px] font-semibold">
-                        Change Password
+                        {GetConstant("CHANGE_PASSWORD_LABEL")}
                     </div>
                     <div className="text-[12px] text-[#676769]">
-                        Change your password if you think your password is not protected.
+                        {GetConstant("CHANGE_PASSWORD_DESCRIPTION_LABEL")}
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 items-start">
@@ -19,7 +20,7 @@ const OtherSettingsPrivacySecurityComponent = () => {
                         <input disabled value={"••••••••••••••"} className="tracking-widest flex items-center gap-3 text-[12px] font-medium" />
                     </div>
                     <button className="flex items-center gap-3 text-[12px] font-medium border-[#DFE1E7] border-2 px-5 py-2 rounded-lg">
-                        Change
+                        {GetConstant("CHANGE_LABEL")}
                     </button>
                 </div>
             </div>
@@ -27,15 +28,15 @@ const OtherSettingsPrivacySecurityComponent = () => {
             <div className="w-full flex gap-8">
                 <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col gap-1">
                     <div className="text-[13px] font-semibold">
-                        Backup Codes
+                        {GetConstant("BACKUP_CODES_LABEL")}
                     </div>
                     <div className="text-[12px] text-[#676769]">
-                        Create and store new backup codes for use in the event of loosing access to your authentication app.
+                        {GetConstant("BACKUP_CODES_DESCRIPTION_LABEL")}
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 justify-between">
                     <button className="flex items-center gap-3 text-[12px] font-medium border-[#DFE1E7] border-2 px-5 py-2 rounded-lg">
-                        Generate Codes
+                        {GetConstant("GENERATE_CODES_LABEL")}
                     </button>
                 </div>
             </div>
@@ -43,10 +44,10 @@ const OtherSettingsPrivacySecurityComponent = () => {
             <div className="w-full flex gap-8">
                 <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col gap-1">
                     <div className="text-[13px] font-semibold">
-                        Two Step Verification
+                        {GetConstant("TWO_STEP_VERIFICATION_LABEL")}
                     </div>
                     <div className="text-[12px] text-[#676769]">
-                        We use two step verification when we need to check it's really you using your account.
+                        {GetConstant("TWO_STEP_VERIFICATION_DESCRIPTION_LABEL")}
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 items-start">
@@ -57,11 +58,11 @@ const OtherSettingsPrivacySecurityComponent = () => {
                             </div>
                         </div>
                         <div className="text-[14px] font-bold">
-                            Authenticator App
+                            {GetConstant("AUTHENTICATOR_APP_LABEL")}
                         </div>
                     </div>
                     <button className="flex items-center gap-3 text-[12px] font-medium border-[#DFE1E7] border-2 px-5 py-2 rounded-lg">
-                        Change
+                        {GetConstant("CHANGE_LABEL")}
                     </button>
                 </div>
             </div>

@@ -2,9 +2,10 @@ import { updateUserPreference, UserPreferenceData } from "../../../redux/userPre
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import { ChangeEvent } from "react";
+import { GetConstant } from "../../constants";
 
 interface OtherSettingsSettingComponentProps {
-    userPreference: UserPreferenceData,
+    userPreference: UserPreferenceData;
 }
 
 const OtherSettingsSettingComponent: React.FC<OtherSettingsSettingComponentProps> = ({ userPreference }) => {
@@ -18,16 +19,16 @@ const OtherSettingsSettingComponent: React.FC<OtherSettingsSettingComponentProps
     const handleOnThemeChange = (e: ChangeEvent<HTMLSelectElement>) => {
         dispatch(updateUserPreference(userPreference.userID, { theme: e.target.value } as UserPreferenceData));
     }
-    
+
     return (
         <div className="w-full flex flex-col gap-6 overflow-y-auto p-2">
             <div className="w-full flex gap-8">
                 <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col justify-between">
                     <div className="text-[13px] font-semibold">
-                        Language Settings
+                        {GetConstant("LANGUAGE_SETTINGS_LABEL")}
                     </div>
                     <div className="text-[12px] text-[#676769]">
-                        Display the app in your selected language.
+                        {GetConstant("LANGUAGE_SETTINGS_DESCRIPTION_LABEL")}
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 justify-between">
@@ -42,13 +43,14 @@ const OtherSettingsSettingComponent: React.FC<OtherSettingsSettingComponentProps
                 </div>
             </div>
             <div className="h-[1px] bg-[#DFE1E7]"></div>
+
             <div className="w-full flex gap-8">
                 <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col justify-between">
                     <div className="text-[13px] font-semibold">
-                        Theme
+                        {GetConstant("THEME_LABEL")}
                     </div>
                     <div className="text-[12px] text-[#676769]">
-                        Set unique code that appears on all PFIM communications from us to you.
+                        {GetConstant("THEME_DESCRIPTION_LABEL")}
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 justify-between">
@@ -59,57 +61,67 @@ const OtherSettingsSettingComponent: React.FC<OtherSettingsSettingComponentProps
                 </div>
             </div>
             <div className="h-[1px] bg-[#DFE1E7]"></div>
+
             <div className="w-full flex gap-8">
                 <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col justify-between">
                     <div className="text-[13px] font-semibold">
-                        Web Contacts
+                        {GetConstant("WEB_CONTACTS_LABEL")}
                     </div>
                     <div className="text-[12px] text-[#676769]">
-                        Set unique code that appears on all PFIM communications from us to you.
+                        {GetConstant("WEB_CONTACTS_DESCRIPTION_LABEL")}
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 justify-between">
-                    <button className="border-[#DFE1E7] border-2 p-2 rounded-lg text-[12px]">Open Web Contacts</button>
+                    <button className="border-[#DFE1E7] border-2 p-2 rounded-lg text-[12px]">
+                        {GetConstant("OPEN_WEB_CONTACTS_LABEL")}
+                    </button>
                 </div>
             </div>
             <div className="h-[1px] bg-[#DFE1E7]"></div>
+
             <div className="w-full flex gap-8">
                 <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col justify-between">
                     <div className="text-[13px] font-semibold">
-                        API Token
+                        {GetConstant("API_TOKEN_LABEL")}
                     </div>
                     <div className="text-[12px] text-[#676769]">
-                        Set unique code that appears on all PFIM communications from us to you.
+                        {GetConstant("API_TOKEN_DESCRIPTION_LABEL")}
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 justify-between">
-                    <button className="border-[#DFE1E7] border-2 p-2 rounded-lg text-[12px]">Open API Token</button>
+                    <button className="border-[#DFE1E7] border-2 p-2 rounded-lg text-[12px]">
+                        {GetConstant("OPEN_API_TOKEN_LABEL")}
+                    </button>
                 </div>
             </div>
             <div className="h-[1px] bg-[#DFE1E7]"></div>
+
             <div className="w-full flex gap-8">
                 <div className="w-[50%] sm:max-lg:min-w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col justify-between">
                     <div className="text-[13px] font-semibold">
-                        Secure Communication Code
+                        {GetConstant("SECURE_COMMUNICATION_CODE_LABEL")}
                     </div>
                     <div className="text-[12px] text-[#676769]">
-                        Set unique code that appears on all PFIM communications from us to you.
+                        {GetConstant("SECURE_COMMUNICATION_CODE_DESCRIPTION_LABEL")}
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 justify-between">
-                    <button className="border-[#DFE1E7] border-2 p-2 rounded-lg text-[12px]">Create Communication Code</button>
+                    <button className="border-[#DFE1E7] border-2 p-2 rounded-lg text-[12px]">
+                        {GetConstant("CREATE_COMMUNICATION_CODE_LABEL")}
+                    </button>
                 </div>
             </div>
             <div className="h-[1px] bg-[#DFE1E7]"></div>
+
             <div className="w-full flex gap-8">
                 <div className="w-[50%] sm:max-lg:min-w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col justify-between">
                     <div className="text-[13px] font-semibold">
-                        Close Your Account
+                        {GetConstant("CLOSE_ACCOUNT_LABEL")}
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 justify-between">
                     <button className="flex items-center gap-3 bg-red-500 px-4 py-2 rounded-lg text-[12px] text-white font-medium">
-                        Close
+                        {GetConstant("CLOSE_LABEL")}
                     </button>
                 </div>
             </div>

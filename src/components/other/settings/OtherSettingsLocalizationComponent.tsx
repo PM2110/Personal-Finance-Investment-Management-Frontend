@@ -2,6 +2,7 @@ import { updateUserPreference, UserPreferenceData } from "../../../redux/userPre
 import { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
+import { GetConstant } from "../../constants";
 
 interface OtherSettingsLocalizationComponentProps {
     userPreference: UserPreferenceData;
@@ -10,7 +11,7 @@ interface OtherSettingsLocalizationComponentProps {
 const OtherSettingsLocalizationComponent: React.FC<OtherSettingsLocalizationComponentProps> = ({ userPreference }) => {
 
     const dispatch = useDispatch<AppDispatch>();
-    
+
     const handleCurrencyChange: (e: ChangeEvent<HTMLSelectElement>) => void = (e) => {
         dispatch(updateUserPreference(userPreference.userID, { currency: e.target.value } as UserPreferenceData));
     }
@@ -28,10 +29,10 @@ const OtherSettingsLocalizationComponent: React.FC<OtherSettingsLocalizationComp
             <div className="w-full flex gap-8">
                 <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col justify-between">
                     <div className="text-[13px] font-semibold">
-                        Currency
+                        {GetConstant("CURRENCY_LABEL")}
                     </div>
                     <div className="text-[12px] text-[#676769]">
-                        Choose your preferred currency.
+                        {GetConstant("CURRENCY_DESCRIPTION_LABEL")}
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 justify-between">
@@ -46,10 +47,10 @@ const OtherSettingsLocalizationComponent: React.FC<OtherSettingsLocalizationComp
             <div className="w-full flex gap-8">
                 <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col justify-between">
                     <div className="text-[13px] font-semibold">
-                        Timezone
+                        {GetConstant("TIMEZONE_LABEL")}
                     </div>
                     <div className="text-[12px] text-[#676769]">
-                        Choose your timezone and preferred format.
+                        {GetConstant("TIMEZONE_DESCRIPTION_LABEL")}
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 justify-between">
@@ -65,10 +66,10 @@ const OtherSettingsLocalizationComponent: React.FC<OtherSettingsLocalizationComp
             <div className="w-full flex gap-8">
                 <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30.8%] flex flex-col justify-between">
                     <div className="text-[13px] font-semibold">
-                        Date Format
+                        {GetConstant("DATE_FORMAT_LABEL")}
                     </div>
                     <div className="text-[12px] text-[#676769]">
-                        Choose your preferred data format.
+                        {GetConstant("DATE_FORMAT_DESCRIPTION_LABEL")}
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 justify-between">

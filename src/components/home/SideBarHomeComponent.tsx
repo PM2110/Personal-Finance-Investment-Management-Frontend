@@ -10,6 +10,7 @@ import { RiArrowLeftSLine, RiArrowRightSLine, RiCloseLine, RiTeamLine } from "re
 import { TfiHeadphoneAlt } from "react-icons/tfi";
 import { AppContext } from "../../AppContext";
 import { setUser } from "../../redux/userSlice";
+import { useSelector } from "react-redux";
 
 interface SideBarSendMoneyComponentProps {
     selected: number;
@@ -23,6 +24,9 @@ const SideBarHomeComponent: React.FC<SideBarSendMoneyComponentProps> = ({ select
         throw new Error("AppContext is null");
     }
     const { setIsLoggedIn } = appContext;
+
+    const { userName, email } = useSelector((state) => state.user.data);
+
     const [open, setOpen] = useState(true);
     const [visibleSupport, setVisibleSupport] = useState(true);
     const handleVisibleSupport: () => void = () => {
@@ -120,10 +124,10 @@ const SideBarHomeComponent: React.FC<SideBarSendMoneyComponentProps> = ({ select
                         {open && (
                             <div className="flex flex-col">
                                 <div className="text-black text-[12px]">
-                                    Manan Patel
+                                    {userName}
                                 </div>
                                 <div className="text-[10px]">
-                                    manti@gmail.com
+                                    {email}
                                 </div>
                             </div>
                         )}

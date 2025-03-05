@@ -131,8 +131,8 @@ const PartitionedBarChart: React.FC<PartitionedBarChartProps> = ({ accountID, du
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="income" fill="#E5EFFF" />
-        <Bar dataKey="expense" fill="#666D80" />
+        <Bar dataKey="income" fill="#3B82F6" />
+        <Bar dataKey="expense" fill="#000000" />
       </BarChart>
     </ResponsiveContainer>
   );

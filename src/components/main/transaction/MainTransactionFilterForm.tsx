@@ -1,27 +1,26 @@
 import { RiCloseLine } from "react-icons/ri";
 import { useState } from "react";
+import { category } from "../../currency";
 
 interface MainTransactionFilterFormProps {
     isVisible: boolean,
     onClose: () => void,
-    onApplyFilter: (status: string, direction: string, category: string) => void,
+    onApplyFilter: (status: string, category: string) => void,
     onClearFilter: () => void,
 }
 
 const MainTransactionFilterForm: React.FC<MainTransactionFilterFormProps> = ({ isVisible, onClose, onApplyFilter, onClearFilter }) => {
     const [status, setStatus] = useState<string>("");
-    const [direction, setDirection] = useState<string>("All");
-    const [category, setCategory] = useState<string>("");
+    const [selectedCategory, setSelectedCategory] = useState<string>("");
 
     const handleApplyFilter = () => {
-        onApplyFilter(status, direction, category);
+        onApplyFilter(status, selectedCategory);
         onClose();
     };
 
     const handleClearFilter = () => {
         setStatus("");
-        setDirection("All");
-        setCategory("");
+        setSelectedCategory("");
         onClearFilter();
         onClose();
     };
@@ -54,39 +53,18 @@ const MainTransactionFilterForm: React.FC<MainTransactionFilterFormProps> = ({ i
                 </div>
                 <div className="flex flex-col gap-4">
                     <div className="text-[#818898] text-[14px] bg-[#F6F8FA] py-1 px-4 w-full">
-                        DIRECTION
-                    </div>
-                    <div className="px-4">
-                        <select
-                            value={direction}
-                            onChange={(e) => setDirection(e.target.value)}
-                            className="w-full text-[13px] border-[#DFE1E7] border-2 rounded-xl p-2 focus:outline-none"
-                        >
-                            <option value="All">All</option>
-                            <option value="Income">Income</option>
-                            <option value="Expense">Expense</option>
-                        </select>
-                    </div>
-                </div>
-                <div className="flex flex-col gap-4">
-                    <div className="text-[#818898] text-[14px] bg-[#F6F8FA] py-1 px-4 w-full">
                         CATEGORY
                     </div>
                     <div className="px-4">
                         <select
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
+                            value={selectedCategory}
+                            onChange={(e) => setSelectedCategory(e.target.value)}
                             className="w-full text-[13px] border-[#DFE1E7] border-2 rounded-xl p-2 focus:outline-none"
                         >
                             <option value="">All</option>
-                            <option value="HouseHold">House hold</option>
-                            <option value="HomeImprovement">Home Improvement</option>
-                            <option value="Food&Drink">Food & Drink</option>
-                            <option value="Transport">Transport</option>
-                            <option value="Shopping">Shopping</option>
-                            <option value="Leisure">Leisure</option>
-                            <option value="Health&Beauty">Health & Beauty</option>
-                            <option value="Other">Other</option>
+                            {category.map((type, index) => (
+                                <option key={index} value={type.key}>{type.value}</option>
+                            ))}
                         </select>
                     </div>
                 </div>

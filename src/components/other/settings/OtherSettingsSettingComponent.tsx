@@ -36,6 +36,8 @@ const OtherSettingsSettingComponent: React.FC<OtherSettingsSettingComponentProps
                         <option value="En(UK)">English (UK)</option>
                         <option value="Hin">Hindi</option>
                         <option value="Guj">Gujarati</option>
+                        <option value="Fr">French</option>
+                        <option value="Ja">Japanese</option>
                     </select>
                 </div>
             </div>

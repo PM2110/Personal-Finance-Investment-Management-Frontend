@@ -95,8 +95,8 @@ const MainTransactionsComponent = () => {
 
     const filteredTransactions = transaction.filter((transaction) => {
         return (
-            (filterStatus === "" || transaction.status === filterStatus) &&
-            (filterCategory === "" || transaction.category === filterCategory)
+            (filterStatus === "" || filterStatus === "All" || transaction.status === filterStatus) &&
+            (filterCategory === "" || filterCategory === "All" || transaction.category === filterCategory)
         );
     });
 

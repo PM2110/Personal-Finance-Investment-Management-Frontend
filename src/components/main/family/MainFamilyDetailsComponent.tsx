@@ -170,7 +170,7 @@ const MainFamilyDetailsComponent: React.FC<MainFamilyDetailsComponentProps> = ({
     };
 
     return (
-        <div className={`flex flex-col justify-between fixed top-0 right-0 h-full min-w-[600px] bg-white shadow-lg transform ${isVisible ? "translate-x-0" : "translate-x-full"} transition-transform duration-300 ease-in-out z-20`}>
+        <div className={`flex flex-col justify-between overflow-y-auto fixed top-0 right-0 h-full min-w-[600px] bg-white shadow-lg transform ${isVisible ? "translate-x-0" : "translate-x-full"} transition-transform duration-300 ease-in-out z-20`}>
             <div className="flex flex-col gap-4">
                 <div className="flex flex-row items-center justify-between px-4 pt-4">
                     <h2 className="text-[16px] ">Family: {family?.familyName}</h2>
@@ -190,10 +190,25 @@ const MainFamilyDetailsComponent: React.FC<MainFamilyDetailsComponentProps> = ({
                         {familyTree ? <FamilyTree data={familyTree} /> : "No members found."}
                     </div>
                 </div>
+                <div className="flex flex-col gap-2 p-4 text-[13px] text-[#666D80]">
+                    {familyMembers && familyMembers.length !== 0 ? familyMembers.map((member: FamilyMemberData, index: number) => (
+                        <div key={index} className="flex justify-between">
+                            <div>
+                                {idUser && idUser[member.user2]} ( {member.relationType} of {idUser && idUser[member.user1]} )
+                            </div>
+                            {((member.relationType === "Daughter" || member.relationType === "Son") && member.user2 === userID) &&  <button className="bg-green-500 px-2 py-[2px] rounded-lg text-white" onClick={() => handleTakeClick(member)}>
+                                Take
+                            </button>}
+                            {(admin || ((member.relationType === "Father" || member.relationType === "Mother") && member.user2 === userID)) &&  <button className="bg-red-500 px-2 py-[2px] rounded-lg text-white" onClick={() => handleEditClick(member)}>
+                                Edit
+                            </button>}
+                        </div>
+                    )) : "No members found." }
+                </div>
             </div>
 
             {isEditPopupVisible && (
-                <div className="fixed inset-0 bg-black/50 z-10 flex items-center justify-center">
+                <div className="fixed inset-0 h-full bg-black/50 z-10 flex items-center justify-center">
                     <div className="flex flex-col gap-3 bg-white p-4 rounded-lg">
                         <h2>Edit Spend Limit</h2>
                         <div className="flex flex-col text-[14px]">
@@ -224,7 +239,7 @@ const MainFamilyDetailsComponent: React.FC<MainFamilyDetailsComponentProps> = ({
             )}
 
             {isTakePopupVisible && (
-                <div className="fixed inset-0 bg-black/50 z-10 flex items-center justify-center">
+                <div className="fixed inset-0 h-full bg-black/50 z-10 flex items-center justify-center">
                     <div className="flex flex-col gap-3 bg-white p-4 rounded-lg">
                         <h2>Take Amount</h2>
                         <div className="flex flex-col text-[14px]">
